@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "283238153380",
+    "firebase_url": "https://noribook-fb8ce-default-rtdb.firebaseio.com",
+    "project_id": "noribook-fb8ce",
+    "storage_bucket": "noribook-fb8ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283238153380:android:616a1309ec3d9a5e7dba31",
+        "android_client_info": {
+          "package_name": "com.bookapp.noribook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283238153380-6mqeo6la6o4cj0r1jv6bchor4djg5g0b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookapp.noribook",
+            "certificate_hash": "48b0039f63436446c81fb2183b8f333ccbcce7e5"
+          }
+        },
+        {
+          "client_id": "283238153380-0ijktmuufhp6q2es9r18id4hhm2d71tk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtU6IWM6q5qr7eZ-wRengYYxyA_tB2QAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283238153380-0ijktmuufhp6q2es9r18id4hhm2d71tk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
