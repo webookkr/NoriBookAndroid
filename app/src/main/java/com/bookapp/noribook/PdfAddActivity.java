@@ -91,7 +91,7 @@ public class PdfAddActivity extends AppCompatActivity {
         categoryArrayList = new ArrayList<>();
 
         // firebase db에서 category 데이터 가져와 categoryArrayList에 담기
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -110,7 +110,7 @@ public class PdfAddActivity extends AppCompatActivity {
         // String 카테ㅔ고리array를 arraylist에서 가져오기
         String[] categoriesArray = new String[categoryArrayList.size()];
         for(int i = 0; i < categoryArrayList.size(); i++) {
-            categoriesArray[i] = categoryArrayList.get(i).getCategory();
+            categoriesArray[i] = categoryArrayList.get(i).getDate();
         }
 
         //alert Dialog
