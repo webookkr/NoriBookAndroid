@@ -53,6 +53,9 @@ public class PdfAddActivity extends AppCompatActivity {
         binding = ActivityPdfAddBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        loadPdfCategories();
+
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,8 +89,7 @@ public class PdfAddActivity extends AppCompatActivity {
 
     }
 
-    // 2-2 category 선택
-    private void categoryPickDialog() {
+    private void loadPdfCategories() {
         categoryArrayList = new ArrayList<>();
 
         // firebase db에서 category 데이터 가져와 categoryArrayList에 담기
@@ -106,11 +108,16 @@ public class PdfAddActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    // 2-2 category 선택
+    private void categoryPickDialog() {
 
         // String 카테ㅔ고리array를 arraylist에서 가져오기
         String[] categoriesArray = new String[categoryArrayList.size()];
         for(int i = 0; i < categoryArrayList.size(); i++) {
-            categoriesArray[i] = categoryArrayList.get(i).getDate();
+            categoriesArray[i] = categoryArrayList.get(i).getCategory()
+            ;
         }
 
         //alert Dialog
