@@ -45,7 +45,7 @@ public class PdfAddActivity extends AppCompatActivity {
     // 2-2 category 담을 어레이
     private ArrayList<ModelCategory> categoryArrayList;
 
-    int PDF_PICK_CODE = 1000;
+    private final static int PDF_PICK_CODE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,9 @@ public class PdfAddActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         loadPdfdata();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("wait");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,11 +137,12 @@ public class PdfAddActivity extends AppCompatActivity {
                 }).show();
     }
 
+    String title = "", description = "", category = "";
     // 3-2 submit
     private void validateData() {
-        String title = binding.titleEt.getText().toString().trim();
-        String description = binding.descriptionEt.getText().toString().trim();
-        String category = binding.categoryTv.getText().toString().trim();
+        title = binding.titleEt.getText().toString().trim();
+        description = binding.descriptionEt.getText().toString().trim();
+        category = binding.categoryTv.getText().toString().trim();
 
         if (TextUtils.isEmpty(title)) {
             Toast.makeText(this, "제목이 비었습니다.", Toast.LENGTH_SHORT).show();
@@ -186,7 +190,7 @@ public class PdfAddActivity extends AppCompatActivity {
 
         long timestamp = System.currentTimeMillis();
 
-        String filePathAndName = "Books/"+timestamp;
+        String filePathAndName = "Books/"+title;
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
         storageReference.putFile(pdfUri)
@@ -196,7 +200,6 @@ public class PdfAddActivity extends AppCompatActivity {
                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                         while (!uriTask.isSuccessful());
                         String uploadedPdfUrl = ""+uriTask.getResult();
-                        progressDialog.dismiss();
                         // storage에 저장한 pdf를 db에 넣기
                         uploadPdfInfoToDb(uploadedPdfUrl, timestamp);
 
@@ -205,7 +208,6 @@ public class PdfAddActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
                         Toast.makeText(PdfAddActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -214,9 +216,6 @@ public class PdfAddActivity extends AppCompatActivity {
     //3-4 firestorage 정보를 fireDatabase Db에 넣기
     private void uploadPdfInfoToDb(String uploadedPdfUrl, long timestamp) {
 
-        String title = binding.titleEt.getText().toString().trim();
-        String description = binding.descriptionEt.getText().toString().trim();
-        String category = binding.categoryTv.getText().toString().trim();
         String date = MyApplication.formatTimestamp(timestamp);
 
         progressDialog.setMessage("데이터베이스에 저장 중");
