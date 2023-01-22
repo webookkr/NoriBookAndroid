@@ -2,13 +2,13 @@ package com.bookapp.noribook.Model;
 
 public class ModelPdf {
     //변수 선언 - firebase에서 받아올 것이므로 그대로
-    String uid, id, title, description, date, categoryTitle, url;
+    String uid, id, title, description, date, categoryTitle, url, categoryId;
 
     public ModelPdf(){
 
     }
 
-    public ModelPdf(String uid, String id, String title, String description, String date, String categoryTitle, String url) {
+    public ModelPdf(String uid, String id, String title, String description, String date, String categoryTitle, String url, String categoryId) {
         this.uid = uid;
         this.id = id;
         this.title = title;
@@ -16,6 +16,15 @@ public class ModelPdf {
         this.date = date;
         this.categoryTitle = categoryTitle;
         this.url = url;
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getUid() {

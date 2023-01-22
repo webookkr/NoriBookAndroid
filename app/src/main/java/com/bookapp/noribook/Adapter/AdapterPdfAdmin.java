@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bookapp.noribook.Filter.FilterPdfAdmin;
 import com.bookapp.noribook.Model.ModelPdf;
+import com.bookapp.noribook.PdfEditActivity;
 import com.bookapp.noribook.databinding.RowPdfAdminBinding;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
@@ -96,9 +98,9 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         holder.titleTv.setText(title);
         holder.descriptionTv.setText(description);
         holder.dateTv.setText(date);
-
+        holder.categoryTv.setText(category);
         // pdf 북에는 정보에는 없는 카테고리, pdf(url로 받아오기) , size 찾기
-        loadCategory(model, holder);
+//        loadCategory(model, holder);
         loadPdfFromUrl(model, holder);
         loadPdfSize(model, holder);
 
@@ -113,6 +115,11 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     }
     // 7-2 more btn
     private void moreOptionDialog(ModelPdf model, HolderPdfAdmin holder) {
+
+        String bookId = model.getId();
+        String bookTitle = model.getTitle();
+        String bookUrl = model.getUrl();
+
         //option to show in dialog
         String[] options = {"수정", "삭제"};
 
@@ -121,9 +128,11 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i==0){ //Edit
-
-
+                        if (i==0){ //Edit 클릭시 책 정보 수정
+                            Intent intent = new Intent(context, PdfEditActivity.class);
+                            intent.putExtra("bookId", bookId); // model 에서 받은 book Id 값을 전달
+                            intent.putExtra("bookTitle",bookTitle); // book title 값 전달
+                            context.startActivity(intent);
                         }
                         else if (i ==1){// delete
                             deleteBook(model,holder);
@@ -179,26 +188,26 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     }
 
     //6-1 category를 받아오기 firebase database
-    private void loadCategory(ModelPdf model, HolderPdfAdmin holder) {
-        String categoryTitle = model.getCategoryTitle();
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
-        ref.child(categoryTitle)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //get category
-                String category = ""+snapshot.child("category").getValue();
-                //set category
-                binding.categoryTv.setText(category);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    private void loadCategory(ModelPdf model, HolderPdfAdmin holder) {
+//        String categoryTitle = model.getCategoryTitle();
+//
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
+//        ref.child(categoryTitle)
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                //get category
+//                String category = ""+snapshot.child("category").getValue();
+//                //set category
+//                binding.categoryTv.setText(category);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     // 6-2
     private void loadPdfFromUrl(ModelPdf model, HolderPdfAdmin holder) {
