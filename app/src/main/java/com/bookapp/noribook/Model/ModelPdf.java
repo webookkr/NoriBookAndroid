@@ -2,15 +2,39 @@ package com.bookapp.noribook.Model;
 
 public class ModelPdf {
     //변수 선언 - firebase에서 받아올 것이므로 그대로
-    String uid, id, title, description, date, category;
+    String uid, id, title, description, date, categoryTitle, url, categoryId;
+    long viewCount;
 
-    public ModelPdf(String uid, String id, String title, String description, String date, String category) {
+    public ModelPdf(){
+
+    }
+
+    public ModelPdf(String uid, String id, String title, String description, String date, String categoryTitle, String url, String categoryId, long viewCount) {
         this.uid = uid;
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
-        this.category = category;
+        this.categoryTitle = categoryTitle;
+        this.url = url;
+        this.categoryId = categoryId;
+        this.viewCount = viewCount;
+    }
+
+    public long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(long viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getUid() {
@@ -53,11 +77,19 @@ public class ModelPdf {
         this.date = date;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryTitle() {
+        return categoryTitle;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

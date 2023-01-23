@@ -40,10 +40,10 @@ public class PdfAddActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    private Uri pdfUri;
+    private Uri pdfUri = null;
 
     // 2-2 category 담을 어레이
-    private ArrayList<ModelCategory> categoryArrayList;
+    private ArrayList<String> categoryTitleArrayList, categoryIdArrayList;
 
     private final static int PDF_PICK_CODE = 1000;
 
@@ -93,17 +93,22 @@ public class PdfAddActivity extends AppCompatActivity {
     }
 
     private void loadPdfdata() {
-        categoryArrayList = new ArrayList<>();
+        categoryTitleArrayList = new ArrayList<>();
+        categoryIdArrayList = new ArrayList<>();
 
         // firebase db에서 category 데이터 가져와 categoryArrayList에 담기
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                categoryArrayList.clear();
+                categoryTitleArrayList.clear();
+                categoryIdArrayList.clear();
                 for (DataSnapshot ds: snapshot.getChildren()){
-                    ModelCategory model = ds.getValue(ModelCategory.class);
-                    categoryArrayList.add(model);
+                    String categoryId = ""+ds.child("id").getValue();
+                    String categoryTitle = ""+ds.child("category").getValue();
+
+                    categoryTitleArrayList.add(categoryTitle);
+                    categoryIdArrayList.add(categoryId);
                 }
             }
             @Override
@@ -115,14 +120,16 @@ public class PdfAddActivity extends AppCompatActivity {
 
     }
 
+    //selected
+    private String selectedCategoryId, selectedCategoryTitle;
+
     // 2-2 category 선택
     private void categoryPickDialog() {
 
-
         // String 카테ㅔ고리array를 arraylist에서 가져오기
-        String[] categoriesArray = new String[categoryArrayList.size()];
-        for(int i = 0; i < categoryArrayList.size(); i++) {
-            categoriesArray[i] = categoryArrayList.get(i).getCategory();
+        String[] categoriesArray = new String[categoryTitleArrayList.size()];
+        for(int i = 0; i < categoryTitleArrayList.size(); i++) {
+            categoriesArray[i] = categoryTitleArrayList.get(i);
         }
 
         //alert Dialog
@@ -131,18 +138,20 @@ public class PdfAddActivity extends AppCompatActivity {
                 .setItems(categoriesArray, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String category = categoriesArray[i];
-                        binding.categoryTv.setText(category);
+
+                        selectedCategoryTitle = categoryTitleArrayList.get(i);
+                        selectedCategoryId = categoryIdArrayList.get(i);
+                        binding.categoryTv.setText(selectedCategoryTitle);
                     }
                 }).show();
     }
 
-    String title = "", description = "", category = "";
+    String title = "", description = "";
     // 3-2 submit
     private void validateData() {
         title = binding.titleEt.getText().toString().trim();
         description = binding.descriptionEt.getText().toString().trim();
-        category = binding.categoryTv.getText().toString().trim();
+
 
         if (TextUtils.isEmpty(title)) {
             Toast.makeText(this, "제목이 비었습니다.", Toast.LENGTH_SHORT).show();
@@ -150,7 +159,7 @@ public class PdfAddActivity extends AppCompatActivity {
         else if(TextUtils.isEmpty(description)) {
             Toast.makeText(this, "설명이 비었습니다.", Toast.LENGTH_SHORT).show();
         }
-        else if(TextUtils.isEmpty(category)) {
+        else if(TextUtils.isEmpty(selectedCategoryTitle)) {
             Toast.makeText(this, "카테고리가 비었습니다.", Toast.LENGTH_SHORT).show();
         }
         else if(pdfUri == null) {
@@ -228,9 +237,11 @@ public class PdfAddActivity extends AppCompatActivity {
         hashMap.put("id", ""+timestamp);
         hashMap.put("title", ""+title);
         hashMap.put("description", ""+description);
-        hashMap.put("category", ""+category);
+        hashMap.put("categoryTitle", ""+selectedCategoryTitle);
         hashMap.put("url", ""+uploadedPdfUrl);
         hashMap.put("date", ""+date);
+        hashMap.put("categoryId", ""+selectedCategoryId);
+        hashMap.put("viewCount", 0);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.child(""+title)
