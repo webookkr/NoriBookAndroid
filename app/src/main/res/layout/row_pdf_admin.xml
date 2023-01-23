@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="Book Title"
+                android:textColor="@color/black"
                 style="@style/TextAppearance.MaterialComponents.Headline6"/>
 
             <ImageButton
@@ -59,6 +60,8 @@
                 android:layout_below="@+id/titleTv"
                 android:maxLines="3"
                 android:text="Description"
+
+                android:textColor="@color/black"
                 style="@style/TextAppearance.MaterialComponents.Body2"/>
 
             <RelativeLayout
@@ -73,6 +76,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="Category"
+
+                    android:textColor="@color/black"
                     android:layout_alignParentEnd="true"
                     style="@style/TextAppearance.MaterialComponents.Caption"/>
 
@@ -82,6 +87,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="Size"
+
+                    android:textColor="@color/black"
                     style="@style/TextAppearance.MaterialComponents.Caption"/>
 
                 <TextView
@@ -90,6 +97,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="Date"
+
+                    android:textColor="@color/black"
                     android:layout_toEndOf="@id/sizeTv"
                     android:layout_toStartOf="@id/categoryTv"
                     android:textAlignment="center"

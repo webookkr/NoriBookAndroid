@@ -21,13 +21,17 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class MyApplication extends Application {
@@ -163,6 +167,35 @@ public class MyApplication extends Application {
                     }
                 });
 
+    }
+
+    public static void incrementBookViewCount(String bookTitle){
+        // 1) get view book count
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.child(bookTitle)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String viewCount = ""+snapshot.child("viewCount").getValue();
+                        if (viewCount.equals("")||viewCount.equals("null")){
+                            viewCount = "0";
+                        }
+                        // 2) increment views count
+                        long newViewCount = Long.parseLong(viewCount) + 1 ;
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("viewCount", newViewCount);
+
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
+                        reference.child(bookTitle)
+                                .updateChildren(hashMap);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     //6-1 category를 받아오기 firebase database

@@ -120,6 +120,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             public void onClick(View view) {
                 Intent intent = new Intent(context, PdfDetailActivity.class);
                 intent.putExtra("bookId", id);
+                intent.putExtra("bookTitle",title);
                 context.startActivity(intent);
             }
         });
