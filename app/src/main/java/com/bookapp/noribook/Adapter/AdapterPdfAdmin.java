@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bookapp.noribook.Filter.FilterPdfAdmin;
 import com.bookapp.noribook.Model.ModelPdf;
+import com.bookapp.noribook.MyApplication;
+import com.bookapp.noribook.PdfDetailActivity;
 import com.bookapp.noribook.PdfEditActivity;
 import com.bookapp.noribook.databinding.RowPdfAdminBinding;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -66,14 +68,6 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
 
     private RowPdfAdminBinding binding;
 
-    // 4. filter되지 않으면 그대로 자료형 보여주기 filterlist / Filter되면 된 값인 filtercategory 반환
-    @Override
-    public Filter getFilter() {
-        if (filter ==null){
-            filter = new FilterPdfAdmin(filterList, this);
-        }
-        return filter;
-    }
 
     // 5. holder view
     @NonNull
@@ -93,6 +87,8 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         String description = model.getDescription();
         String date = model.getDate();
         String category = model.getCategoryTitle();
+        String pdfUrl = model.getUrl();
+
 
         // 기능선언
         holder.titleTv.setText(title);
@@ -100,15 +96,31 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         holder.dateTv.setText(date);
         holder.categoryTv.setText(category);
         // pdf 북에는 정보에는 없는 카테고리, pdf(url로 받아오기) , size 찾기
-//        loadCategory(model, holder);
-        loadPdfFromUrl(model, holder);
-        loadPdfSize(model, holder);
+//        loadCategory(model, holder); 그냥 카테고리에 타이틀 넣음
+//        loadPdfFromUrl(model, holder);
+        MyApplication.loadPdfFromUrl(context,
+                                    ""+pdfUrl,
+                                     holder.pdfView,
+                                     holder.progressBar);
+//        loadPdfSize(model, holder);  MyApplication으로
+        MyApplication.loadPdfSize(""+pdfUrl,
+                                  holder.sizeTv);
 
         // 7. more btn 1)edit 2)delete
         holder.moreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 moreOptionDialog(model, holder);
+            }
+        });
+
+        // 8. book pdf 클릭 시 detail로 이동
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, PdfDetailActivity.class);
+                intent.putExtra("bookId", id);
+                context.startActivity(intent);
             }
         });
 
@@ -135,166 +147,32 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
                             context.startActivity(intent);
                         }
                         else if (i ==1){// delete
-                            deleteBook(model,holder);
+                            MyApplication.deleteBook(context,
+                                    ""+bookId,
+                                    ""+bookTitle,
+                                    ""+bookUrl);
+//                            deleteBook(model,holder);
                         }
                     }
                 })
                 .show();
     }
 
-    // 7-3 delete book
-    private void deleteBook(ModelPdf model, HolderPdfAdmin holder) {
-        String bookId = model.getId();
-        String bookTitle = model.getTitle();
-        String bookUrl = model.getUrl();
-
-        progressDialog.setMessage(bookTitle + "삭제 중");
-        progressDialog.show();
-
-        // storage에서 삭제 및 데이터 베이스 삭제
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(bookUrl);
-        storageReference.delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-                        ref.child(bookTitle)
-                                .removeValue()
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(context, "삭제 완료", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-    }
-
-    //6-1 category를 받아오기 firebase database
-//    private void loadCategory(ModelPdf model, HolderPdfAdmin holder) {
-//        String categoryTitle = model.getCategoryTitle();
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
-//        ref.child(categoryTitle)
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                //get category
-//                String category = ""+snapshot.child("category").getValue();
-//                //set category
-//                binding.categoryTv.setText(category);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-
-    // 6-2
-    private void loadPdfFromUrl(ModelPdf model, HolderPdfAdmin holder) {
-        String pdfUrl = model.getUrl();
-        StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
-        ref.getBytes(MAX_BYTES_PDF)
-                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        holder.pdfView.fromBytes(bytes)
-                                .pages(0)//show 첫페이지
-                                .spacing(0)
-                                .swipeHorizontal(false)
-                                .enableSwipe(false)
-                                .onError(new OnErrorListener() {
-                                    @Override
-                                    public void onError(Throwable t) {
-                                        holder.progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .onPageError(new OnPageErrorListener() {
-                                    @Override
-                                    public void onPageError(int page, Throwable t) {
-                                        holder.progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .onLoad(new OnLoadCompleteListener() {
-                                    @Override
-                                    public void loadComplete(int nbPages) {
-                                        holder.progressBar.setVisibility(View.INVISIBLE);
-                                    }
-                                })
-                                .load();
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        holder.progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }
-
-    // 6-3 meta data
-    private void loadPdfSize(ModelPdf model, HolderPdfAdmin holder) {
-        String pdfUrl = model.getUrl();
-        StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
-        ref.getMetadata()
-                .addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
-                    @Override
-                    public void onSuccess(StorageMetadata storageMetadata) {
-                        double bytes = storageMetadata.getSizeBytes();
-
-                        double kb = bytes/1024;
-                        double mb = bytes/1024;
-
-                        if (mb>1){
-                            holder.sizeTv.setText(String.format("%.2f", mb)+"mb");
-                        }
-                        else if (kb>1){
-                            holder.sizeTv.setText(String.format("%.2f", kb)+"kb");
-                        }
-                        else {
-                            holder.sizeTv.setText(String.format("%.2f", bytes)+"bytes");
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-
-    }
 
     // 7. 어레이 사이즈만큼
     @Override
     public int getItemCount() {
         return pdfArrayList.size();
+    }
+
+
+    // 4. filter되지 않으면 그대로 자료형 보여주기 filterlist / Filter되면 된 값인 filtercategory 반환
+    @Override
+    public Filter getFilter() {
+        if (filter ==null){
+            filter = new FilterPdfAdmin(filterList, this);
+        }
+        return filter;
     }
 
 
