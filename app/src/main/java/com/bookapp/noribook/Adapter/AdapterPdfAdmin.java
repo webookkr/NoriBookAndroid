@@ -22,6 +22,7 @@ import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.Activities.PdfDetailActivity;
 import com.bookapp.noribook.Activities.PdfEditActivity;
+import com.bookapp.noribook.databinding.RowPdfAdminBinding;
 import com.github.barteksc.pdfviewer.PDFView;
 
 import java.util.ArrayList;

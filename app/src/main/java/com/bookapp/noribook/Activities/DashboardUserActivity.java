@@ -47,6 +47,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         checkUser();
 
         setupViewPagerAdapter(binding.viewPager);
+
         binding.tabLayout.setupWithViewPager(binding.viewPager);
 
 //  logoutBtn
@@ -59,7 +60,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         });
     }
 
-    // 1- 2.
+    // 1- 3.
     private void setupViewPagerAdapter(ViewPager viewPager){
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, this);
 
@@ -82,7 +83,7 @@ public class DashboardUserActivity extends AppCompatActivity {
                 // add data to view pager adapter
                 viewPagerAdapter.addFragment(BookUserFragment.newInstance(""+modelAll.getId(),""+modelAll.getCategory(),""+modelAll.getUid()),modelAll.getCategory());
                 viewPagerAdapter.addFragment(BookUserFragment.newInstance(""+modelMostViewed.getId(),""+modelMostViewed.getCategory(),""+modelMostViewed.getUid()),modelMostViewed.getCategory());
-                //reflash list
+                //refrash list
                 viewPagerAdapter.notifyDataSetChanged();
                 // load from fire base
                 for (DataSnapshot ds: snapshot.getChildren()){
@@ -90,7 +91,7 @@ public class DashboardUserActivity extends AppCompatActivity {
                     categoryArrayList.add(model);
                     // add data to viewPagerAdapter
                     viewPagerAdapter.addFragment(BookUserFragment.newInstance(
-                            ""+model.getId(),""+model.getCategory(),""+model.getCategory()), model.getCategory());
+                            ""+model.getId(),""+model.getCategory(),""+model.getUid()), model.getCategory());
                     viewPagerAdapter.notifyDataSetChanged();
                 }
 
@@ -106,12 +107,12 @@ public class DashboardUserActivity extends AppCompatActivity {
 
     }
 
-    // 1-3 adapter
+    // 1-2 adapter
     public class ViewPagerAdapter extends FragmentPagerAdapter{
 
         private ArrayList<BookUserFragment> fragmentList = new ArrayList<>();
         private ArrayList<String> fragmentTitleList = new ArrayList<>();
-        Context context;
+        private Context context;
 
         public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior, Context context) {
             super(fm, behavior);
