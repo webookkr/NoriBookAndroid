@@ -1,4 +1,4 @@
-package com.bookapp.noribook;
+package com.bookapp.noribook.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bookapp.noribook.Constants;
 import com.bookapp.noribook.databinding.ActivityPdfViewBinding;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -57,7 +58,7 @@ public class PdfViewActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         //get book url
-                        String pdfUrl = ""+snapshot.child("url");
+                        String pdfUrl = ""+snapshot.child("url").getValue();
 
                         // load pdf , from url
                         loadPdfFromUrl(pdfUrl);
@@ -72,7 +73,7 @@ public class PdfViewActivity extends AppCompatActivity {
     }
 
     private void loadPdfFromUrl(String pdfUrl) {
-        StorageReference reference = FirebaseStorage.getInstance().getReference(pdfUrl);
+        StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
         reference.getBytes(Constants.MAX_BYTES_PDF)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override

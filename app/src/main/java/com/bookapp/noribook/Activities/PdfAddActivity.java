@@ -1,4 +1,4 @@
-package com.bookapp.noribook;
+package com.bookapp.noribook.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +14,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.bookapp.noribook.Model.ModelCategory;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityPdfAddBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

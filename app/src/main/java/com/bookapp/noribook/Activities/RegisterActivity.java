@@ -1,4 +1,4 @@
-package com.bookapp.noribook;
+package com.bookapp.noribook.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
-import com.bookapp.noribook.databinding.ActivityLoginBinding;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityRegisterBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

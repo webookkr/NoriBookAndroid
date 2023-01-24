@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/pdfRl"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/gray01">
+
+            <com.github.barteksc.pdfviewer.PDFView
+                android:id="@+id/pdfView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/contentRl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/pdfRl">
+
+            <TextView
+                android:id="@+id/titleTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="Book Title"
+                android:textColor="@color/black"
+                style="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+            <TextView
+                android:id="@+id/descriptionTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleTv"
+                android:maxLines="3"
+                android:text="Description"
+
+                android:textColor="@color/black"
+                style="@style/TextAppearance.MaterialComponents.Body2"/>
+
+            <RelativeLayout
+                android:id="@+id/infoRl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/categoryTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Category"
+
+                    android:textColor="@color/black"
+                    android:layout_alignParentEnd="true"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+                <TextView
+                    android:id="@+id/sizeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Size"
+
+                    android:textColor="@color/black"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+                <TextView
+                    android:id="@+id/dateTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Date"
+
+                    android:textColor="@color/black"
+                    android:layout_toEndOf="@id/sizeTv"
+                    android:layout_toStartOf="@id/categoryTv"
+                    android:textAlignment="center"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+
+        
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,7 +1,5 @@
 package com.bookapp.noribook.Adapter;
 
-import static com.bookapp.noribook.Constants.MAX_BYTES_PDF;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,7 +13,6 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,23 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bookapp.noribook.Filter.FilterPdfAdmin;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.MyApplication;
-import com.bookapp.noribook.PdfDetailActivity;
-import com.bookapp.noribook.PdfEditActivity;
-import com.bookapp.noribook.databinding.RowPdfAdminBinding;
+import com.bookapp.noribook.Activities.PdfDetailActivity;
+import com.bookapp.noribook.Activities.PdfEditActivity;
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnErrorListener;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 

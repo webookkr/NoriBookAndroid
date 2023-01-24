@@ -1,4 +1,4 @@
-package com.bookapp.noribook;
+package com.bookapp.noribook.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import com.bookapp.noribook.Adapter.AdapterCategory;
-import com.bookapp.noribook.Filter.FilterCategory;
 import com.bookapp.noribook.Model.ModelCategory;
 import com.bookapp.noribook.databinding.ActivityDashboardAdminBinding;
 import com.google.firebase.auth.FirebaseAuth;

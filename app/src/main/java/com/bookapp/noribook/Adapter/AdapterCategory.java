@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bookapp.noribook.Filter.FilterCategory;
 import com.bookapp.noribook.Model.ModelCategory;
-import com.bookapp.noribook.PdfListAdminActivity;
+import com.bookapp.noribook.Activities.PdfListAdminActivity;
 import com.bookapp.noribook.databinding.RowCategoryBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
