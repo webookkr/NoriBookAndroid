@@ -44,9 +44,6 @@ public class CategoryAddActivity extends AppCompatActivity {
                 validateData();
             }
         });
-
-
-        return null;
     }
 
     private String category = "";

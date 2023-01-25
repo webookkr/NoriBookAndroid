@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bookapp.noribook.Activities.SubAddActivity;
 import com.bookapp.noribook.Filter.FilterPdfAdmin;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.MyApplication;
@@ -24,6 +25,7 @@ import com.bookapp.noribook.Activities.PdfDetailActivity;
 import com.bookapp.noribook.Activities.PdfEditActivity;
 import com.bookapp.noribook.databinding.RowPdfAdminBinding;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -98,6 +100,17 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             }
         });
 
+        // addPdfFab : subtitle추가로 옮김
+        holder.addPdfFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, SubAddActivity.class);
+                intent.putExtra("bookId", id);
+                intent.putExtra("bookTitle",title);
+                context.startActivity(intent);
+            }
+        });
+
         // 8. book pdf 클릭 시 detail로 이동
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +181,8 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         TextView titleTv, descriptionTv, categoryTv, sizeTv,dateTv ;
         ImageButton moreBtn;
 
+        FloatingActionButton addPdfFab;
+
         public HolderPdfAdmin(@NonNull View itemView) {
             super(itemView);
 
@@ -179,6 +194,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             sizeTv = binding.sizeTv;
             dateTv = binding.dateTv;
             moreBtn = binding.moreBtn;
+            addPdfFab = binding.addPdfFab;
 
 
         }

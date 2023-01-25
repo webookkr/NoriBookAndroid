@@ -53,11 +53,24 @@
                 android:background="@android:color/transparent"
                 android:layout_alignParentEnd="true"/>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/addPdfFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/moreBtn"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_pdf_white"
+                android:tint="@color/white"
+                app:fabCustomSize="35dp"
+                android:backgroundTint="#8EBCE1"/>
+
             <TextView
                 android:id="@+id/descriptionTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/titleTv"
+                android:layout_toStartOf="@id/addPdfFab"
+                android:layout_alignParentLeft="true"
                 android:maxLines="3"
                 android:text="Description"
 

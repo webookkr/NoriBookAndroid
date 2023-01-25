@@ -62,8 +62,6 @@ public class RegisterActivity extends AppCompatActivity {
                 validateDate();
             }
         });
-
-        return null;
     }
 
     private String name = "", email="", password="";

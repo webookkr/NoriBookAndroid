@@ -79,8 +79,6 @@ public class PdfEditActivity extends AppCompatActivity {
                 validateData();
             }
         });
-
-        return null;
     }
         // 4-1 검증
     private String title = "", description = "";

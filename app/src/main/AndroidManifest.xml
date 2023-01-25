@@ -15,10 +15,13 @@
         android:theme="@style/Theme.MaterialComponents.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".PdfViewActivity2"
+            android:name=".Activities.SubAddActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.PdfViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PdfViewActivity2"
             android:exported="false" />
         <activity
             android:name=".Activities.PdfDetailActivity"
