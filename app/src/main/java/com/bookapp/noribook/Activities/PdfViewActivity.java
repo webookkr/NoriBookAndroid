@@ -47,7 +47,6 @@ public class PdfViewActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
     }
 
     private void loadBookDetails() {

@@ -64,12 +64,14 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         String categoryTitle = model.getCategoryTitle();
         String date = model.getDate();
         String id = model.getId();
+        Long viewCount = model.getViewCount();
 
         // set Data
         holder.titleTv.setText(title);
         holder.descriptionTv.setText(description);
         holder.dateTv.setText(date);
         holder.categoryTv.setText(categoryTitle);
+        holder.viewCountTv.setText(""+viewCount);
 
         MyApplication.loadPdfFromUrl(context,""+pdfUrl,holder.pdfView,holder.progressBar);
         MyApplication.loadPdfSize(""+pdfUrl,holder.sizeTv);
@@ -96,12 +98,13 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
         PDFView pdfView;
         ProgressBar progressBar;
-        TextView titleTv, descriptionTv, categoryTv, sizeTv,dateTv ;
+        TextView titleTv, descriptionTv, categoryTv, sizeTv,dateTv, viewCountTv ;
 
 
         public HolderPdfUser(@NonNull View itemView) {
             super(itemView);
 
+            viewCountTv = binding.viewCountTv;
             pdfView = binding.pdfView;
             progressBar = binding.progressBar;
             titleTv = binding.titleTv;

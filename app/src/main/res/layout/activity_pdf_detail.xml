@@ -205,10 +205,23 @@
                 android:layout_marginTop="5dp"
                 android:text="description"
                 android:textColor="@color/black"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
 
     </ScrollView>
+
+    <android.widget.Button
+        android:id="@+id/readBookBtn2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/readBookBtn"
+        android:text="Test"
+        android:background="@drawable/shape_btn02"
+        android:drawableTop="@drawable/ic_book_white"/>
 
     <android.widget.Button
         android:id="@+id/readBookBtn"

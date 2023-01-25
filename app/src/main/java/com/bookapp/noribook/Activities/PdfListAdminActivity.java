@@ -73,9 +73,6 @@ public class PdfListAdminActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
-
     }
 
     private void loadPdfList() {

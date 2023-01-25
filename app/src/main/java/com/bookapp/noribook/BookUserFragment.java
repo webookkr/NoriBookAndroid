@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +51,7 @@ public class BookUserFragment extends Fragment {
         args.putString("categoryId", categoryId);
         args.putString("category", category);
         args.putString("uid", uid);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,9 +60,9 @@ public class BookUserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            categoryId = getArguments().getString(categoryId);
-            category = getArguments().getString(category);
-            uid = getArguments().getString(uid);
+            categoryId = getArguments().getString("categoryId");
+            category = getArguments().getString("category");
+            uid = getArguments().getString("uid");
         }
     }
 
@@ -70,20 +73,47 @@ public class BookUserFragment extends Fragment {
         binding = FragmentBookUserBinding.inflate(LayoutInflater.from(getContext()), container, false);
 
         Log.d(TAG, "onCreateView: Category"+category);
-//        if (category.equals("All")){
-            loadAllBooks();
-//
-//        }
-//        else if (category.equals("Most Viewed")){
-//            loadMostViewedBooks("viewCount");
-//
-//        }else{
-//            //load selected category books
-//            loadCategorizedBooks();
-//        }
+        if (category.equals("All")){
+           loadAllBooks();
+
+        }
+        else if (category.equals("Most Viewed")){
+            loadMostViewedBooks("viewCount");
+        }
+        else{
+           //load selected category books
+            loadCategorizedBooks();
+        }
+
+
+
+        binding.searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    adapterPdfUser.getFilter().filter(charSequence);
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "onTextChanged: "+e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         return binding.getRoot();
     }
+    //search
+
 
 
     private void loadAllBooks() {
@@ -137,9 +167,8 @@ public class BookUserFragment extends Fragment {
     }
     private void loadCategorizedBooks() {
 
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild("categoryTitle").equalTo(category).addValueEventListener(new ValueEventListener() {
+        ref.orderByChild("categoryId").equalTo(categoryId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pdfArrayList.clear();

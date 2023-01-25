@@ -91,7 +91,6 @@ public class DashboardAdminActivity extends AppCompatActivity {
                 startActivity(new Intent(DashboardAdminActivity.this, PdfAddActivity.class));
             }
         });
-
     }
 
     //  1- 3. 카테고리 로드 (어뎁터 만든 후에 모델과 연결)

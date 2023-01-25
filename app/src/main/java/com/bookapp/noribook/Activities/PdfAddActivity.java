@@ -89,7 +89,6 @@ public class PdfAddActivity extends AppCompatActivity {
                 validateData();
             }
         });
-
     }
 
     private void loadPdfdata() {
@@ -199,7 +198,7 @@ public class PdfAddActivity extends AppCompatActivity {
 
         long timestamp = System.currentTimeMillis();
 
-        String filePathAndName = "Books/"+title;
+        String filePathAndName = "Books/"+title+"/info/"+title;
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
         storageReference.putFile(pdfUri)
@@ -244,7 +243,7 @@ public class PdfAddActivity extends AppCompatActivity {
         hashMap.put("viewCount", 0);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.child(""+title)
+        ref.child(title+"/info/"+title)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

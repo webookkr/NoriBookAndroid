@@ -114,7 +114,7 @@ public class DashboardUserActivity extends AppCompatActivity {
         private ArrayList<String> fragmentTitleList = new ArrayList<>();
         private Context context;
 
-        public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior, Context context) {
+        public ViewPagerAdapter(FragmentManager fm, int behavior, Context context) {
             super(fm, behavior);
             this.context = context;
         }

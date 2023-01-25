@@ -46,6 +46,7 @@ public class CategoryAddActivity extends AppCompatActivity {
         });
 
 
+        return null;
     }
 
     private String category = "";

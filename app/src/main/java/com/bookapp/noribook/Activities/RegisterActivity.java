@@ -63,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        return null;
     }
 
     private String name = "", email="", password="";
