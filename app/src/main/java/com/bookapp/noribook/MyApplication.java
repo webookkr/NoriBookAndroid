@@ -198,6 +198,35 @@ public class MyApplication extends Application {
                 });
     }
 
+    public static void incrementSubBookViewCount(String bookTitle,String subNumber){
+        // 1) get view book count
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
+        ref.child(subNumber)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String viewCount = ""+snapshot.child("viewCount").getValue();
+                        if (viewCount.equals("")||viewCount.equals("null")){
+                            viewCount = "0";
+                        }
+                        // 2) increment views count
+                        long newViewCount = Long.parseLong(viewCount) + 1 ;
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("viewCount", newViewCount);
+
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
+                        reference.child(subNumber)
+                                .updateChildren(hashMap);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
     //6-1 category를 받아오기 firebase database
 //    private void loadCategory(ModelPdf model, HolderPdfAdmin holder) {
 //        String categoryTitle = model.getCategoryTitle();

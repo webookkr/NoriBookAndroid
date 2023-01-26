@@ -207,6 +207,7 @@
                         android:layout_height="20dp"
                         android:hint="페이지"
                         android:textColorHint="@color/gray01"
+                        android:textColor="@color/black"
                         android:background="@drawable/shape_edittext01"
                         android:layout_marginRight="10dp"/>
 
@@ -241,30 +242,13 @@
                 android:id="@+id/pdfSubRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/row_pdf_sub"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_pdf_sub" />
 
         </LinearLayout>
 
 
     </ScrollView>
-
-    <android.widget.Button
-        android:id="@+id/readBookBtn2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/readBookBtn"
-        android:text="Test"
-        android:background="@drawable/shape_btn02"
-        android:drawableTop="@drawable/ic_book_white"/>
-
-    <android.widget.Button
-        android:id="@+id/readBookBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Read"
-        android:background="@drawable/shape_btn02"
-        android:drawableTop="@drawable/ic_book_white"/>
 
 
 

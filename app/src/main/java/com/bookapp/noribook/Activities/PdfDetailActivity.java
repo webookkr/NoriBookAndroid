@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bookapp.noribook.Adapter.AdapterSub;
+import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityPdfDetailBinding;
@@ -46,14 +47,12 @@ public class PdfDetailActivity extends AppCompatActivity {
         bookTitle = intent.getStringExtra("bookTitle");
 
 
-
         loadBookDetails();
         // 이 페이지 시작시마다 increase view count 늘리기
         MyApplication.incrementBookViewCount(bookTitle);
 
         //adapter(sub books)
         loadSubBooks();
-
 
         //go back
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
@@ -62,40 +61,53 @@ public class PdfDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
-
-
-
-        // handle click, read pdf : open to view pdf
-        binding.readBookBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(PdfDetailActivity.this, PdfViewActivity.class);
-                intent1.putExtra("bookId", bookId);
-                intent1.putExtra("bookTitle",bookTitle);
-                startActivity(intent1);
-            }
-        });
-
-        binding.readBookBtn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent2 = new Intent(PdfDetailActivity.this, PdfViewActivity2.class);
-                intent2.putExtra("bookId", bookId);
-                intent2.putExtra("bookTitle",bookTitle);
-                startActivity(intent2);
-            }
-        });
+//
+//
+//        // handle click, read pdf : open to view pdf
+//        binding.readBookBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent1 = new Intent(PdfDetailActivity.this, PdfViewActivity.class);
+//                intent1.putExtra("bookId", bookId);
+//                intent1.putExtra("bookTitle",bookTitle);
+//                startActivity(intent1);
+//            }
+//        });
+//
+//        binding.readBookBtn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent2 = new Intent(PdfDetailActivity.this, PdfViewActivity2.class);
+//                intent2.putExtra("bookId", bookId);
+//                intent2.putExtra("bookTitle",bookTitle);
+//                startActivity(intent2);
+//            }
+//        });
     }
 
     private void loadSubBooks() {
         subArrayList = new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle);
-        ref.child("")
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                subArrayList.clear();
 
+                for (DataSnapshot ds:snapshot.getChildren()) {
+                    ModelSub model = ds.getValue(ModelSub.class);
+                    subArrayList.add(model);
+                }
+                adapterSub = new AdapterSub(PdfDetailActivity.this, subArrayList);
+                binding.pdfSubRv.setAdapter(adapterSub);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void loadBookDetails() {

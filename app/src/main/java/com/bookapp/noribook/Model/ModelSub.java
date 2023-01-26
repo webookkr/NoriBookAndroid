@@ -2,7 +2,9 @@ package com.bookapp.noribook.Model;
 
 public class ModelSub {
 
-    String uid, subNumber, subTitle, date, bookTitle, url;
+    String uid, subTitle, date, bookTitle, url;
+
+    String subNumber;
     long viewCount;
     long recommendCount;
 

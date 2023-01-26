@@ -6,9 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bookapp.noribook.Constants;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityPdfView2Binding;
+import com.github.barteksc.pdfviewer.listener.OnErrorListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -16,16 +21,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
-
 public class PdfViewActivity2 extends AppCompatActivity {
 
-    String bookId, bookTitle;
+    String bookId;
+    String bookTitle;
+    String subTitle, subNumber;
 
     ActivityPdfView2Binding binding;
 
@@ -36,11 +39,13 @@ public class PdfViewActivity2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
-        bookId = intent.getStringExtra("bookId");
         bookTitle = intent.getStringExtra("bookTitle");
+        subTitle = intent.getStringExtra("subTitle");
+        subNumber = intent.getStringExtra("subNumber");
 
 
         loadBookDetails();
+        MyApplication.incrementSubBookViewCount(bookTitle, subNumber);
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,12 +55,10 @@ public class PdfViewActivity2 extends AppCompatActivity {
         });
     }
 
-    // test
-    String name ="3데란"; // listView 아이템 가져오기로 가져오기 name = subNum
     private void loadBookDetails() {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
-        ref.child(name)
+        ref.child(subNumber)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -77,6 +80,14 @@ public class PdfViewActivity2 extends AppCompatActivity {
                     public void onSuccess(byte[] bytes) {
                         binding.pdfView.fromBytes(bytes)
                                 .enableSwipe(true).swipeHorizontal(false)
+                                .onPageChange(new OnPageChangeListener() {
+                                    @Override
+                                    public void onPageChanged(int page, int pageCount) {
+                                        //set current and total pages int oolbar subtitle
+                                        int currentPage = page + 1;
+                                        binding.subTitleTv.setText(currentPage + "/" + pageCount);
+                                    }
+                                })
                                 .load();
                         binding.progressBar.setVisibility(View.GONE);
                     }

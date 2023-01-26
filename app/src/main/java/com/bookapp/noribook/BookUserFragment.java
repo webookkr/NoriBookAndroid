@@ -82,10 +82,10 @@ public class BookUserFragment extends Fragment {
         else if (category.equals("Most Viewed")){
             loadMostViewedBooks("viewCount");
         }
-        else{
-           //load selected category books
-            loadCategorizedBooks();
-        }
+//        else{
+//           //load selected category books
+//            loadCategorizedBooks();
+//        }
 
 
 
@@ -131,6 +131,7 @@ public class BookUserFragment extends Fragment {
                     //get data
                     ModelPdf model = ds.getValue(ModelPdf.class);
                     pdfArrayList.add(model);
+
                 }
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 binding.bookRv.setAdapter(adapterPdfUser);
@@ -171,26 +172,74 @@ public class BookUserFragment extends Fragment {
     }
     private void loadCategorizedBooks() {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/");
-        ref.orderByChild("categoryId").equalTo(id).addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pdfArrayList.clear();
                 for(DataSnapshot ds:snapshot.getChildren()) {
                     //get data
                     ModelPdf model = ds.getValue(ModelPdf.class);
-                    pdfArrayList.add(model);
+                    bookTitle = model.getTitle();
+        //            loadCategryBook(bookTitle);
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/"+bookTitle+"/");
+                    ref.orderByChild("categoryTitle").equalTo(category).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            pdfArrayList.clear();
+                            for(DataSnapshot ds:snapshot.getChildren()) {
+                                //get data
+                                ModelPdf model = ds.getValue(ModelPdf.class);
+                                pdfArrayList.add(model);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 binding.bookRv.setAdapter(adapterPdfUser);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+
+
+
+
     }
+
+    private void loadCategryBook(String bookTitle) {
+
+
+    }
+
+//    private void loadCategorizedBooks() {
+//
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/");
+//        ref.orderByChild("categoryId").equalTo(id).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                pdfArrayList.clear();
+//                for(DataSnapshot ds:snapshot.getChildren()) {
+//                    //get data
+//                    ModelPdf model = ds.getValue(ModelPdf.class);
+//                    pdfArrayList.add(model);
+//                }
+//                adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
+//                binding.bookRv.setAdapter(adapterPdfUser);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
 
 }
