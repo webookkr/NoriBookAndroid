@@ -61,7 +61,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         String categoryTitle = model.getCategoryTitle();
         String date = model.getDate();
         String id = model.getId();
-        Long viewCount = model.getViewCount();
+        long viewCount = model.getViewCount();
 
         // set Data
         holder.titleTv.setText(title);

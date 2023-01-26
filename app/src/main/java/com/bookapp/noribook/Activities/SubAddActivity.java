@@ -137,7 +137,7 @@ public class SubAddActivity extends AppCompatActivity {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("uid",""+uid);
-        hashMap.put("number", subNumber);
+        hashMap.put("subNumber", subNumber);
         hashMap.put("subTitle",subTitle);
         hashMap.put("url",""+uploadedPdfUrl);
         hashMap.put("date",""+date);

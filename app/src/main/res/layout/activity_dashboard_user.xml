@@ -59,14 +59,14 @@
         app:tabMode="scrollable"
         app:tabGravity="fill"
         app:tabUnboundedRipple="false"/>
-
     <!--    ViewPager : swipe/show/change Fragment-->
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tabLayout"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout">
+    </androidx.viewpager.widget.ViewPager>
 
 
 

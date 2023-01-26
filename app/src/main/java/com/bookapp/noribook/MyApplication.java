@@ -101,7 +101,7 @@ public class MyApplication extends Application {
                         double bytes = storageMetadata.getSizeBytes();
 
                         double kb = bytes/1024;
-                        double mb = bytes/1024;
+                        double mb = kb/1024;
 
                         if (mb>1){
                             sizeTv.setText(String.format("%.2f", mb)+"mb");

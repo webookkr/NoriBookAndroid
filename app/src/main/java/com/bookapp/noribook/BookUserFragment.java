@@ -30,9 +30,11 @@ import java.util.ArrayList;
  */
 public class BookUserFragment extends Fragment {
 
-    private String categoryId;
+    private String id;
     private String category;
     private String uid;
+
+    private String bookTitle;
 
     private ArrayList<ModelPdf> pdfArrayList;
     private AdapterPdfUser adapterPdfUser;
@@ -45,10 +47,10 @@ public class BookUserFragment extends Fragment {
     }
 
 
-    public static BookUserFragment newInstance(String categoryId, String category, String uid) {
+    public static BookUserFragment newInstance(String id, String category, String uid) {
         BookUserFragment fragment = new BookUserFragment();
         Bundle args = new Bundle();
-        args.putString("categoryId", categoryId);
+        args.putString("id", id);
         args.putString("category", category);
         args.putString("uid", uid);
 
@@ -60,7 +62,7 @@ public class BookUserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            categoryId = getArguments().getString("categoryId");
+            id = getArguments().getString("id");
             category = getArguments().getString("category");
             uid = getArguments().getString("uid");
         }
@@ -140,10 +142,12 @@ public class BookUserFragment extends Fragment {
             }
         });
     }
-    private void loadMostViewedBooks(String orderBy) {
+
+    public void loadMostViewedBooks(String orderBy) {
         pdfArrayList = new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/");
         ref.orderByChild(orderBy).limitToLast(10).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -167,8 +171,8 @@ public class BookUserFragment extends Fragment {
     }
     private void loadCategorizedBooks() {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild("categoryId").equalTo(categoryId).addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/");
+        ref.orderByChild("categoryId").equalTo(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pdfArrayList.clear();

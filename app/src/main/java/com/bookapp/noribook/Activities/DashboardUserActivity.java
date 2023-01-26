@@ -32,7 +32,7 @@ public class DashboardUserActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     // categories to show in taps
-    private ArrayList<ModelCategory> categoryArrayList;
+    public ArrayList<ModelCategory> categoryArrayList;
 
     // 1. viewPagerAdapter 변수 생성
     public ViewPagerAdapter viewPagerAdapter;
