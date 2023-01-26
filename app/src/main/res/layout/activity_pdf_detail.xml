@@ -193,6 +193,37 @@
                     </TableRow>
                 </TableLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_toStartOf="@id/shiftBtn">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:hint="페이지"
+                        android:textColorHint="@color/gray01"
+                        android:background="@drawable/shape_edittext01"
+                        android:layout_marginRight="10dp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <android.widget.Button
+                    android:id="@+id/shiftBtn"
+                    android:text="페이지 이동"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:textSize="10sp"
+                    android:background="@drawable/shape_btn02"/>
+
+                </RelativeLayout>
+
+
             </LinearLayout>
 
         </RelativeLayout>
@@ -207,8 +238,10 @@
                 android:textColor="@color/black"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pdfSubRv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/row_pdf_sub"/>
 
         </LinearLayout>
 

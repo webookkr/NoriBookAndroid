@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.bookapp.noribook.Adapter.AdapterSub;
+import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityPdfDetailBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -15,6 +17,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class PdfDetailActivity extends AppCompatActivity {
 
@@ -26,20 +30,29 @@ public class PdfDetailActivity extends AppCompatActivity {
 
     Context context;
 
+    private ArrayList<ModelSub> subArrayList;
+
+    private AdapterSub adapterSub;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPdfDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //get data from intent
         Intent intent = getIntent();
+        // get data from adapterpdfUser
         bookId = intent.getStringExtra("bookId");
         bookTitle = intent.getStringExtra("bookTitle");
+
+
 
         loadBookDetails();
         // 이 페이지 시작시마다 increase view count 늘리기
         MyApplication.incrementBookViewCount(bookTitle);
+
+        //adapter(sub books)
+        loadSubBooks();
 
 
         //go back
@@ -49,6 +62,10 @@ public class PdfDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+
+
+
 
         // handle click, read pdf : open to view pdf
         binding.readBookBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +87,15 @@ public class PdfDetailActivity extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
+    }
+
+    private void loadSubBooks() {
+        subArrayList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle);
+        ref.child("")
+
+
     }
 
     private void loadBookDetails() {

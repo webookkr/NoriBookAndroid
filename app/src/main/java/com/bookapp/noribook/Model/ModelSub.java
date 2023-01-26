@@ -2,14 +2,27 @@ package com.bookapp.noribook.Model;
 
 public class ModelSub {
 
+    String uid, subNumber, subTitle, date, bookTitle, url;
+    long viewCount;
+    long recommendCount;
+
     ModelSub(){
 
     }
 
-    String uid, subNumber, subTitle, date, bookTitle, url;
+    public ModelSub(String uid, String subNumber, String subTitle, String date, String bookTitle, String url, long viewCount, long recommendCount) {
+        this.uid = uid;
+        this.subNumber = subNumber;
+        this.subTitle = subTitle;
+        this.date = date;
+        this.bookTitle = bookTitle;
+        this.url = url;
+        this.viewCount = viewCount;
+        this.recommendCount = recommendCount;
 
-    long viewCount;
-    long recommendCount;
+
+
+    }
 
     public String getUid() {
         return uid;
@@ -75,17 +88,5 @@ public class ModelSub {
         this.recommendCount = recommendCount;
     }
 
-    public ModelSub(String uid, String subNumber, String subTitle, String date, String bookTitle, String url, long viewCount, long recommendCount) {
-        this.uid = uid;
-        this.subNumber = subNumber;
-        this.subTitle = subTitle;
-        this.date = date;
-        this.bookTitle = bookTitle;
-        this.url = url;
-        this.viewCount = viewCount;
-        this.recommendCount = recommendCount;
 
-
-
-    }
 }

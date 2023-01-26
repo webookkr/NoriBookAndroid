@@ -39,6 +39,7 @@ public class PdfViewActivity2 extends AppCompatActivity {
         bookId = intent.getStringExtra("bookId");
         bookTitle = intent.getStringExtra("bookTitle");
 
+
         loadBookDetails();
 
         binding.backBtn.setOnClickListener(new View.OnClickListener() {
