@@ -154,6 +154,7 @@ public class DashboardUserActivity extends AppCompatActivity {
     private void checkUser() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
+            binding.subTitleTv.setText("로그 아웃 상태");
 
         }
         else {

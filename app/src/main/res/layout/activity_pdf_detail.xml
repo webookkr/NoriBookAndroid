@@ -96,7 +96,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="Category"
+                            android:text="카테고리"
                             android:textColor="@color/black"
                             android:layout_marginRight="5dp"/>
 
@@ -117,7 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="Date"
+                            android:text="날짜"
                             android:textColor="@color/black"
                             android:layout_marginRight="5dp"/>
 
@@ -137,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="Size"
+                            android:text="크기"
                             android:textColor="@color/black"
                             android:layout_marginRight="5dp"/>
 
@@ -157,7 +157,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="Views"
+                            android:text="조회수"
                             android:textColor="@color/black"
                             android:layout_marginRight="5dp"/>
 
@@ -196,6 +196,18 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <android.widget.Button
+                        android:id="@+id/favoriteBtn"
+                        android:text="선호작 추가"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="5dp"
+                        android:drawableStart="@drawable/ic_favorite_white"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="10sp"
+                        android:background="@drawable/shape_btn02"/>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
