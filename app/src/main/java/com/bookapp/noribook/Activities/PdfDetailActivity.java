@@ -13,6 +13,7 @@ import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityPdfDetailBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -139,6 +140,12 @@ public class PdfDetailActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public static void checkIsFavorite(Context context, String bookId, boolean isInMyFavorite){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (Fir)
 
     }
+
 }

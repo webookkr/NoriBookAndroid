@@ -21,6 +21,7 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -226,6 +227,63 @@ public class MyApplication extends Application {
                     }
                 });
     }
+
+    public static void addFavorite(Context context, String bookId){
+        // 선호작 추가는 유저가 로그인 되어 있어야 함
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() == null){
+            Toast.makeText(context, "로그인이 안되어 있습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            long timeStamp = System.currentTimeMillis();
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("bookId", bookId);
+            hashMap.put("timestamp", ""+timeStamp);
+
+            // save to Db
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Favorite").child(bookId)
+                    .setValue(hashMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(context, "선호작 리스트에 추가하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "선호작 리스트 추가에 실패하였습니다."+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    public static void removeFromFavorite(Context context,String bookId){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() ==null){
+            Toast.makeText(context, "로그인이 안되어 있습니다.", Toast.LENGTH_SHORT).show();
+        }else {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseAuth.getUid()).child("Favorite").child(bookId)
+                    .removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(context, "선호작 리스트에서 제거하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "선호작 리스트 제거에 실패하였습니다."+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
+
+    }
+
 
     //6-1 category를 받아오기 firebase database
 //    private void loadCategory(ModelPdf model, HolderPdfAdmin holder) {
