@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterSub;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.MyApplication;
+import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityPdfDetailBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,13 +30,17 @@ public class PdfDetailActivity extends AppCompatActivity {
 
     //pdf id , get from intent
 
-    String bookId, bookTitle;
+    String bookId, bookTitle, bookUrl;
 
     Context context;
 
     private ArrayList<ModelSub> subArrayList;
 
     private AdapterSub adapterSub;
+
+    private FirebaseAuth firebaseAuth ;
+
+    boolean isInMyFavorite = false ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,10 @@ public class PdfDetailActivity extends AppCompatActivity {
         bookId = intent.getStringExtra("bookId");
         bookTitle = intent.getStringExtra("bookTitle");
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() != null){
+            checkIsFavorite();
+        }
 
         loadBookDetails();
         // 이 페이지 시작시마다 increase view count 늘리기
@@ -84,6 +94,24 @@ public class PdfDetailActivity extends AppCompatActivity {
 //                startActivity(intent2);
 //            }
 //        });
+        // add remove favorite 클릭
+        binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (firebaseAuth.getCurrentUser() ==null ){
+                    Toast.makeText(context, "로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+                }else{
+                    if (isInMyFavorite){
+                        MyApplication.removeFromFavorite(PdfDetailActivity.this, bookId);
+
+                    }else{
+                        MyApplication.addFavorite(PdfDetailActivity.this, bookId);
+                    }
+                }
+
+            }
+        });
+
     }
 
     private void loadSubBooks() {
@@ -142,10 +170,29 @@ public class PdfDetailActivity extends AppCompatActivity {
                 });
     }
 
-    public static void checkIsFavorite(Context context, String bookId, boolean isInMyFavorite){
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        if (Fir)
+    private void checkIsFavorite(){
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(firebaseAuth.getUid()).child("Favorite").child(bookId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        isInMyFavorite = snapshot.exists(); //존재하면 true, 존재하지 않으면 false
+                        if (isInMyFavorite){
+                            // 존재
+                            binding.favoriteBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_favorite_white, 0, 0, 0);
+                            binding.favoriteBtn.setText("선호작 제거");
+                        }else{
+                            binding.favoriteBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_favorite_border_white, 0, 0, 0);
+                            binding.favoriteBtn.setText("선호작 추가");
 
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
 }

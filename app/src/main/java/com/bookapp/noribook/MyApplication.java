@@ -228,11 +228,12 @@ public class MyApplication extends Application {
                 });
     }
 
+    // 선호작 추가
     public static void addFavorite(Context context, String bookId){
         // 선호작 추가는 유저가 로그인 되어 있어야 함
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() == null){
-            Toast.makeText(context, "로그인이 안되어 있습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "로그인 하세요.", Toast.LENGTH_SHORT).show();
         }
         else {
             long timeStamp = System.currentTimeMillis();
@@ -259,10 +260,11 @@ public class MyApplication extends Application {
         }
     }
 
+    // 선호작 제거
     public static void removeFromFavorite(Context context,String bookId){
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() ==null){
-            Toast.makeText(context, "로그인이 안되어 있습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "로그인 하세요.", Toast.LENGTH_SHORT).show();
         }else {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).child("Favorite").child(bookId)
