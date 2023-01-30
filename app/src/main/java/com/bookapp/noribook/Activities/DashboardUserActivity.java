@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bookapp.noribook.BookUserFragment;
 import com.bookapp.noribook.Model.ModelCategory;
@@ -57,6 +58,18 @@ public class DashboardUserActivity extends AppCompatActivity {
                 firebaseAuth.signOut();
                 startActivity(new Intent(DashboardUserActivity.this, MainActivity.class));
                 finish();
+            }
+        });
+
+        // open profile button
+        binding.profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    Toast.makeText(DashboardUserActivity.this, "로그인 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+                }else{
+                    startActivity(new Intent(DashboardUserActivity.this, ProfileActivity.class));
+                }
             }
         });
     }
