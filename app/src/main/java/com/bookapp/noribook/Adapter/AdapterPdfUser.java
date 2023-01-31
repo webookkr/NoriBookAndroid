@@ -70,7 +70,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         holder.categoryTv.setText(categoryTitle);
         holder.viewCountTv.setText(""+viewCount);
 
-        MyApplication.loadPdfFromUrl(context,""+pdfUrl,holder.pdfView,holder.progressBar);
+        MyApplication.loadPdfFromUrl(""+pdfUrl,holder.pdfView,holder.progressBar);
         MyApplication.loadPdfSize(""+pdfUrl,holder.sizeTv);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

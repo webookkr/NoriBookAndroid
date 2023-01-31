@@ -105,7 +105,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                         MyApplication.removeFromFavorite(PdfDetailActivity.this, bookId);
 
                     }else{
-                        MyApplication.addFavorite(PdfDetailActivity.this, bookId);
+                        MyApplication.addFavorite(PdfDetailActivity.this, bookId, bookTitle);
                     }
                 }
 
@@ -152,7 +152,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                      String viewCount = ""+snapshot.child("viewCount").getValue();
                      String url = ""+snapshot.child("url").getValue();
 
-                     MyApplication.loadPdfFromUrl(context, ""+url, binding.pdfView, binding.progressBar);
+                     MyApplication.loadPdfFromUrl(""+url, binding.pdfView, binding.progressBar);
                      MyApplication.loadPdfSize(""+url,binding.sizeTv);
 
                      // set data

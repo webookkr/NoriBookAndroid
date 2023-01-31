@@ -84,7 +84,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         // pdf 북에는 정보에는 없는 카테고리, pdf(url로 받아오기) , size 찾기
 //        loadCategory(model, holder); 그냥 카테고리에 타이틀 넣음
 //        loadPdfFromUrl(model, holder);
-        MyApplication.loadPdfFromUrl(context,
+        MyApplication.loadPdfFromUrl(
                                     ""+pdfUrl,
                                      holder.pdfView,
                                      holder.progressBar);

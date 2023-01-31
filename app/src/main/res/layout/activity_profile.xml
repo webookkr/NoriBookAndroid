@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/dragon_background2"/>
+        android:background="@drawable/dragon_background3"/>
 
 <!--    Toolbar-->
     <RelativeLayout
@@ -176,13 +176,30 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/view1"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="@color/gray01"
         android:layout_below="@id/detailLl"/>
 
+    <TextView
+        android:id="@+id/favoriteBooksLabelTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="선호작"
+        android:layout_below="@id/view1"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/booksRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/favoriteBooksLabelTv"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_pdf_favorite"/>
 
 
 </RelativeLayout>

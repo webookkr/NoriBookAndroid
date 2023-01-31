@@ -10,7 +10,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/dragon_background2" />
+        android:background="@drawable/dragon_background3"/>
 
     <ImageButton
         android:id="@+id/backBtn"

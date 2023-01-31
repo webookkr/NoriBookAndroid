@@ -7,6 +7,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bookapp.noribook.Adapter.AdapterFavorite;
+import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityProfileBinding;
 import com.bumptech.glide.Glide;
@@ -17,11 +19,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private ActivityProfileBinding binding;
 
     private FirebaseAuth firebaseAuth;
+
+
+    private ArrayList<ModelPdf> pdfArrayList;
+
+    private AdapterFavorite adapterFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         loadUserinfo();
+
+        loadFavoriteBook();
         binding.profileEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,6 +55,39 @@ public class ProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+    }
+
+    // adapter(pdfFavorite)
+    private void loadFavoriteBook() {
+        //init
+        pdfArrayList = new ArrayList<>();
+
+        //loadfavorite book : Users -> userId -> Favorite
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(firebaseAuth.getUid()).child("Favorite")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        pdfArrayList.clear();
+
+                        for (DataSnapshot ds : snapshot.getChildren()){
+                            String bookTitle = ""+ds.child("bookTitle").getValue();
+
+                            ModelPdf modelPdf = new ModelPdf();
+                            modelPdf.setTitle(bookTitle); // profile Detail 에서 bookTitle 받아와서 set하고 adapter에서 get해서 이어서 "Uses"에서 가져오기
+                            pdfArrayList.add(modelPdf);
+                        }
+                        adapterFavorite = new AdapterFavorite(ProfileActivity.this, pdfArrayList);
+                        binding.booksRv.setAdapter(adapterFavorite);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
     }
 

@@ -125,7 +125,7 @@ public class MyApplication extends Application {
 
     }
 
-    public static void loadPdfFromUrl(Context context,String pdfUrl, PDFView pdfView, ProgressBar progressBar) {
+    public static void loadPdfFromUrl(String pdfUrl, PDFView pdfView, ProgressBar progressBar) {
         StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
         ref.getBytes(MAX_BYTES_PDF)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -140,14 +140,12 @@ public class MyApplication extends Application {
                                     @Override
                                     public void onError(Throwable t) {
                                         progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .onPageError(new OnPageErrorListener() {
                                     @Override
                                     public void onPageError(int page, Throwable t) {
                                         progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .onLoad(new OnLoadCompleteListener() {
@@ -164,7 +162,6 @@ public class MyApplication extends Application {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -229,7 +226,7 @@ public class MyApplication extends Application {
     }
 
     // 선호작 추가
-    public static void addFavorite(Context context, String bookId){
+    public static void addFavorite(Context context, String bookId, String bookTitle){
         // 선호작 추가는 유저가 로그인 되어 있어야 함
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() == null){
@@ -239,6 +236,7 @@ public class MyApplication extends Application {
             long timeStamp = System.currentTimeMillis();
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("bookId", bookId);
+            hashMap.put("bookTitle", bookTitle);
             hashMap.put("timestamp", ""+timeStamp);
 
             // save to Db
