@@ -8,7 +8,7 @@ public class ModelSub {
     long viewCount;
     long recommendCount;
 
-    ModelSub(){
+    public ModelSub(){
 
     }
 

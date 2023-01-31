@@ -30,7 +30,7 @@ import java.util.ArrayList;
  */
 public class BookUserFragment extends Fragment {
 
-    private String id;
+    private String categoryId;
     private String category;
     private String uid;
 
@@ -47,12 +47,13 @@ public class BookUserFragment extends Fragment {
     }
 
 
-    public static BookUserFragment newInstance(String id, String category, String uid) {
+    public static BookUserFragment newInstance(String categoryId, String category, String uid, String date) {
         BookUserFragment fragment = new BookUserFragment();
         Bundle args = new Bundle();
-        args.putString("id", id);
+        args.putString("categoryId", categoryId);
         args.putString("category", category);
         args.putString("uid", uid);
+        args.putString("date", date);
 
         fragment.setArguments(args);
         return fragment;
@@ -62,7 +63,7 @@ public class BookUserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            id = getArguments().getString("id");
+            categoryId = getArguments().getString("categoryId");
             category = getArguments().getString("category");
             uid = getArguments().getString("uid");
         }
@@ -82,10 +83,10 @@ public class BookUserFragment extends Fragment {
         else if (category.equals("Most Viewed")){
             loadMostViewedBooks("viewCount");
         }
-//        else{
+        else{
 //           //load selected category books
-//            loadCategorizedBooks();
-//        }
+            loadCategorizedBooks();
+        }
 
 
 
@@ -123,7 +124,7 @@ public class BookUserFragment extends Fragment {
         pdfArrayList = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pdfArrayList.clear();
@@ -148,8 +149,8 @@ public class BookUserFragment extends Fragment {
         pdfArrayList = new ArrayList<>();
 
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/");
-        ref.orderByChild(orderBy).limitToLast(10).addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.orderByChild(orderBy).limitToLast(10).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pdfArrayList.clear();
@@ -173,32 +174,14 @@ public class BookUserFragment extends Fragment {
     private void loadCategorizedBooks() {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
+        ref.orderByChild("categoryId").equalTo(categoryId).
+                addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pdfArrayList.clear();
                 for(DataSnapshot ds:snapshot.getChildren()) {
                     //get data
                     ModelPdf model = ds.getValue(ModelPdf.class);
-                    bookTitle = model.getTitle();
-        //            loadCategryBook(bookTitle);
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/"+bookTitle+"/");
-                    ref.orderByChild("categoryTitle").equalTo(category).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            pdfArrayList.clear();
-                            for(DataSnapshot ds:snapshot.getChildren()) {
-                                //get data
-                                ModelPdf model = ds.getValue(ModelPdf.class);
-                                pdfArrayList.add(model);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    pdfArrayList.add(model);
                 }
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
                 binding.bookRv.setAdapter(adapterPdfUser);
