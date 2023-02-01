@@ -106,55 +106,30 @@ public class DashboardUserActivity extends AppCompatActivity {
         //refrash list
         viewPagerAdapter.notifyDataSetChanged();
 
-//        //load categories from firebase
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                categoryArrayList.clear();
-//                // load categories - Static all, most viewed
-//                // all data to model
-//                ModelCategory modelAll = new ModelCategory("01","All","","");
-//                ModelCategory modelMostViewed = new ModelCategory("02","Most Viewed","","");
-//
-//                // add models to list
-//                categoryArrayList.add(modelAll);
-//                categoryArrayList.add(modelMostViewed);
-//                // add data to view pager adapter
-//                viewPagerAdapter.addFragment(BookUserFragment.newInstance(
-//                        ""+modelAll.getId(),
-//                        ""+modelAll.getCategory(),
-//                        ""+modelAll.getUid()
-//                        ,""+modelAll.getDate()
-//                        ), modelAll.getCategory());
-//                viewPagerAdapter.addFragment(BookUserFragment.newInstance(
-//                        ""+modelMostViewed.getId(),
-//                        ""+modelMostViewed.getCategory(),
-//                        ""+modelMostViewed.getUid(),
-//                        ""+modelMostViewed.getDate()
-//                        ),modelMostViewed.getCategory());
-//                //refrash list
-//                viewPagerAdapter.notifyDataSetChanged();
-//                // load from fire base
-//                for (DataSnapshot ds: snapshot.getChildren()){
-//                    ModelCategory model = ds.getValue(ModelCategory.class);
-//                    categoryArrayList.add(model);
-//                    // add data to viewPagerAdapter
-//                    viewPagerAdapter.addFragment(BookUserFragment.newInstance(
-//                            ""+model.getId(),
-//                            ""+model.getCategory(),
-//                            ""+model.getUid()
-//                            ,""+model.getDate()
-//                            ), model.getCategory());
-//                    viewPagerAdapter.notifyDataSetChanged();
-//                }
-//
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        //load categories from firebase
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    ModelCategory model = ds.getValue(ModelCategory.class);
+                    categoryArrayList.add(model);
+                    // add data to viewPagerAdapter
+                    viewPagerAdapter.addFragment(BookUserFragment.newInstance(
+                            ""+model.getId(),
+                            ""+model.getCategory(),
+                            ""+model.getUid()
+                            ,""+model.getDate()
+                            ), model.getCategory());
+                    viewPagerAdapter.notifyDataSetChanged();
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //set adapter to view pager
         viewPager.setAdapter(viewPagerAdapter);

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bookapp.noribook.Activities.DashboardUserActivity;
 import com.bookapp.noribook.Adapter.AdapterPdfUser;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.databinding.FragmentBookUserBinding;
@@ -31,8 +32,10 @@ import java.util.ArrayList;
 public class BookUserFragment extends Fragment {
 
     private String categoryId;
-    private String category;
+    private String categoryTitle;
     private String uid;
+
+    private String date;
 
     private String bookTitle;
 
@@ -47,11 +50,11 @@ public class BookUserFragment extends Fragment {
     }
 
 
-    public static BookUserFragment newInstance(String categoryId, String category, String uid, String date) {
+    public static BookUserFragment newInstance(String categoryId, String categoryTitle, String uid, String date) {
         BookUserFragment fragment = new BookUserFragment();
         Bundle args = new Bundle();
         args.putString("categoryId", categoryId);
-        args.putString("category", category);
+        args.putString("categoryTitle", categoryTitle);
         args.putString("uid", uid);
         args.putString("date", date);
 
@@ -64,8 +67,9 @@ public class BookUserFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             categoryId = getArguments().getString("categoryId");
-            category = getArguments().getString("category");
+            categoryTitle = getArguments().getString("categoryTitle");
             uid = getArguments().getString("uid");
+            date = getArguments().getString("date");
         }
     }
 
@@ -75,18 +79,21 @@ public class BookUserFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentBookUserBinding.inflate(LayoutInflater.from(getContext()), container, false);
 
-        Log.d(TAG, "onCreateView: Category"+category);
-        if (category.equals("All")){
+        Log.d(TAG, "onCreateView: Category"+categoryTitle);
+        if (categoryTitle.equals("All")){
            loadAllBooks();
 
         }
-        else if (category.equals("Most Viewed")){
+        else if (categoryTitle.equals("Most Viewed")){
             loadMostViewedBooks("viewCount");
         }
         else{
-//           //load selected category books
+
             loadCategorizedBooks();
         }
+////           //load selected category books
+//            loadCategorizedBooks();
+//        }
 
 
 
@@ -146,13 +153,13 @@ public class BookUserFragment extends Fragment {
     }
 
     public void loadMostViewedBooks(String orderBy) {
-        pdfArrayList = new ArrayList<>();
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.orderByChild(orderBy).limitToLast(10).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pdfArrayList = new ArrayList<>();
                 pdfArrayList.clear();
                 for(DataSnapshot ds:snapshot.getChildren()) {
                     //get data
@@ -173,10 +180,11 @@ public class BookUserFragment extends Fragment {
     }
     private void loadCategorizedBooks() {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-        ref.orderByChild("categoryId").equalTo(categoryId).
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
+        reference.orderByChild("categoryTitle").equalTo(categoryTitle).
                 addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pdfArrayList = new ArrayList<>();
                 pdfArrayList.clear();
                 for(DataSnapshot ds:snapshot.getChildren()) {
                     //get data
