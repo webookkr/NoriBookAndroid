@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".Activities.DashboardUserActivity">
 
+
+
+    <RelativeLayout
+        android:id="@+id/navContainerRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
 <!--    toolBar-->
     <RelativeLayout
         android:id="@+id/toolbarRl"
@@ -71,10 +79,17 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/tabLayout">
     </androidx.viewpager.widget.ViewPager>
+
+    </RelativeLayout>
+
+
+
+
 
 
 
 </RelativeLayout>
+
