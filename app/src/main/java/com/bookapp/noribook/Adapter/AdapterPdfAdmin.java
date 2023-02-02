@@ -26,8 +26,11 @@ import com.bookapp.noribook.Activities.PdfEditActivity;
 import com.bookapp.noribook.databinding.RowPdfAdminBinding;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 // 2. extend
 public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.HolderPdfAdmin> implements Filterable {
@@ -74,9 +77,12 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         String date = model.getDate();
         String category = model.getCategoryTitle();
         String pdfUrl = model.getUrl();
+        long viewCount = model.getViewCount();
+        long recommendCount = model.getRecommendCount();
 
 
-        // 기능선언
+        holder.viewCountTv.setText("조회수:"+viewCount);
+        holder.recommendCountTv.setText("추천수:"+recommendCount);
         holder.titleTv.setText(title);
         holder.descriptionTv.setText(description);
         holder.dateTv.setText(date);
@@ -122,7 +128,41 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             }
         });
 
+        // featuredBtn (오너 추천)
+        holder.featuredBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFeaturedBook(model, holder);
+            }
+        });
+
     }
+
+    // 오너 추천 버튼
+    private void addFeaturedBook(ModelPdf model, HolderPdfAdmin holder) {
+        String bookTitle = model.getTitle();
+        Boolean featured = model.isFeatured();
+        if ( featured == false) {
+            Boolean newFeatured = true ;
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("featured", newFeatured);
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
+            reference.child(bookTitle)
+                    .updateChildren(hashMap);
+        } else {
+            Boolean newFeatured = false ;
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("featured", newFeatured);
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
+            reference.child(bookTitle)
+                    .updateChildren(hashMap);
+        }
+
+    }
+
     // 7-2 more btn
     private void moreOptionDialog(ModelPdf model, HolderPdfAdmin holder) {
 
@@ -178,8 +218,8 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     class HolderPdfAdmin extends RecyclerView.ViewHolder{
         PDFView pdfView;
         ProgressBar progressBar;
-        TextView titleTv, descriptionTv, categoryTv, sizeTv,dateTv ;
-        ImageButton moreBtn;
+        TextView titleTv, descriptionTv, categoryTv, sizeTv,dateTv, viewCountTv, recommendCountTv ;
+        ImageButton moreBtn, featuredBtn;
 
         FloatingActionButton addPdfFab;
 
@@ -195,6 +235,10 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             dateTv = binding.dateTv;
             moreBtn = binding.moreBtn;
             addPdfFab = binding.addPdfFab;
+
+            recommendCountTv = binding.recommendCountTv;
+            viewCountTv = binding.viewCountTv;
+            featuredBtn = binding.featuredBtn;
 
 
         }

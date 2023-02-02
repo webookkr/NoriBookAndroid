@@ -46,6 +46,15 @@
                 style="@style/TextAppearance.MaterialComponents.Headline6"/>
 
             <ImageButton
+                android:id="@+id/featuredBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/ic_star_border_black"
+                android:background="@android:color/transparent"
+                android:layout_alignParentEnd="true"/>
+
+            <ImageButton
                 android:id="@+id/moreBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,10 +119,33 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="Date"
-
+                    android:layout_marginLeft="15dp"
                     android:textColor="@color/black"
                     android:layout_toEndOf="@id/sizeTv"
-                    android:layout_toStartOf="@id/categoryTv"
+                    android:textAlignment="center"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+                <TextView
+                    android:id="@+id/viewCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="조회수"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/black"
+                    android:layout_toEndOf="@id/dateTv"
+                    android:textAlignment="center"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+                <TextView
+                    android:id="@+id/recommendCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="추천수"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/black"
+                    android:layout_toEndOf="@id/viewCountTv"
                     android:textAlignment="center"
                     style="@style/TextAppearance.MaterialComponents.Caption"/>
 

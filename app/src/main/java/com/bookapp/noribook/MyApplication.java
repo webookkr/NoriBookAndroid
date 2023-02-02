@@ -42,6 +42,7 @@ public class MyApplication extends Application {
         super.onCreate();
     }
 
+    //calender 함수 이용해서 timestamp를 날짜 형태로 변환
     public static final String formatTimestamp(long timestamp){
         Calendar calendar = Calendar.getInstance(Locale.KOREA);
         calendar.setTimeInMillis(timestamp);
@@ -50,6 +51,7 @@ public class MyApplication extends Application {
         return date;
     }
 
+    // url 정보로 storage에서 북id 삭제
     public static void deleteBook(Context context, String bookId, String bookTitle, String bookUrl) {
 
         ProgressDialog progressDialog = new ProgressDialog(context);
@@ -93,6 +95,7 @@ public class MyApplication extends Application {
 
     }
 
+    // url 정보로 storage에서 meta데이터 가져오기
     public static void loadPdfSize(String pdfUrl, TextView sizeTv) {
         StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
         ref.getMetadata()
@@ -125,6 +128,7 @@ public class MyApplication extends Application {
 
     }
 
+    // pdfView 띄우기 위해 url 정보를 이용해서 storeage에서 가져와서 띄우기
     public static void loadPdfFromUrl(String pdfUrl, PDFView pdfView, ProgressBar progressBar) {
         StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
         ref.getBytes(MAX_BYTES_PDF)
@@ -167,6 +171,7 @@ public class MyApplication extends Application {
 
     }
 
+    // 조회수 늘리기 : 클릭시 viewCount + 1해서 업데이트  : Books -> bookTitle -> viewCount
     public static void incrementBookViewCount(String bookTitle){
         // 1) get view book count
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
@@ -196,6 +201,8 @@ public class MyApplication extends Application {
                 });
     }
 
+
+    // 서브북 조회수 늘리기 : 클릭시 viewCount +1 해서 subBook -> subNumber -> viewCount 늘리기
     public static void incrementSubBookViewCount(String bookTitle,String subNumber){
         // 1) get view book count
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
@@ -225,7 +232,7 @@ public class MyApplication extends Application {
                 });
     }
 
-    // 선호작 추가
+    // 선호작 추가 : 선호작 클릭시 Toast 띄우고, Users -> Uid -> Favorite 추가
     public static void addFavorite(Context context, String bookId, String bookTitle){
         // 선호작 추가는 유저가 로그인 되어 있어야 함
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -282,7 +289,7 @@ public class MyApplication extends Application {
                 });
     }
 
-    // 선호작 제거
+    // 선호작 제거 : 제거 클릭시 Users -> Uid -> Favorite 삭제
     public static void removeFromFavorite(Context context,String bookId, String bookTitle){
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() ==null){
@@ -333,26 +340,5 @@ public class MyApplication extends Application {
     }
 
 
-    //6-1 category를 받아오기 firebase database
-//    private void loadCategory(ModelPdf model, HolderPdfAdmin holder) {
-//        String categoryTitle = model.getCategoryTitle();
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
-//        ref.child(categoryTitle)
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                //get category
-//                String category = ""+snapshot.child("category").getValue();
-//                //set category
-//                binding.categoryTv.setText(category);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
 
 }

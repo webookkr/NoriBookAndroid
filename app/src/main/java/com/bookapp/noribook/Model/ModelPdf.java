@@ -9,11 +9,14 @@ public class ModelPdf {
 
     boolean favorite;
 
+    boolean featured;
+
     public ModelPdf(){
 
     }
 
-    public ModelPdf(String uid, String id, String title, String description, String date, String categoryTitle, String url, String categoryId, long viewCount, long recommendCount, boolean favorite) {
+
+    public ModelPdf(String uid, String id, String title, String description, String date, String categoryTitle, String url, String categoryId, long viewCount, long recommendCount, boolean favorite, boolean featured) {
         this.uid = uid;
         this.id = id;
         this.title = title;
@@ -25,6 +28,15 @@ public class ModelPdf {
         this.viewCount = viewCount;
         this.recommendCount = recommendCount;
         this.favorite = favorite;
+        this.featured = featured;
+    }
+
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
     }
 
     public boolean isFavorite() {

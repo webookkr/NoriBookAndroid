@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,8 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
     public HolderHomeBook onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = RowHomeBookBinding.inflate(LayoutInflater.from(context), parent, false);
         return new HolderHomeBook(binding.getRoot());
+
+
     }
 
     @Override
@@ -75,7 +78,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
             }
         });
 
-        holder.pdfView.setOnClickListener(new View.OnClickListener() {
+        holder.progressBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, PdfDetailActivity.class);
@@ -87,7 +90,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
 
         holder.categoryTv.setText(categoryTitle);
         holder.titleTv.setText(title);
-        holder.viewCountTv.setText(""+viewCount);
+        holder.viewCountTv.setText("조회수:"+viewCount);
 
 
 
@@ -99,6 +102,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
     }
 
     class HolderHomeBook extends RecyclerView.ViewHolder{
+
 
         PDFView pdfView;
 

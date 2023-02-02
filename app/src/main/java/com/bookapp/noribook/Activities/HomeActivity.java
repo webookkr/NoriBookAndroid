@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
 
-    private ArrayList<ModelPdf> pdfArrayList;
+    private ArrayList<ModelPdf> pdfArrayList, pdfArrayList2, pdfArrayList3 ;
 
     private AdapterHomeBook adapterCount;
 
@@ -45,7 +45,15 @@ public class HomeActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        // home 조회수 베스트
         loadBestCountBook("viewCount");
+
+        // home 추천 베스트
+        loadBestRecommendBook("recommendCount");
+
+        // 오너 추천 (featured =true) 가져오기
+        loadFeaturedBook("featured");
+
 
 // 네비
         binding.bottomNav.setOnItemSelectedListener(item -> {
@@ -73,21 +81,72 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void loadBestCountBook(String orderBy) {
+    private void loadFeaturedBook(String orderBy) {
         pdfArrayList = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.orderByChild(orderBy).equalTo(true).limitToLast(10)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        pdfArrayList.clear();
+
+                        for (DataSnapshot ds:snapshot.getChildren()) {
+                            ModelPdf model = ds.getValue(ModelPdf.class);
+                            pdfArrayList.add(model);
+                        }
+                        adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList);
+                        binding.featuredBestRv.setAdapter(adapterCount);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+
+    private void loadBestRecommendBook(String orderBy) {
+        pdfArrayList2 = new ArrayList<>();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.orderByChild(orderBy)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        pdfArrayList2.clear();
+
+                        for (DataSnapshot ds:snapshot.getChildren()) {
+                            ModelPdf model = ds.getValue(ModelPdf.class);
+                            pdfArrayList2.add(model);
+                        }
+                        adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList2);
+                        binding.favoriteRv.setAdapter(adapterCount);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    private void loadBestCountBook(String orderBy) {
+        pdfArrayList3 = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.orderByChild(orderBy)
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pdfArrayList.clear();
+                pdfArrayList3.clear();
 
                 for (DataSnapshot ds:snapshot.getChildren()) {
                     ModelPdf model = ds.getValue(ModelPdf.class);
-                    pdfArrayList.add(model);
+                    pdfArrayList3.add(model);
                 }
-                adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList);
+                adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList3);
                 binding.countBestRv.setAdapter(adapterCount);
             }
 

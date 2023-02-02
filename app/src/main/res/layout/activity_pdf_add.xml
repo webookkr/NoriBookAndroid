@@ -27,11 +27,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_attach_white"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@android:color/transparent"
             android:padding="5dp"
-            android:layout_margin="10dp"
-            />
+            android:src="@drawable/ic_attach_white" />
 
         <ImageView
             android:id="@+id/iconIv"
@@ -67,7 +69,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_edittext01"
             android:padding="10dp"
-            android:drawableLeft="@drawable/ic_pdf_gray"
+            android:drawableLeft="@drawable/ic_book_gray"
             android:inputType="textPersonName|textCapWords"
             android:hint="책 제목"
             android:textColor="@color/black"
@@ -91,7 +93,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_edittext01"
             android:padding="10dp"
-            android:drawableLeft="@drawable/ic_pdf_gray"
+            android:drawableLeft="@drawable/ic_book_gray"
             android:inputType="textPersonName|textCapWords"
             android:hint="책 설명"
             android:textColor="@color/black"

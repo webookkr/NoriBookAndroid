@@ -33,9 +33,7 @@ public class BookUserFragment extends Fragment {
 
     private String categoryId;
     private String categoryTitle;
-    private String uid;
-
-    private String date;
+    private String uid, date;
 
     private String bookTitle;
 

@@ -181,7 +181,7 @@
     </ScrollView>
 
 
-<!--    네비-->
+    <!--    네비-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

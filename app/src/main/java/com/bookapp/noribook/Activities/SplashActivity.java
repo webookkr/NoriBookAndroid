@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
                             String userType = ""+snapshot.child("userType").getValue();
                             if (userType.equals("user")){
                                 // user는 userDash
-                                startActivity(new Intent(SplashActivity.this, DashboardUserActivity.class));
+                                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                                 finish();
                             }
                             else if (userType.equals("admin")){
