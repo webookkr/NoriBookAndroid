@@ -1,17 +1,24 @@
 package com.bookapp.noribook.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterCategory;
 import com.bookapp.noribook.Model.ModelCategory;
 import com.bookapp.noribook.databinding.ActivityDashboardAdminBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,8 +26,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DashboardAdminActivity extends AppCompatActivity {
 
@@ -32,6 +43,10 @@ public class DashboardAdminActivity extends AppCompatActivity {
     private ArrayList<ModelCategory> categoryArrayList; // <modelcategry>데이터 형식을 선언한 arraylist
     private AdapterCategory adapterCategory;
 
+    private ProgressDialog progressDialog;
+
+    private Uri imgUri = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +57,10 @@ public class DashboardAdminActivity extends AppCompatActivity {
         checkUser();
         // 1- 2.  category load - 어뎁터 만든 후에
         loadCategories();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("이미지 선택");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         // 2. search list
         binding.searchEt.addTextChangedListener(new TextWatcher() {
@@ -76,6 +95,17 @@ public class DashboardAdminActivity extends AppCompatActivity {
             }
         });
 
+        // 광고 추가 (광고 업로드)
+        binding.addAdvFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imagePickIntent();
+
+            }
+        });
+
+
+
         //category add btn
         binding.addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +121,68 @@ public class DashboardAdminActivity extends AppCompatActivity {
                 startActivity(new Intent(DashboardAdminActivity.this, PdfAddActivity.class));
             }
         });
+    }
+
+    private void imageUpload(Uri imgUri) {
+        progressDialog.setMessage("이미지 업로드 중");
+        progressDialog.show();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("AdvImage/advImg");
+        storageReference.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isSuccessful());
+                String uploadedPdfUrl = ""+uriTask.getResult();
+                // storage에 저장한 pdf를 db에 넣기
+                uploadPdfInfoToDb(uploadedPdfUrl);
+            }
+        });
+
+    }
+
+    private void uploadPdfInfoToDb(String uploadedPdfUrl) {
+        progressDialog.setMessage("데이터베이스에 저장 중");
+        progressDialog.show();
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", 1);
+        hashMap.put("url",""+uploadedPdfUrl);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("AdvImage");
+        ref.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        progressDialog.dismiss();
+                        Toast.makeText(DashboardAdminActivity.this, "Pdf 업로드 성공", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(DashboardAdminActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private void imagePickIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "광고 이미지 선택"),500);
+    }
+
+    // 1-3 받은 결과값이 실행되면
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if(requestCode == 500){
+                imgUri = data.getData();
+                imageUpload(imgUri);
+            }
+        }else{
+            Toast.makeText(this, "이미지 선택 취소", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //  1- 3. 카테고리 로드 (어뎁터 만든 후에 모델과 연결)

@@ -174,7 +174,7 @@ public class PdfAddActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Pdf"),PDF_PICK_CODE);
+        startActivityForResult(Intent.createChooser(intent, "소설 커버 선택"),PDF_PICK_CODE);
     }
 
     // 1-3 받은 결과값이 실행되면

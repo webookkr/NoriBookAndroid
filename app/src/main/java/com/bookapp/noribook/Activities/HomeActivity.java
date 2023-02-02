@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterHomeBook;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityHomeBinding;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
 
-    private ArrayList<ModelPdf> pdfArrayList, pdfArrayList2, pdfArrayList3 ;
+    private ArrayList<ModelPdf> pdfArrayList, pdfArrayList2, pdfArrayList3, pdfArrayList4 ;
 
     private AdapterHomeBook adapterCount;
 
@@ -46,6 +48,32 @@ public class HomeActivity extends AppCompatActivity {
 
         // 오너 추천 (featured =true) 가져오기
         loadFeaturedBook("featured");
+
+        // 이미지 넣기
+        advImageSet();
+
+
+        // 프로필 button
+        binding.profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                }else{
+                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                }
+            }
+        });
+
+        //  로그아웃
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                finish();
+            }
+        });
 
 
 // 네비
@@ -71,6 +99,27 @@ public class HomeActivity extends AppCompatActivity {
             }
             return true;
         });
+
+    }
+
+    private void advImageSet() {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AdvImage");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String imgUrl = ""+snapshot.child("url").getValue();
+                Glide.with(HomeActivity.this)
+                        .load(imgUrl)
+                        .into(binding.adIv);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 

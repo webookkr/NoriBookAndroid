@@ -69,6 +69,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="130dp">
 
+                <ImageView
+                    android:id="@+id/adIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
 
             </RelativeLayout>
 
@@ -100,6 +105,7 @@
                 android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
                 android:scrollbars="none"
+                app:reverseLayout="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/row_home_book" />
 
@@ -128,6 +134,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 android:scrollbars="none"
                 android:orientation="horizontal"
+                app:reverseLayout="true"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book"/>
 
@@ -157,6 +164,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
+                app:reverseLayout="true"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book" />

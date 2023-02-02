@@ -73,34 +73,12 @@ public class PdfDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-//
-//
-//        // handle click, read pdf : open to view pdf
-//        binding.readBookBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent1 = new Intent(PdfDetailActivity.this, PdfViewActivity.class);
-//                intent1.putExtra("bookId", bookId);
-//                intent1.putExtra("bookTitle",bookTitle);
-//                startActivity(intent1);
-//            }
-//        });
-//
-//        binding.readBookBtn2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent2 = new Intent(PdfDetailActivity.this, PdfViewActivity2.class);
-//                intent2.putExtra("bookId", bookId);
-//                intent2.putExtra("bookTitle",bookTitle);
-//                startActivity(intent2);
-//            }
-//        });
-        // add remove favorite 클릭
+
         binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (firebaseAuth.getCurrentUser() ==null ){
-                    Toast.makeText(context, "로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+                if (firebaseAuth.getCurrentUser() == null ){
+                    Toast.makeText(PdfDetailActivity.this, "로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
                 }else{
                     if (isInMyFavorite){
                         MyApplication.removeFromFavorite(PdfDetailActivity.this, bookId, bookTitle);

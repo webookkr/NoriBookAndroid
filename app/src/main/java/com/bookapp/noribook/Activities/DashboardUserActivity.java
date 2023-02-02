@@ -63,6 +63,7 @@ public class DashboardUserActivity extends AppCompatActivity {
             }
         });
 
+
         // open profile button
         binding.profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override

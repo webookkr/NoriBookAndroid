@@ -91,11 +91,21 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addAdvFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_image_black"
+            android:tint="@color/white"
+            app:fabCustomSize="50dp"
+            android:backgroundTint="#E1A6A6"/>
+
         <android.widget.Button
             android:id="@+id/addCategoryBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/shape_btn01"
             android:minHeight="50dp"
@@ -107,7 +117,7 @@
             android:id="@+id/addPdfFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_pdf_white"
+            android:src="@drawable/ic_book_gray"
             android:tint="@color/white"
             app:fabCustomSize="50dp"
             android:backgroundTint="#E1A6A6"/>
