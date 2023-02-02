@@ -256,10 +256,34 @@ public class MyApplication extends Application {
                         }
                     });
         }
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
+        reference.child(bookTitle)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String recommendCount = ""+snapshot.child("recommendCount").getValue();
+                        if(recommendCount.equals("")||recommendCount.equals("null")){
+                            recommendCount = "0" ;
+                        }else{
+                            long newRecommendCount = Long.parseLong(recommendCount) + 1;
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("recommendCount", newRecommendCount);
+
+                            DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Books");
+                                    reference1.child(bookTitle)
+                                    .updateChildren(hashMap);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     // 선호작 제거
-    public static void removeFromFavorite(Context context,String bookId){
+    public static void removeFromFavorite(Context context,String bookId, String bookTitle){
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() ==null){
             Toast.makeText(context, "로그인 하세요.", Toast.LENGTH_SHORT).show();
@@ -281,6 +305,30 @@ public class MyApplication extends Application {
                     });
 
         }
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
+        reference.child(bookTitle)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String recommendCount = ""+snapshot.child("recommendCount").getValue();
+                        if(recommendCount.equals("")||recommendCount.equals("null")){
+                            recommendCount = "0" ;
+                        }else{
+                            long newRecommendCount = Long.parseLong(recommendCount) - 1;
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("recommendCount", newRecommendCount);
+
+                            DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Books");
+                            reference1.child(bookTitle)
+                                    .updateChildren(hashMap);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
     }
 

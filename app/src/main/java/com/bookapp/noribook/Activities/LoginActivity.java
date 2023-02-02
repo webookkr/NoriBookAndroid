@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                         // check user type
                         if (userType.equals("user")){
                             // user는 userDash
-                            startActivity(new Intent(LoginActivity.this, DashboardUserActivity.class));
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
                         }
                         else if (userType.equals("admin")){

@@ -7,14 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".Activities.DashboardUserActivity">
 
-
-
-    <RelativeLayout
-        android:id="@+id/navContainerRl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
 <!--    toolBar-->
     <RelativeLayout
         android:id="@+id/toolbarRl"
@@ -83,13 +75,16 @@
         android:layout_below="@id/tabLayout">
     </androidx.viewpager.widget.ViewPager>
 
-    </RelativeLayout>
-
-
-
-
-
-
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_menu01"
+            app:itemIconTint="#ffff"
+            app:itemTextColor="#ffff"
+            app:labelVisibilityMode="labeled"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>
 

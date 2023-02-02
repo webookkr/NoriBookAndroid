@@ -16,7 +16,10 @@ import android.widget.Toast;
 
 import com.bookapp.noribook.BookUserFragment;
 import com.bookapp.noribook.Model.ModelCategory;
+import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityDashboardUserBinding;
+import com.bookapp.noribook.fragment.FavoriteFragment;
+import com.bookapp.noribook.fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -72,6 +75,30 @@ public class DashboardUserActivity extends AppCompatActivity {
                     startActivity(new Intent(DashboardUserActivity.this, ProfileActivity.class));
                 }
             }
+        });
+
+        binding.bottomNav.setOnItemSelectedListener(item -> {
+
+            switch (item.getItemId()){
+
+                case R.id.home:
+                    Intent intent = new Intent(DashboardUserActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return  true;
+                case R.id.library:
+                    break;
+                case R.id.favorite:
+                    if(firebaseAuth.getCurrentUser() == null){
+                        Toast.makeText(this, "로그인 하세요", Toast.LENGTH_SHORT).show();
+                        break;
+                    }else {
+                        Intent intent1 = new Intent(this, ProfileActivity.class);
+                        startActivity(intent1);
+                    }
+                    return true;
+            }
+            return true;
         });
     }
 

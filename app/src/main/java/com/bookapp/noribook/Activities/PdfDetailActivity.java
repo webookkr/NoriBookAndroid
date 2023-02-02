@@ -102,7 +102,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                     Toast.makeText(context, "로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
                 }else{
                     if (isInMyFavorite){
-                        MyApplication.removeFromFavorite(PdfDetailActivity.this, bookId);
+                        MyApplication.removeFromFavorite(PdfDetailActivity.this, bookId, bookTitle);
 
                     }else{
                         MyApplication.addFavorite(PdfDetailActivity.this, bookId, bookTitle);

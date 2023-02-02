@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // 로그인
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -25,10 +26,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 건너 뛰기
         binding.skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, DashboardUserActivity.class));
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
             }
         });
     }

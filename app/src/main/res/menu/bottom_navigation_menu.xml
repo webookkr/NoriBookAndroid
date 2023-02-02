@@ -4,16 +4,16 @@
     <item android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/ic_home_white"
-        android:title="home"/>
+        android:title="홈"/>
 
     <item android:id="@+id/library"
         android:enabled="true"
         android:icon="@drawable/ic_book_white"
-        android:title="library"/>
+        android:title="서재"/>
 
     <item android:id="@+id/favorite"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_white"
-        android:title="favorite"/>
+        android:title="선호작"/>
 
 </menu>

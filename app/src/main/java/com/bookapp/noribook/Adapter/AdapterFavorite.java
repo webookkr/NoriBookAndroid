@@ -67,7 +67,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
         holder.removeFabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.removeFromFavorite(context, model.getId());
+                MyApplication.removeFromFavorite(context, model.getId(), model.getTitle());
             }
         });
 
