@@ -15,6 +15,7 @@ import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityPdfDetailBinding;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -152,7 +153,10 @@ public class PdfDetailActivity extends AppCompatActivity {
                      String viewCount = ""+snapshot.child("viewCount").getValue();
                      String url = ""+snapshot.child("url").getValue();
 
-                     MyApplication.loadPdfFromUrl(""+url, binding.pdfView, binding.progressBar);
+                        Glide.with(PdfDetailActivity.this)
+                                .load(url)
+                                .into(binding.bookIv);
+
                      MyApplication.loadPdfSize(""+url,binding.sizeTv);
 
                      // set data

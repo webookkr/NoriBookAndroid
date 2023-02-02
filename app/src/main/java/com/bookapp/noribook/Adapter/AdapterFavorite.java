@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.bookapp.noribook.Activities.PdfDetailActivity;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.RowPdfFavoriteBinding;
+import com.bumptech.glide.Glide;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +51,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
     public void onBindViewHolder(@NonNull HolderFavorite holder, int position) {
 
         ModelPdf model = pdfArrayList.get(position);
+
 
         loadBookDetails(model, holder);
 
@@ -99,7 +102,9 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
                         model.setUrl(url);
                         model.setId(bookid);
 
-                        MyApplication.loadPdfFromUrl(""+url, holder.pdfView, holder.progressBar);
+                        Glide.with(context)
+                                .load(url)
+                                .into(binding.bookIv);
 
 
                         holder.titleTv.setText(title);
@@ -124,8 +129,8 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
     }
 
     class HolderFavorite extends RecyclerView.ViewHolder {
-        PDFView pdfView;
-        ProgressBar progressBar;
+
+        ImageView bookIv;
 
         TextView titleTv, descriptionTv, dateTv, viewCountTv, recommendCountTv, categoryTv ;
 
@@ -134,8 +139,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
         public HolderFavorite(@NonNull View itemView) {
             super(itemView);
 
-            pdfView = binding.pdfView;
-            progressBar= binding.progressBar;
+            bookIv = binding.bookIv;
             dateTv = binding.dateTv;
             titleTv = binding.titleTv;
             descriptionTv = binding.descriptionTv;

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.bookapp.noribook.Filter.FilterPdfUser;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.RowPdfUserBinding;
+import com.bumptech.glide.Glide;
 import com.github.barteksc.pdfviewer.PDFView;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         ModelPdf model = pdfArrayList.get(position);
         String title = model.getTitle();
         String description = model.getDescription();
-        String pdfUrl = model.getUrl();
+        String url = model.getUrl();
         String categoryId = model.getCategoryId();
         String categoryTitle = model.getCategoryTitle();
         String date = model.getDate();
@@ -71,7 +73,10 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         holder.categoryTv.setText(categoryTitle);
         holder.viewCountTv.setText(""+viewCount);
 
-        MyApplication.loadPdfFromUrl(""+pdfUrl,holder.pdfView,holder.progressBar);
+        Glide.with(context)
+                .load(url)
+                .into(binding.bookIv);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +98,8 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
     class HolderPdfUser extends RecyclerView.ViewHolder{
 
-        PDFView pdfView;
-        ProgressBar progressBar;
+
+        ImageView bookIv;
         TextView titleTv, descriptionTv, categoryTv,dateTv, viewCountTv ;
 
 
@@ -102,8 +107,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
             super(itemView);
 
             viewCountTv = binding.viewCountTv;
-            pdfView = binding.pdfView;
-            progressBar = binding.progressBar;
+            bookIv = binding.bookIv;
             titleTv = binding.titleTv;
             descriptionTv = binding.descriptionTv;
             categoryTv =  binding.categoryTv;

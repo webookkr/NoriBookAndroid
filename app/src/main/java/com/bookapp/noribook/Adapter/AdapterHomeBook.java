@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,9 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bookapp.noribook.Activities.PdfDetailActivity;
+import com.bookapp.noribook.Activities.ProfileActivity;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.MyApplication;
+import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.RowHomeBookBinding;
+import com.bumptech.glide.Glide;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,9 +68,10 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
         long recommendCount = model.getRecommendCount();
 
 
+        Glide.with(context)
+                .load(pdfUrl)
+                .into(binding.bookIv);
 
-
-        MyApplication.loadPdfFromUrl(""+pdfUrl,holder.pdfView,holder.progressBar);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,15 +83,6 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
             }
         });
 
-        holder.progressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, PdfDetailActivity.class);
-                intent.putExtra("bookId", id);
-                intent.putExtra("bookTitle", title);
-                context.startActivity(intent);
-            }
-        });
 
         holder.categoryTv.setText(categoryTitle);
         holder.titleTv.setText(title);
@@ -104,9 +100,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
     class HolderHomeBook extends RecyclerView.ViewHolder{
 
 
-        PDFView pdfView;
-
-        ProgressBar progressBar;
+        ImageView bookIv;
 
         TextView titleTv, categoryTv, viewCountTv;
 
@@ -114,8 +108,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
         public HolderHomeBook(@NonNull View itemView) {
             super(itemView);
 
-            pdfView = binding.pdfView;
-            progressBar = binding.progressBar;
+            bookIv = binding.bookIv;
 
             titleTv = binding.titleTv;
             categoryTv = binding.categoryTv;

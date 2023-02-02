@@ -138,7 +138,7 @@ public class MyApplication extends Application {
                         pdfView.fromBytes(bytes)
                                 .pages(0)//show 첫페이지
                                 .spacing(0)
-                                .swipeHorizontal(false)
+                                .swipeHorizontal(true)
                                 .enableSwipe(false)
                                 .onError(new OnErrorListener() {
                                     @Override

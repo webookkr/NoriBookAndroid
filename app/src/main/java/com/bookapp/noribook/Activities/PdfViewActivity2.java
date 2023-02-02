@@ -43,6 +43,7 @@ public class PdfViewActivity2 extends AppCompatActivity {
         subTitle = intent.getStringExtra("subTitle");
         subNumber = intent.getStringExtra("subNumber");
 
+        binding.titleTv.setText(subNumber+". "+subTitle);
 
         loadBookDetails();
         MyApplication.incrementSubBookViewCount(bookTitle, subNumber);

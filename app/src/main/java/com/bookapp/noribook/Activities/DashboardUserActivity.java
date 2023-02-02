@@ -18,8 +18,6 @@ import com.bookapp.noribook.BookUserFragment;
 import com.bookapp.noribook.Model.ModelCategory;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityDashboardUserBinding;
-import com.bookapp.noribook.fragment.FavoriteFragment;
-import com.bookapp.noribook.fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

@@ -172,7 +172,7 @@ public class PdfAddActivity extends AppCompatActivity {
    //  1-2 attach : Intent 컨텐츠 가져오기
     private void pdfPickIntent() {
         Intent intent = new Intent();
-        intent.setType("application/pdf");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Pdf"),PDF_PICK_CODE);
     }

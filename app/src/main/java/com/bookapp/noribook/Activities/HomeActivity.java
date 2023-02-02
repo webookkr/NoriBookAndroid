@@ -2,22 +2,15 @@ package com.bookapp.noribook.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterHomeBook;
-import com.bookapp.noribook.Adapter.AdapterSub;
 import com.bookapp.noribook.Model.ModelPdf;
-import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityHomeBinding;
-import com.bookapp.noribook.fragment.FavoriteFragment;
-import com.bookapp.noribook.fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

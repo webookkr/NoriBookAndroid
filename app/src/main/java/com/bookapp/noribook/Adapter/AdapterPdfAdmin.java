@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,7 +24,9 @@ import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.Activities.PdfDetailActivity;
 import com.bookapp.noribook.Activities.PdfEditActivity;
+import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.RowPdfAdminBinding;
+import com.bumptech.glide.Glide;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
@@ -76,7 +79,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         String description = model.getDescription();
         String date = model.getDate();
         String category = model.getCategoryTitle();
-        String pdfUrl = model.getUrl();
+        String url = model.getUrl();
         long viewCount = model.getViewCount();
         long recommendCount = model.getRecommendCount();
 
@@ -87,15 +90,12 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         holder.descriptionTv.setText(description);
         holder.dateTv.setText(date);
         holder.categoryTv.setText(category);
-        // pdf 북에는 정보에는 없는 카테고리, pdf(url로 받아오기) , size 찾기
-//        loadCategory(model, holder); 그냥 카테고리에 타이틀 넣음
-//        loadPdfFromUrl(model, holder);
-        MyApplication.loadPdfFromUrl(
-                                    ""+pdfUrl,
-                                     holder.pdfView,
-                                     holder.progressBar);
-//        loadPdfSize(model, holder);  MyApplication으로
-        MyApplication.loadPdfSize(""+pdfUrl,
+
+        Glide.with(context)
+                .load(url)
+                .into(binding.bookIv);
+
+        MyApplication.loadPdfSize(""+url,
                                   holder.sizeTv);
 
         // 7. more btn 1)edit 2)delete
@@ -151,6 +151,9 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
             reference.child(bookTitle)
                     .updateChildren(hashMap);
+
+            binding.featuredBtn.setImageResource(R.drawable.ic_star_black);
+
         } else {
             Boolean newFeatured = false ;
             HashMap<String, Object> hashMap = new HashMap<>();
@@ -159,6 +162,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
             reference.child(bookTitle)
                     .updateChildren(hashMap);
+            binding.featuredBtn.setImageResource(R.drawable.ic_star_border_black);
         }
 
     }
@@ -216,8 +220,8 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
 
     // 1. 홀더 선언
     class HolderPdfAdmin extends RecyclerView.ViewHolder{
-        PDFView pdfView;
-        ProgressBar progressBar;
+
+        ImageView bookIv;
         TextView titleTv, descriptionTv, categoryTv, sizeTv,dateTv, viewCountTv, recommendCountTv ;
         ImageButton moreBtn, featuredBtn;
 
@@ -226,8 +230,8 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         public HolderPdfAdmin(@NonNull View itemView) {
             super(itemView);
 
-            pdfView = binding.pdfView;
-            progressBar = binding.progressBar;
+            bookIv = binding.bookIv;
+
             titleTv = binding.titleTv;
             descriptionTv = binding.descriptionTv;
             categoryTv =  binding.categoryTv;

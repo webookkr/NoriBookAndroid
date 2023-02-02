@@ -79,7 +79,7 @@ public class BookUserFragment extends Fragment {
 
         Log.d(TAG, "onCreateView: Category"+categoryTitle);
         if (categoryTitle.equals("All")){
-           loadAllBooks();
+            loadAllBooks();
 
         }
         else if (categoryTitle.equals("Most Viewed")){
@@ -181,21 +181,21 @@ public class BookUserFragment extends Fragment {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
         reference.orderByChild("categoryTitle").equalTo(categoryTitle).
                 addListenerForSingleValueEvent(new ValueEventListener() {
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pdfArrayList = new ArrayList<>();
-                pdfArrayList.clear();
-                for(DataSnapshot ds:snapshot.getChildren()) {
-                    //get data
-                    ModelPdf model = ds.getValue(ModelPdf.class);
-                    pdfArrayList.add(model);
-                }
-                adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-                binding.bookRv.setAdapter(adapterPdfUser);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        pdfArrayList = new ArrayList<>();
+                        pdfArrayList.clear();
+                        for(DataSnapshot ds:snapshot.getChildren()) {
+                            //get data
+                            ModelPdf model = ds.getValue(ModelPdf.class);
+                            pdfArrayList.add(model);
+                        }
+                        adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
+                        binding.bookRv.setAdapter(adapterPdfUser);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
 
 
 
@@ -207,28 +207,6 @@ public class BookUserFragment extends Fragment {
 
     }
 
-//    private void loadCategorizedBooks() {
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books/");
-//        ref.orderByChild("categoryId").equalTo(id).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                pdfArrayList.clear();
-//                for(DataSnapshot ds:snapshot.getChildren()) {
-//                    //get data
-//                    ModelPdf model = ds.getValue(ModelPdf.class);
-//                    pdfArrayList.add(model);
-//                }
-//                adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
-//                binding.bookRv.setAdapter(adapterPdfUser);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
 
 
 }

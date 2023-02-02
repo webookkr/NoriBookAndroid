@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bookapp.noribook.Constants;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityPdfViewBinding;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -59,8 +60,7 @@ public class PdfViewActivity extends AppCompatActivity {
                         //get book url
                         String pdfUrl = ""+snapshot.child("url").getValue();
 
-                        // load pdf , from url
-                        loadPdfFromUrl(pdfUrl);
+                        MyApplication.loadPdfFromUrl(pdfUrl, binding.pdfView, binding.progressBar);
                     }
 
                     @Override
@@ -69,47 +69,5 @@ public class PdfViewActivity extends AppCompatActivity {
                     }
                 });
 
-    }
-
-    private void loadPdfFromUrl(String pdfUrl) {
-        StorageReference reference = FirebaseStorage.getInstance().getReferenceFromUrl(pdfUrl);
-        reference.getBytes(Constants.MAX_BYTES_PDF)
-                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        binding.pdfView.fromBytes(bytes)
-                                .enableSwipe(true).swipeHorizontal(false) //false : 세로 스와이프
-                                .onPageChange(new OnPageChangeListener() {
-                                    @Override
-                                    public void onPageChanged(int page, int pageCount) {
-                                        //set current and total pages int oolbar subtitle
-                                        int currentPage = page + 1;
-                                        binding.subTitleTv.setText(currentPage + "/" + pageCount);
-                                    }
-                                })
-                                .onError(new OnErrorListener() {
-                                    @Override
-                                    public void onError(Throwable t) {
-                                        Toast.makeText(PdfViewActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .onPageError(new OnPageErrorListener() {
-                                    @Override
-                                    public void onPageError(int page, Throwable t) {
-                                        Toast.makeText(PdfViewActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .load();
-
-                        binding.progressBar.setVisibility(View.GONE);
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        binding.progressBar.setVisibility(View.GONE);
-                    }
-                });
     }
 }

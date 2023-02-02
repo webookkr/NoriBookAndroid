@@ -5,8 +5,7 @@
     android:layout_height="160dp"
     app:cardBackgroundColor="#8EBCE1"
     app:cardCornerRadius="5dp"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="5dp">
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:id="@+id/clikable"
@@ -22,16 +21,10 @@
             android:layout_marginRight="5dp"
             android:background="@color/gray01">
 
-            <com.github.barteksc.pdfviewer.PDFView
-                android:id="@+id/pdfView"
+            <ImageView
+                android:id="@+id/bookIv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </com.github.barteksc.pdfviewer.PDFView>
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
 
