@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/homeback"
     tools:context=".Activities.HomeActivity">
 
     <!--    toolBar-->
@@ -53,7 +53,7 @@
             android:src="@drawable/ic_power_white" />
     </RelativeLayout>
 
-<!--    메인 화면-->
+    <!--    메인 화면-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,67 +63,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--             광고-->
+            <!--             광고-->
             <RelativeLayout
                 android:id="@+id/advertiseRl"
                 android:layout_width="match_parent"
-                android:layout_height="130dp">
+                android:layout_height="200dp">
 
                 <ImageView
                     android:id="@+id/adIv"
+                    android:scaleType="center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
 
             </RelativeLayout>
 
-<!--            추천작 -->
+            <!--            추천작 -->
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@id/advertiseRl"
                 android:layout_marginTop="8dp"
-                android:background="@color/gray01"
-                android:layout_below="@id/advertiseRl"/>
+                android:background="@color/gray01" />
+
             <TextView
                 android:id="@+id/featuredBestTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/view1"
                 android:text="추천작"
-                android:textColor="@color/black"
-                android:layout_below="@id/view1"/>
+                android:textColor="@color/black" />
 
 
             <!--            조회수 별 -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/featuredBestRv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/featuredBestTv"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
                 android:scrollbars="none"
-                app:reverseLayout="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:reverseLayout="true"
                 tools:listitem="@layout/row_home_book" />
 
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@id/featuredBestRv"
                 android:layout_marginTop="8dp"
-                android:background="@color/gray01"
-                android:layout_below="@id/featuredBestRv"/>
+                android:background="@color/gray01" />
 
             <TextView
                 android:id="@+id/countBestTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/view2"
                 android:text="조회수 베스트"
-                android:textColor="@color/black"
-                android:layout_below="@id/view2"/>
+                android:textColor="@color/black" />
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -131,12 +134,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/countBestTv"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                android:scrollbars="none"
                 android:orientation="horizontal"
+                android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:reverseLayout="true"
                 app:spanCount="2"
-                tools:listitem="@layout/row_home_book"/>
+                tools:listitem="@layout/row_home_book" />
 
             <!--            선호작 별-->
 
@@ -144,9 +147,9 @@
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@id/countBestRv"
                 android:layout_marginTop="8dp"
-                android:background="@color/gray01"
-                android:layout_below="@id/countBestRv"/>
+                android:background="@color/gray01" />
 
             <TextView
                 android:id="@+id/favoriteTv"
@@ -164,8 +167,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
-                app:reverseLayout="true"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:reverseLayout="true"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book" />
 
@@ -173,15 +176,16 @@
                 android:id="@+id/view4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@id/favoriteRv"
                 android:layout_marginTop="8dp"
-                android:background="@color/gray01"
-                android:layout_below="@id/favoriteRv"/>
+                android:background="@color/gray01" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="기업 소개"/>
-
+                android:layout_below="@id/view4"
+                android:text="by 팀 노리월드"
+                android:textColor="@color/white" />
 
 
         </RelativeLayout>

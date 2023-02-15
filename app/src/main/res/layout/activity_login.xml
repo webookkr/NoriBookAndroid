@@ -107,6 +107,18 @@
                 android:padding="5dp"
                 android:text="패스워드 잊으셨나요?"
                 android:textColor="@color/gray01" />
+            <!-- new account-->
+
+            <TextView
+                android:id="@+id/noAccountTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/forgotTv"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape_btn01"
+                android:padding="10dp"
+                android:text="새 계정"
+                android:textColor="@color/white" />
 
 
             <!-- loginbtn-->
@@ -114,7 +126,7 @@
                 android:id="@+id/loginBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/forgotTv"
+                android:layout_below="@id/noAccountTv"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_btn02"
                 android:text="로그인"
@@ -124,17 +136,5 @@
     </ScrollView>
 
 
-    <!-- new account-->
 
-    <TextView
-        android:id="@+id/noAccountTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/shape_btn01"
-        android:padding="10dp"
-        android:text="새 계정"
-        android:textColor="@color/white" />
 </RelativeLayout>

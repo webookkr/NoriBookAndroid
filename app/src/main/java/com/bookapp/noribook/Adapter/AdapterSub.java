@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bookapp.noribook.Activities.PdfViewActivity2;
 import com.bookapp.noribook.Model.ModelSub;
+import com.bookapp.noribook.TextViewActivity;
 import com.bookapp.noribook.databinding.RowPdfSubBinding;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PdfViewActivity2.class);
+                Intent intent = new Intent(context, TextViewActivity.class);
                 intent.putExtra("bookTitle", bookTitle);
                 intent.putExtra("subTitle", subTitle);
                 intent.putExtra("subNumber",subNumber);

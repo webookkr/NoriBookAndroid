@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
+    android:background="@drawable/garaxyfantasia"
     tools:context=".Activities.MainActivity">
 
     <ImageView
@@ -23,9 +23,21 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="세상의 모든 소설 노리월드"
-        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textColor="#F10E0E"
         android:textSize="20sp"/>
 
+    <android.widget.Button
+        android:id="@+id/textBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/loginBtn"
+        android:text="text 연습"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_btn01"
+        android:layout_margin="10dp"
+        />
 
     <android.widget.Button
         android:id="@+id/loginBtn"

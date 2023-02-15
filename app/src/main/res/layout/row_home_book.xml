@@ -2,27 +2,28 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="160dp"
-    app:cardBackgroundColor="#8EBCE1"
+    android:layout_height="150dp"
+    app:cardBackgroundColor="#F4F4F4"
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:id="@+id/clikable"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="140dp">
 
         <!--        pdf-->
         <RelativeLayout
             android:id="@+id/pdfRl"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="5dp"
+            android:layout_margin="2dp"
             android:background="@color/gray01">
 
             <ImageView
                 android:id="@+id/bookIv"
+                android:scaleType="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -52,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:layout_below="@id/titleTv"
-                android:textSize="10sp"
+                android:textSize="9sp"
                 android:text="count"
                 android:textColor="@color/black" />
 
@@ -64,7 +65,7 @@
                 android:layout_below="@id/titleTv"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="3dp"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:text="category"
                 android:textColor="@color/black"/>
 

@@ -23,7 +23,8 @@
             <ImageView
                 android:id="@+id/bookIv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:scaleType="center"/>
 
         </RelativeLayout>
 
@@ -59,9 +60,8 @@
                 android:layout_alignParentLeft="true"
                 android:maxLines="2"
                 android:text="Description"
-
                 android:textColor="@color/black"
-                style="@style/TextAppearance.MaterialComponents.Body2"/>
+                android:textSize="12sp"/>
 
             <RelativeLayout
                 android:id="@+id/infoRl"
