@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_rect02"
+    android:padding="20dp">
+    
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_back_black"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/comTitleTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="자막 달기"
+        android:textAlignment="center"
+        android:padding="5dp"
+        android:textSize="16sp"
+        android:textColor="@color/purple_500"
+        android:fontFamily="sans-serif-condensed"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/commentTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/backBtn"
+        android:layout_marginTop="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/commentEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_comment_black"
+            android:hint="자막"
+            app:hintTextColor="@color/black"
+            android:background="@drawable/shape_edittext01"
+            android:inputType="textCapSentences||textMultiLine" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <android.widget.Button
+        android:id="@+id/submitBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commentTil"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_btn02"
+        android:text="작 성"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+
+
+</RelativeLayout>

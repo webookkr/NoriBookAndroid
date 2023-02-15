@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.bookapp.noribook.TextViewActivity;
-import com.bookapp.noribook.databinding.ActivityMainBinding;
-
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;

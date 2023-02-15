@@ -10,10 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bookapp.noribook.Activities.PdfViewActivity2;
 import com.bookapp.noribook.Model.ModelSub;
-import com.bookapp.noribook.TextViewActivity;
-import com.bookapp.noribook.databinding.RowPdfSubBinding;
+import com.bookapp.noribook.Activities.TextViewActivity;
 
 import java.util.ArrayList;
 

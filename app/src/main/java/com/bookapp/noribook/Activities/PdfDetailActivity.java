@@ -1,16 +1,15 @@
 package com.bookapp.noribook.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bookapp.noribook.Adapter.AdapterSub;
-import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
