@@ -109,7 +109,6 @@
                 android:orientation="horizontal"
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:reverseLayout="true"
                 tools:listitem="@layout/row_home_book" />
 
             <View
@@ -137,7 +136,6 @@
                 android:orientation="horizontal"
                 android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:reverseLayout="true"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book" />
 
@@ -168,7 +166,6 @@
                 android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:reverseLayout="true"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book" />
 
