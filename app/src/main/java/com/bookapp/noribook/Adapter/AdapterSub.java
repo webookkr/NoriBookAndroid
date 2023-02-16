@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.Activities.TextViewActivity;
+import com.bookapp.noribook.databinding.RowPdfSubBinding;
 
 import java.util.ArrayList;
 

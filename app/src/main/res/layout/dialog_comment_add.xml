@@ -40,8 +40,8 @@
             app:startIconDrawable="@drawable/ic_comment_black"
             android:hint="자막"
             app:hintTextColor="@color/black"
-            android:background="@drawable/shape_edittext01"
-            android:inputType="textCapSentences||textMultiLine" />
+            android:background="@drawable/shape_edittext01"/>
+<!--            android:inputType="textCapSentences||textMultiLine" />-->
 
     </com.google.android.material.textfield.TextInputLayout>
 
