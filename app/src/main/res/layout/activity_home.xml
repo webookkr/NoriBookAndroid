@@ -105,7 +105,7 @@
                 android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
                 android:scrollbars="none"
-                app:reverseLayout="true"
+                app:reverseLayout="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/row_home_book" />
 
@@ -126,19 +126,20 @@
                 android:layout_below="@id/view2"/>
 
 
+            <!--            선호작 별-->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/countBestRv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/countBestTv"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                android:scrollbars="none"
+                android:layout_marginTop="-2dp"
                 android:orientation="horizontal"
-                app:reverseLayout="true"
+                android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:reverseLayout="false"
                 app:spanCount="2"
-                tools:listitem="@layout/row_home_book"/>
-
-            <!--            선호작 별-->
+                tools:listitem="@layout/row_home_book" />
 
             <View
                 android:id="@+id/view3"
@@ -164,7 +165,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
-                app:reverseLayout="true"
+                app:reverseLayout="false"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book" />

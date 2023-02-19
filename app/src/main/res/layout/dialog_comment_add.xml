@@ -37,11 +37,13 @@
             android:id="@+id/commentEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/ic_comment_black"
+            android:drawableLeft="@drawable/ic_comment_black"
+            android:drawablePadding="10dp"
             android:hint="자막"
             app:hintTextColor="@color/black"
+            android:inputType="textCapSentences|textMultiLine"
             android:background="@drawable/shape_edittext01"/>
-<!--            android:inputType="textCapSentences||textMultiLine" />-->
+
 
     </com.google.android.material.textfield.TextInputLayout>
 
