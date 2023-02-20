@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,8 @@ public class TextViewActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,11 @@ public class TextViewActivity extends AppCompatActivity {
         bookTitle = intent.getStringExtra("bookTitle");
         subTitle = intent.getStringExtra("subTitle");
         subNumber = intent.getStringExtra("subNumber");
+
+        // init progress
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("wait");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -80,6 +89,41 @@ public class TextViewActivity extends AppCompatActivity {
 
         // setup alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+        builder.setTitle("댓글 입력창");
+        builder.setView(commentAddBinding.getRoot());
+
+        //create and show alert
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        // handle click : back btn
+        commentAddBinding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        // handle click : submit btn
+        commentAddBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                comment 가져오기
+                comment = commentAddBinding.commentEt.getText().toString().trim();
+
+                if (TextUtils.isEmpty(comment)){
+                    Toast.makeText(TextViewActivity.this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    alertDialog.dismiss();
+                    addComment();
+                }
+            }
+        });
+    }
+
+//    댓글 입력
+    private void addComment() {
 
     }
 

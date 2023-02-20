@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -29,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
 
-    private ArrayList<ModelPdf> pdfArrayList, pdfArrayList2, pdfArrayList3, pdfArrayList4 ;
+    private ArrayList<ModelPdf> pdfArrayList, pdfArrayList2, pdfArrayList3 ;
 
     private AdapterHomeBook adapterCount;
 
@@ -177,6 +179,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void loadBestCountBook(String orderBy) {
         pdfArrayList3 = new ArrayList<>();
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.orderByChild(orderBy)
