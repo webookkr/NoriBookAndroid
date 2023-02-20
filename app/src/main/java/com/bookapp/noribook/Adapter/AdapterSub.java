@@ -59,7 +59,7 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
             public void onClick(View view) {
                 Intent intent = new Intent(context, TextViewActivity.class);
                 intent.putExtra("bookTitle", bookTitle);
-                intent.putExtra("subTitle", subTitle);
+//                intent.putExtra("subTitle", subTitle);
                 intent.putExtra("subNumber",subNumber);
                 context.startActivity(intent);
 

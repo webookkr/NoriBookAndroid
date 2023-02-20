@@ -18,6 +18,8 @@ import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityTextViewBinding;
 import com.bookapp.noribook.databinding.DialogCommentAddBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +33,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TextViewActivity extends AppCompatActivity {
@@ -38,7 +41,7 @@ public class TextViewActivity extends AppCompatActivity {
 
     String bookId;
     String bookTitle;
-    String subTitle, subNumber;
+    String subTitle, subNumber, subCount, maxSubCount;
     private ActivityTextViewBinding binding;
 
     private FirebaseAuth firebaseAuth;
@@ -53,7 +56,6 @@ public class TextViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         bookTitle = intent.getStringExtra("bookTitle");
-        subTitle = intent.getStringExtra("subTitle");
         subNumber = intent.getStringExtra("subNumber");
 
         // init progress
@@ -65,6 +67,28 @@ public class TextViewActivity extends AppCompatActivity {
 
         loadBookDetails();
         MyApplication.incrementSubBookViewCount(bookTitle, subNumber);
+
+//      다음화 , 이전화
+        binding.beforeTitleTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subNumber = ""+(Long.parseLong(subNumber)-1);
+                if( subNumber.equals("0")){
+                    Toast.makeText(TextViewActivity.this, "첫페이지 입니다.", Toast.LENGTH_SHORT).show();
+                    subNumber = ""+(Long.parseLong(subNumber)+1);
+                }
+                else{
+                    finish();
+                    Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+                    intent.putExtra("bookTitle", bookTitle);
+                    intent.putExtra("subNumber",subNumber);
+                    startActivity(intent);
+                }
+            }
+        });
+        // subBooks>bookTitle 의 childrenCount로 subNumber 개수 구해서 최대 개수 +1 이상 접근 못하도록 막음
+        afterBtn();
+
 
 //        커멘트 보이기 버튼
         binding.addCommentBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +103,41 @@ public class TextViewActivity extends AppCompatActivity {
                }
             }
         });
+    }
+
+    private void afterBtn() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks");
+        ref.child(bookTitle)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String subCount = ""+snapshot.getChildrenCount();
+                        binding.afterTitleTv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                subNumber = ""+(Long.parseLong(subNumber)+1);
+                                maxSubCount = ""+(Long.parseLong(subCount)+1);
+                                if(subNumber.equals(maxSubCount)){
+                                    Toast.makeText(TextViewActivity.this, "마지막 페이지 입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    finish();
+                                    Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+                                    intent.putExtra("bookTitle", bookTitle);
+                                    intent.putExtra("subNumber",subNumber);
+                                    startActivity(intent);
+                                }
+                                subNumber = ""+(Long.parseLong(subNumber)-1);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 
     // 커멘트 달기 다이어로그
@@ -122,8 +181,38 @@ public class TextViewActivity extends AppCompatActivity {
         });
     }
 
-//    댓글 입력
+//    댓글 입력 : add data to fb
     private void addComment() {
+        progressDialog.setMessage("댓글 추가 중...");
+        progressDialog.show();
+
+        String uid = ""+firebaseAuth.getUid();
+        Long timeStamp = System.currentTimeMillis();
+        String date = ""+MyApplication.formatTimestamp(timeStamp);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("subTitle", ""+subTitle);
+        hashMap.put("subNumber", ""+subNumber);
+        hashMap.put("comment", ""+comment);
+        hashMap.put("date",""+date);
+        hashMap.put("uid",""+uid);
+
+        //Db path to add data into it
+        // SubBooks > bookTitle > subNumber > Comments > uid > commentData
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SubBooks");
+        reference.child(bookTitle).child(subNumber).child("Comments").child(uid)
+                .setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(TextViewActivity.this, "댓글 작성 중..", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(TextViewActivity.this, "댓글 작성 실패 : "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
@@ -135,6 +224,9 @@ public class TextViewActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String pdfUrl = ""+snapshot.child("url").getValue();
+                        String subTitle = ""+snapshot.child("subTitle").getValue();
+
+
 
                         new Thread(new Runnable() {
                             @Override
@@ -151,6 +243,7 @@ public class TextViewActivity extends AppCompatActivity {
                                         binding.textTv.setText(sb.toString());
                                         binding.textTv.setMovementMethod(new ScrollingMovementMethod());
                                         binding.progressBar.setVisibility(View.GONE);
+                                        binding.titleTv.setText(subNumber+". "+subTitle);
                                     }
                                 });
 
@@ -160,7 +253,9 @@ public class TextViewActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(TextViewActivity.this, "마지막 페이지입니다.", Toast.LENGTH_SHORT).show();
+                        subNumber = ""+(Long.parseLong(subNumber)-1);
+                        recreate();
                     }
                 });
     }

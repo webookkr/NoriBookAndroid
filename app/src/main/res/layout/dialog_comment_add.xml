@@ -18,11 +18,11 @@
         android:id="@+id/comTitleTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="자막 달기"
+        android:text="댓글 달기"
         android:textAlignment="center"
         android:padding="5dp"
         android:textSize="16sp"
-        android:textColor="@color/purple_500"
+        android:textColor="#F44336"
         android:fontFamily="sans-serif-condensed"
         android:textStyle="bold"/>
 
@@ -39,8 +39,10 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_comment_black"
             android:drawablePadding="10dp"
-            android:hint="자막"
+            android:hint="댓글"
             app:hintTextColor="@color/black"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             android:inputType="textCapSentences|textMultiLine"
             android:background="@drawable/shape_edittext01"/>
 
