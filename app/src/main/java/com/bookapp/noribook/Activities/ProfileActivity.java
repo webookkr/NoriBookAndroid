@@ -80,6 +80,9 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                         adapterFavorite = new AdapterFavorite(ProfileActivity.this, pdfArrayList);
                         binding.booksRv.setAdapter(adapterFavorite);
+
+                        String favoriteCount ="" +snapshot.getChildrenCount();
+                        binding.favoriteBookCount.setText(favoriteCount);
                     }
 
                     @Override
@@ -105,7 +108,6 @@ public class ProfileActivity extends AppCompatActivity {
                      String profileImage = ""+snapshot.child("profileImage").getValue();
 
                      binding.emailTv.setText(email);
-                     binding.accountTypeTv.setText(userType);
                      binding.nameTv.setText(name);
                      binding.memberDateTv.setText(date);
 

@@ -3,6 +3,8 @@ package com.bookapp.noribook.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,7 +32,7 @@ public class PdfDetailActivity extends AppCompatActivity {
 
     //pdf id , get from intent
 
-    String bookId, bookTitle, bookUrl;
+    String bookId, bookTitle, bookUrl, subNumber;
 
     Context context;
 
@@ -90,6 +92,28 @@ public class PdfDetailActivity extends AppCompatActivity {
             }
         });
 
+//        페이지 이동 버튼 클릭
+//        binding.shiftBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                pageShift();
+//            }
+//        });
+//
+//    }
+
+//    private void pageShift() {
+//        String subNumber = ""+binding.pageEt.getText().toString().trim();
+//        if(TextUtils.isEmpty(subNumber)){
+////            Toast.makeText(context, "페이지가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+//        }else{
+//            Intent intent = new Intent(context, TextViewActivity.class);
+//            intent.putExtra("bookTitle", bookTitle);
+////                intent.putExtra("subTitle", subTitle);
+//            intent.putExtra("subNumber",subNumber);
+//            context.startActivity(intent);
+//        }
+
     }
 
     private void loadSubBooks() {
@@ -129,18 +153,18 @@ public class PdfDetailActivity extends AppCompatActivity {
                      String description = ""+snapshot.child("description").getValue();
                      String viewCount = ""+snapshot.child("viewCount").getValue();
                      String url = ""+snapshot.child("url").getValue();
+                     String recommendCount = ""+snapshot.child("recommendCount").getValue();
 
                         Glide.with(PdfDetailActivity.this)
                                 .load(url)
                                 .into(binding.bookIv);
 
-                     MyApplication.loadPdfSize(""+url,binding.sizeTv);
 
                      // set data
                         binding.bookTitleTv.setText(title);
-                        binding.dateTv.setText(date);
                         binding.descriptionTv.setText(description);
                         binding.categoryTv.setText(categoryTitle);
+                        binding.favoriteCountTv.setText(recommendCount);
                         binding.viewsTv.setText(viewCount.replace("null","n/a"));
 
                     }

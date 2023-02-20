@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
 
-    private ArrayList<ModelPdf> pdfArrayList, pdfArrayList2, pdfArrayList3 ;
+    private ArrayList<ModelPdf> pdfArrayList, pdfArrayList2, pdfArrayList3, reversePdf2 ;
 
     private AdapterHomeBook adapterCount;
 
@@ -54,6 +54,8 @@ public class HomeActivity extends AppCompatActivity {
 
         // 이미지 넣기
         advImageSet();
+
+        nameBinding();
 
 
         // 프로필 button
@@ -105,6 +107,27 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    String email = "";
+    private void nameBinding() {
+        String uid = firebaseAuth.getCurrentUser().getUid();
+        if(firebaseAuth.getCurrentUser() != null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+            reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    email = ""+snapshot.child("email").getValue();
+                    binding.subTitleTv.setText(email);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
+    }
+
     private void advImageSet() {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AdvImage");
@@ -154,6 +177,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void loadBestRecommendBook(String orderBy) {
         pdfArrayList2 = new ArrayList<>();
+        reversePdf2 = new ArrayList<>();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.orderByChild(orderBy)

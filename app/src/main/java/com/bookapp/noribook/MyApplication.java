@@ -338,6 +338,34 @@ public class MyApplication extends Application {
                 });
 
     }
+//
+////    선호작이면 추가 아니면 제거
+//    private void checkIsFavorite(String bookId){
+//        boolean isInMyFavorite = false ;
+//
+//        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users");
+//        reference.child(firebaseAuth.getUid()).child("Favorite").child(bookId)
+//                .addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        isInMyFavorite = snapshot.exists(); //존재하면 true, 존재하지 않으면 false
+//                        if (isInMyFavorite){
+//                            // 존재
+//                            binding.favoriteBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_favorite_white, 0, 0, 0);
+//                            binding.favoriteBtn.setText("선호작 제거");
+//                        }else{
+//                            binding.favoriteBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_favorite_border_white, 0, 0, 0);
+//                            binding.favoriteBtn.setText("선호작 추가");
+//
+//                        }
+//
+//                    }
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//    }
 
 
 

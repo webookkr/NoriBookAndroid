@@ -34,7 +34,7 @@
             android:text="이름 name"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/dateTv"
@@ -46,6 +46,16 @@
             android:textColor="@color/gray02"
             android:textSize="12sp"/>
 
+<!--        삭제 버튼-->
+        <ImageButton
+            android:id="@+id/deleteBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/dateTv"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_delete_white"
+            android:background="@drawable/shape_btn03"/>
+
 <!--        TextView:  댓글-->
 
         <TextView
@@ -53,10 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/profileIv"
+            android:layout_toStartOf="@id/deleteBtn"
             android:layout_below="@id/nameTv"
             android:text="댓글"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/black"
-            android:textSize="12sp"/>
+            android:textSize="13sp"/>
+
 
 
         

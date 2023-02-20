@@ -63,6 +63,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="170dp"
         android:background="@android:color/white"
+        app:strokeColor="@color/gray01"
+        app:strokeWidth="1dp"
         android:src="@drawable/ic_person_gray"
         app:shapeAppearance="@style/styleRoundedConersImage"/>
 
@@ -109,15 +111,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="계정"
+            android:text="골드 소지"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/noriGoldTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/accountTypeTv"
-            android:text="N/A"
+            android:text="0 원"
             android:textColor="@color/black"/>
 
 

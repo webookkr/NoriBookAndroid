@@ -3,19 +3,20 @@ package com.bookapp.noribook.Model;
 public class ModelComment {
 
     //variable
-    String comment, date, subNumber,subTitle,uid;
+    String comment, date, subNumber, uid, bookTitle, id;
 
     //empty
-    public ModelComment(){
+    public ModelComment() {
 
     }
 
-    public ModelComment(String comment, String date, String subNumber, String subTitle, String uid) {
+    public ModelComment(String comment, String date, String subNumber, String uid, String bookTitle, String id) {
         this.comment = comment;
         this.date = date;
         this.subNumber = subNumber;
-        this.subTitle = subTitle;
         this.uid = uid;
+        this.bookTitle = bookTitle;
+        this.id = id;
     }
 
     public String getComment() {
@@ -42,19 +43,27 @@ public class ModelComment {
         this.subNumber = subNumber;
     }
 
-    public String getSubTitle() {
-        return subTitle;
-    }
-
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
-    }
-
     public String getUid() {
         return uid;
     }
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

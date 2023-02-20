@@ -26,7 +26,7 @@
             android:id="@+id/titleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dashboard User"
+            android:text="세상의 모든 소설 Nori World"
             android:layout_marginTop="8dp"
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
@@ -41,6 +41,26 @@
             android:layout_marginTop="8dp"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"/>
+
+        <!--        노리 코인-->
+        <ImageView
+            android:id="@+id/noriGoldIv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/noriGoldTv"
+            android:src="@drawable/ic_norigold_gold"/>
+
+        <TextView
+            android:id="@+id/noriGoldTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/logoutBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="0원"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
 
         <ImageButton
             android:id="@+id/logoutBtn"

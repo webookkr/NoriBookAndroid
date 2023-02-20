@@ -54,14 +54,14 @@
             <RelativeLayout
                 android:id="@+id/pdfRl"
                 android:layout_width="100dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_marginRight="5dp"
                 android:background="@color/gray01">
 
                 <ImageView
                     android:id="@+id/bookIv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
             </RelativeLayout>
 
@@ -69,7 +69,7 @@
             <LinearLayout
                 android:id="@+id/contentLl"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/pdfRl"
                 android:orientation="vertical">
 
@@ -107,43 +107,43 @@
                     </TableRow>
 
                     <TableRow>
-                        <TextView
-                            android:id="@+id/dateLabelTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="날짜"
-                            android:textColor="@color/black"
-                            android:layout_marginRight="5dp"/>
+<!--                        <TextView-->
+<!--                            android:id="@+id/dateLabelTv"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            style="@style/TextAppearance.MaterialComponents.Caption"-->
+<!--                            android:text="날짜"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:layout_marginRight="5dp"/>-->
 
-                        <TextView
-                            android:id="@+id/dateTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="N/A"
-                            android:textColor="@color/black"
-                            android:layout_marginRight="5dp"/>
+<!--                        <TextView-->
+<!--                            android:id="@+id/dateTv"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            style="@style/TextAppearance.MaterialComponents.Caption"-->
+<!--                            android:text="N/A"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:layout_marginRight="5dp"/>-->
 
                     </TableRow>
                     <TableRow>
-                        <TextView
-                            android:id="@+id/sizeLabelTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="크기"
-                            android:textColor="@color/black"
-                            android:layout_marginRight="5dp"/>
+<!--                        <TextView-->
+<!--                            android:id="@+id/sizeLabelTv"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            style="@style/TextAppearance.MaterialComponents.Caption"-->
+<!--                            android:text="크기"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:layout_marginRight="5dp"/>-->
 
-                        <TextView
-                            android:id="@+id/sizeTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="N/A"
-                            android:textColor="@color/black"
-                            android:layout_marginRight="5dp"/>
+<!--                        <TextView-->
+<!--                            android:id="@+id/sizeTv"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            style="@style/TextAppearance.MaterialComponents.Caption"-->
+<!--                            android:text="N/A"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:layout_marginRight="5dp"/>-->
 
                     </TableRow>
                     <TableRow>
@@ -168,16 +168,16 @@
                     </TableRow>
                     <TableRow>
                         <TextView
-                            android:id="@+id/downloadsLabelTv"
+                            android:id="@+id/favoriteCountLabel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.MaterialComponents.Caption"
-                            android:text="Downloads"
+                            android:text="선호작"
                             android:textColor="@color/black"
                             android:layout_marginRight="5dp"/>
 
                         <TextView
-                            android:id="@+id/downloadsTv"
+                            android:id="@+id/favoriteCountTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.MaterialComponents.Caption"
@@ -190,7 +190,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <android.widget.Button
                         android:id="@+id/favoriteBtn"
@@ -204,30 +204,30 @@
                         android:background="@drawable/shape_btn02"/>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_toStartOf="@id/shiftBtn">
 
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:hint="페이지"
-                        android:textColorHint="@color/gray01"
-                        android:textColor="@color/black"
-                        android:background="@drawable/shape_edittext01"
-                        android:layout_marginRight="10dp"/>
+<!--                    <EditText-->
+<!--                        android:id="@+id/pageEt"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_toStartOf="@id/shiftBtn"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:hint="페이지"-->
+<!--                        android:textColorHint="@color/gray01"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:layout_marginRight="10dp"-->
+<!--                        android:textSize="13dp"-->
+<!--                        android:inputType="number"-->
+<!--                        android:background="@drawable/shape_edittext01"-->
+<!--                        />-->
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <android.widget.Button
-                    android:id="@+id/shiftBtn"
-                    android:text="페이지 이동"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="10sp"
-                    android:background="@drawable/shape_btn02"/>
+<!--                <android.widget.Button-->
+<!--                    android:id="@+id/shiftBtn"-->
+<!--                    android:text="페이지 이동"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="25dp"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:textSize="10sp"-->
+<!--                    android:background="@drawable/shape_btn02"/>-->
 
                 </RelativeLayout>
 
@@ -241,7 +241,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="description"
                 android:textColor="@color/black"/>
 
@@ -249,6 +249,7 @@
                 android:id="@+id/pdfSubRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/row_pdf_sub" />
 
