@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    tools:context=".infoActivity">
+
+    <!--    toolBar-->
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/shape_toolbar01">
+
+        <ImageButton
+            android:id="@+id/profileBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_person_white"/>
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="세상의 모든 소설 Nori World"
+            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/subTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleTv"
+            android:text="infomation"
+            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"/>
+
+        <!--        노리 코인-->
+        <ImageView
+            android:id="@+id/noriGoldIv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/noriGoldTv"
+            android:src="@drawable/ic_norigold_gold"/>
+
+        <TextView
+            android:id="@+id/noriGoldTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/logoutBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="0원"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <ImageButton
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_power_white"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/boardLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarRl"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="정보"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/gray01"
+            android:layout_below="@id/advertiseRl"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/infoIv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/boardLl"
+        android:layout_above="@id/bottomNav"/>
+
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_menu01"
+        app:itemIconTint="#ffff"
+        app:itemTextColor="#ffff"
+        app:labelVisibilityMode="labeled"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/bottom_navigation_menu" />
+
+    </RelativeLayout>

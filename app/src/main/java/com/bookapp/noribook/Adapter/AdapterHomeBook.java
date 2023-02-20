@@ -87,6 +87,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
         holder.categoryTv.setText(categoryTitle);
         holder.titleTv.setText(title);
         holder.viewCountTv.setText("조회수:"+viewCount);
+        holder.favoriteCountTv.setText("선작수:"+recommendCount);
 
 
 
@@ -102,7 +103,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
 
         ImageView bookIv;
 
-        TextView titleTv, categoryTv, viewCountTv;
+        TextView titleTv, categoryTv, viewCountTv, favoriteCountTv;
 
 
         public HolderHomeBook(@NonNull View itemView) {
@@ -113,6 +114,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
             titleTv = binding.titleTv;
             categoryTv = binding.categoryTv;
             viewCountTv = binding.viewCountTv;
+            favoriteCountTv = binding.favoriteCountTv;
 
         }
     }

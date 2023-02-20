@@ -2,6 +2,8 @@ package com.bookapp.noribook.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import com.bookapp.noribook.Adapter.AdapterHomeBook;
 import com.bookapp.noribook.Model.ModelPdf;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityHomeBinding;
+import com.bookapp.noribook.infoActivity;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -101,6 +104,10 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intent1);
                     }
                     return true;
+                case R.id.info:
+                    Intent intent2 = new Intent(HomeActivity.this, infoActivity.class);
+                    startActivity(intent2);
+                    return true;
             }
             return true;
         });
@@ -165,6 +172,7 @@ public class HomeActivity extends AppCompatActivity {
                         }
                         adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList);
                         binding.featuredBestRv.setAdapter(adapterCount);
+
                     }
 
                     @Override
@@ -191,7 +199,11 @@ public class HomeActivity extends AppCompatActivity {
                             pdfArrayList2.add(model);
                         }
                         adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList2);
+//                        GridLayoutManager layoutManager = new GridLayoutManager(HomeActivity.this, 2, RecyclerView.HORIZONTAL,true);
+//                        binding.favoriteRv.setLayoutManager(layoutManager);
                         binding.favoriteRv.setAdapter(adapterCount);
+
+
                     }
 
                     @Override
