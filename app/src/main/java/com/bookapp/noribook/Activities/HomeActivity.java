@@ -116,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
 
     String email = "";
     private void nameBinding() {
-        String uid = firebaseAuth.getCurrentUser().getUid();
+        String uid = firebaseAuth.getUid();
         if(firebaseAuth.getCurrentUser() != null) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
             reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
