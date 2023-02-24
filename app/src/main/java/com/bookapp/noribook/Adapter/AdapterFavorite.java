@@ -7,18 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bookapp.noribook.Activities.PdfDetailActivity;
-import com.bookapp.noribook.Model.ModelPdf;
+import com.bookapp.noribook.Activities.TextDetailActivity;
+import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.RowPdfFavoriteBinding;
 import com.bumptech.glide.Glide;
-import com.github.barteksc.pdfviewer.PDFView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,9 +31,9 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
 
     private RowPdfFavoriteBinding binding;
 
-    private ArrayList<ModelPdf> pdfArrayList;
+    private ArrayList<ModelBook> pdfArrayList;
 
-    public AdapterFavorite(Context context, ArrayList<ModelPdf> pdfArrayList) {
+    public AdapterFavorite(Context context, ArrayList<ModelBook> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
     }
@@ -50,7 +48,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
     @Override
     public void onBindViewHolder(@NonNull HolderFavorite holder, int position) {
 
-        ModelPdf model = pdfArrayList.get(position);
+        ModelBook model = pdfArrayList.get(position);
 
 
         loadBookDetails(model, holder);
@@ -59,7 +57,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PdfDetailActivity.class);
+                Intent intent = new Intent(context, TextDetailActivity.class);
                 intent.putExtra("bookId", model.getId());
                 intent.putExtra("bookTitle", model.getTitle());
                 context.startActivity(intent);
@@ -76,7 +74,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
 
     }
 
-    private void loadBookDetails(ModelPdf model, HolderFavorite holder) {
+    private void loadBookDetails(ModelBook model, HolderFavorite holder) {
         String bookTitle = model.getTitle();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");

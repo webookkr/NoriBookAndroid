@@ -53,8 +53,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_rect01"
-        android:layout_marginTop="225dp"/>
+        android:layout_marginTop="225dp"
+        android:background="@drawable/shape_rect01" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileIv"

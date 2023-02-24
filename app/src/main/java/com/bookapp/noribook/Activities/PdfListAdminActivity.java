@@ -10,7 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import com.bookapp.noribook.Adapter.AdapterPdfAdmin;
-import com.bookapp.noribook.Model.ModelPdf;
+import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.databinding.ActivityPdfListAdminBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +24,7 @@ public class PdfListAdminActivity extends AppCompatActivity {
 
     private ActivityPdfListAdminBinding binding;
 
-    private ArrayList<ModelPdf> pdfArrayList; //ModelPdf 타입의 데이터를 받을 어레이
+    private ArrayList<ModelBook> pdfArrayList; //ModelBook 타입의 데이터를 받을 어레이
 
     private AdapterPdfAdmin adapterPdfAdmin; // adapter
 
@@ -85,7 +85,7 @@ public class PdfListAdminActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         pdfArrayList.clear();
                         for(DataSnapshot ds: snapshot.getChildren()){
-                            ModelPdf model = ds.getValue(ModelPdf.class);
+                            ModelBook model = ds.getValue(ModelBook.class);
                             pdfArrayList.add(model);
                         }
                         adapterPdfAdmin = new AdapterPdfAdmin(PdfListAdminActivity.this, pdfArrayList);

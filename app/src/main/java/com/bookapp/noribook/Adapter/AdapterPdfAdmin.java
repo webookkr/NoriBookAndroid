@@ -12,7 +12,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,14 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bookapp.noribook.Activities.SubAddActivity;
 import com.bookapp.noribook.Filter.FilterPdfAdmin;
-import com.bookapp.noribook.Model.ModelPdf;
+import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.MyApplication;
-import com.bookapp.noribook.Activities.PdfDetailActivity;
+import com.bookapp.noribook.Activities.TextDetailActivity;
 import com.bookapp.noribook.Activities.PdfEditActivity;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.RowPdfAdminBinding;
 import com.bumptech.glide.Glide;
-import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -42,13 +40,13 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
 
     private Context context;
 
-    public ArrayList<ModelPdf> pdfArrayList, filterList;
+    public ArrayList<ModelBook> pdfArrayList, filterList;
 
     private FilterPdfAdmin filter;
 
     private ProgressDialog progressDialog;
 
-    public AdapterPdfAdmin(Context context, ArrayList<ModelPdf> pdfArrayList) {
+    public AdapterPdfAdmin(Context context, ArrayList<ModelBook> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
         this.filterList = pdfArrayList;
@@ -72,7 +70,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     // 6. model 위치 / holder 기능
     @Override
     public void onBindViewHolder(@NonNull HolderPdfAdmin holder, int position) {
-        ModelPdf model = pdfArrayList.get(position);
+        ModelBook model = pdfArrayList.get(position);
         String uid = model.getUid();
         String id = model.getId();
         String title = model.getTitle();
@@ -121,7 +119,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PdfDetailActivity.class);
+                Intent intent = new Intent(context, TextDetailActivity.class);
                 intent.putExtra("bookId", id);
                 intent.putExtra("bookTitle",title);
                 context.startActivity(intent);
@@ -139,7 +137,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     }
 
     // 오너 추천 버튼
-    private void addFeaturedBook(ModelPdf model, HolderPdfAdmin holder) {
+    private void addFeaturedBook(ModelBook model, HolderPdfAdmin holder) {
         String bookTitle = model.getTitle();
         Boolean featured = model.isFeatured();
         if ( featured == false) {
@@ -168,7 +166,7 @@ public class AdapterPdfAdmin extends RecyclerView.Adapter<AdapterPdfAdmin.Holder
     }
 
     // 7-2 more btn
-    private void moreOptionDialog(ModelPdf model, HolderPdfAdmin holder) {
+    private void moreOptionDialog(ModelBook model, HolderPdfAdmin holder) {
 
         String bookId = model.getId();
         String bookTitle = model.getTitle();

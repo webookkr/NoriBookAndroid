@@ -2,19 +2,18 @@ package com.bookapp.noribook.Filter;
 
 import android.widget.Filter;
 
-import com.bookapp.noribook.Adapter.AdapterPdfAdmin;
 import com.bookapp.noribook.Adapter.AdapterPdfUser;
-import com.bookapp.noribook.Model.ModelPdf;
+import com.bookapp.noribook.Model.ModelBook;
 
 import java.util.ArrayList;
 
 public class FilterPdfUser extends Filter {
 
-    ArrayList<ModelPdf> filterList ;
+    ArrayList<ModelBook> filterList ;
 
     AdapterPdfUser adapterPdfUser;
 
-    public FilterPdfUser(ArrayList<ModelPdf> filterList, AdapterPdfUser adapterPdfUser) {
+    public FilterPdfUser(ArrayList<ModelBook> filterList, AdapterPdfUser adapterPdfUser) {
         this.filterList = filterList;
         this.adapterPdfUser = adapterPdfUser;
     }
@@ -25,7 +24,7 @@ public class FilterPdfUser extends Filter {
         FilterResults filterResults = new FilterResults();
         if (charSequence != null && charSequence.length() > 0) {
             charSequence = charSequence.toString().toUpperCase();
-            ArrayList<ModelPdf> filteredModels = new ArrayList<>();
+            ArrayList<ModelBook> filteredModels = new ArrayList<>();
             for (int i = 0; i < filterList.size(); i++) {
                 if (filterList.get(i).getTitle().toUpperCase().contains(charSequence)) {
                     filteredModels.add((filterList.get(i)));
@@ -42,7 +41,7 @@ public class FilterPdfUser extends Filter {
     // 3. 적용
     @Override
     protected void publishResults (CharSequence charSequence, FilterResults filterResults){
-        adapterPdfUser.pdfArrayList = (ArrayList<ModelPdf>)filterResults.values;
+        adapterPdfUser.pdfArrayList = (ArrayList<ModelBook>)filterResults.values;
         adapterPdfUser.notifyDataSetChanged();
 
     }

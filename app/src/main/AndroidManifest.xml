@@ -15,7 +15,10 @@
         android:theme="@style/Theme.MaterialComponents.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".infoActivity"
+            android:name=".Activities.FavoriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.infoActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.TextViewActivity"
@@ -39,7 +42,7 @@
             android:name=".Activities.PdfViewActivity2"
             android:exported="false" />
         <activity
-            android:name=".Activities.PdfDetailActivity"
+            android:name=".Activities.TextDetailActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.PdfEditActivity"
@@ -70,6 +73,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.SplashActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

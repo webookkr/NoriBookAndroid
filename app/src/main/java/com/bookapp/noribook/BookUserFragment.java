@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bookapp.noribook.Activities.DashboardUserActivity;
 import com.bookapp.noribook.Adapter.AdapterPdfUser;
-import com.bookapp.noribook.Model.ModelPdf;
+import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.databinding.FragmentBookUserBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +36,7 @@ public class BookUserFragment extends Fragment {
 
     private String bookTitle;
 
-    private ArrayList<ModelPdf> pdfArrayList;
+    private ArrayList<ModelBook> pdfArrayList;
     private AdapterPdfUser adapterPdfUser;
 
     private FragmentBookUserBinding binding;
@@ -135,7 +134,7 @@ public class BookUserFragment extends Fragment {
                 pdfArrayList.clear();
                 for(DataSnapshot ds:snapshot.getChildren()) {
                     //get data
-                    ModelPdf model = ds.getValue(ModelPdf.class);
+                    ModelBook model = ds.getValue(ModelBook.class);
                     pdfArrayList.add(model);
 
                 }
@@ -161,7 +160,7 @@ public class BookUserFragment extends Fragment {
                 pdfArrayList.clear();
                 for(DataSnapshot ds:snapshot.getChildren()) {
                     //get data
-                    ModelPdf model = ds.getValue(ModelPdf.class);
+                    ModelBook model = ds.getValue(ModelBook.class);
                     pdfArrayList.add(model);
                 }
                 adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);
@@ -186,7 +185,7 @@ public class BookUserFragment extends Fragment {
                         pdfArrayList.clear();
                         for(DataSnapshot ds:snapshot.getChildren()) {
                             //get data
-                            ModelPdf model = ds.getValue(ModelPdf.class);
+                            ModelBook model = ds.getValue(ModelBook.class);
                             pdfArrayList.add(model);
                         }
                         adapterPdfUser = new AdapterPdfUser(getContext(), pdfArrayList);

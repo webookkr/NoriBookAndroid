@@ -305,23 +305,23 @@ public class TextViewActivity extends AppCompatActivity {
 
 
                         new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                final List<String> addressList = getTextFromWeb(pdfUrl);
-                                runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        StringBuilder sb = new StringBuilder();
-                                        for(String s : addressList){
-                                            sb.append(s);
-                                            sb.append("\n");
-                                        }
-                                        binding.textTv.setText(sb.toString());
-                                        binding.textTv.setMovementMethod(new ScrollingMovementMethod());
-                                        binding.progressBar.setVisibility(View.GONE);
-                                        binding.titleTv.setText(subNumber+". "+subTitle);
-                                    }
-                                });
+                                        final List<String> addressList = getTextFromWeb(pdfUrl);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                StringBuilder sb = new StringBuilder();
+                                                for(String s : addressList){
+                                                    sb.append(s);
+                                                    sb.append("\n");
+                                                }
+                                                binding.textTv.setText(sb.toString());
+                                                binding.textTv.setMovementMethod(new ScrollingMovementMethod());
+                                                binding.progressBar.setVisibility(View.GONE);
+                                                binding.titleTv.setText(subNumber+". "+subTitle);
+                                            }
+                                        });
 
                             }
                         }).start();

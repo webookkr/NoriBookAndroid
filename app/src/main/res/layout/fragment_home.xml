@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/homeback"
     android:orientation="vertical"
-    tools:context=".Activities.HomeActivity">
+    tools:context=".Fragment.HomeFragment">
 
     <!--    toolBar-->
     <RelativeLayout
@@ -43,7 +43,7 @@
             android:text="Dashboard user"
             android:textColor="@color/white" />
 
-<!--        노리 코인-->
+        <!--        노리 코인-->
         <ImageView
             android:id="@+id/noriGoldIv"
             android:layout_width="25dp"
@@ -75,19 +75,19 @@
             android:src="@drawable/ic_power_white" />
     </RelativeLayout>
 
-<!--    메인 화면-->
+    <!--    메인 화면-->
     <ScrollView
         android:id="@+id/bookSv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-<!--        android:layout_below="@id/toolbarRl">-->
+        <!--        android:layout_below="@id/toolbarRl">-->
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--             광고-->
+            <!--             광고-->
             <RelativeLayout
                 android:id="@+id/advertiseRl"
                 android:layout_width="match_parent"
@@ -102,7 +102,7 @@
 
             </RelativeLayout>
 
-<!--            추천작 -->
+            <!--            추천작 -->
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
@@ -127,6 +127,7 @@
                 android:layout_below="@+id/featuredBestTv"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="3dp"
+                android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
                 android:scrollbars="none"
                 app:reverseLayout="false"
@@ -162,10 +163,10 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book" />
-<!--            android:orientation="horizontal"-->
-<!--            app:reverseLayout="false"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
-<!--            app:spanCount="2"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            app:reverseLayout="false"-->
+            <!--            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+            <!--            app:spanCount="2"-->
 
             <View
                 android:id="@+id/view3"
@@ -189,9 +190,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/favoriteTv"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:reverseLayout="false"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/row_home_book" />
 
@@ -214,20 +216,6 @@
 
     </ScrollView>
 
-
-    <!--    네비-->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_menu01"
-        app:itemIconTint="#ffff"
-        app:itemTextColor="#ffff"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu" />
-
-
-<!--    android:layout_alignParentBottom="true"-->
 
 
 </LinearLayout>

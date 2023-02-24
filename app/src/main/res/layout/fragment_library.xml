@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".Activities.infoActivity">
+    tools:context=".Fragment.LibraryFragment">
 
     <!--    toolBar-->
     <RelativeLayout
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/titleTv"
-            android:text="infomation"
+            android:text="Dashboard user"
             android:layout_marginTop="8dp"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"/>
@@ -73,96 +73,26 @@
             android:background="@android:color/transparent"/>
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/boardLabelTv"
+    <!--    Tab-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/toolbarRl"
-        android:text="공지사항"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
+        app:tabTextColor="@color/black"
+        android:background="@android:color/transparent"
+        app:tabBackground="@drawable/tap_selector"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="scrollable"
+        app:tabUnboundedRipple="false"/>
+    <!--    ViewPager : swipe/show/change Fragment-->
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/boardLabelTv"
-        android:background="@color/gray01"/>
-
-    <TextView
-        android:id="@+id/boardTv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/view1"
-        android:layout_above="@id/view3"
-        android:layout_marginTop="2dp"
-        android:text="공지내용"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
-
-
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="350dp"
-        android:background="@color/gray01"/>
-
-    <TextView
-        android:id="@+id/infoTv"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view2"
-        android:layout_marginTop="2dp"
-        android:text="비전"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
-    <View
-        android:id="@+id/view3"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/infoTv"
-        android:background="@color/gray01"/>
+        android:layout_below="@id/tabLayout">
+    </androidx.viewpager.widget.ViewPager>
 
-    <ImageView
-        android:id="@+id/visionIv"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_below="@id/view3"
-        android:scaleType="fitXY" />
-
-    <View
-        android:id="@+id/view4"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/visionIv"
-        android:background="@color/gray01"/>
-
-
-    <TextView
-        android:id="@+id/visionTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view4"
-        android:layout_above="@id/bottomNav"
-        android:layout_marginTop="2dp"
-        android:text="비전 내용"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_menu01"
-        app:itemIconTint="#ffff"
-        app:itemTextColor="#ffff"
-        app:labelVisibilityMode="labeled"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/bottom_navigation_menu" />
-
-    </RelativeLayout>
+</RelativeLayout>

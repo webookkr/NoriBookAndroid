@@ -3,8 +3,6 @@ package com.bookapp.noribook.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PdfDetailActivity extends AppCompatActivity {
+public class TextDetailActivity extends AppCompatActivity {
 
     private ActivityPdfDetailBinding binding;
 
@@ -63,6 +61,7 @@ public class PdfDetailActivity extends AppCompatActivity {
         loadBookDetails();
         // 이 페이지 시작시마다 increase view count 늘리기
         MyApplication.incrementBookViewCount(bookTitle);
+        MyApplication.decrementBookViewCount(bookTitle);
 
         //adapter(sub books)
         loadSubBooks();
@@ -79,13 +78,13 @@ public class PdfDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (firebaseAuth.getCurrentUser() == null ){
-                    Toast.makeText(PdfDetailActivity.this, "로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TextDetailActivity.this, "로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
                 }else{
                     if (isInMyFavorite){
-                        MyApplication.removeFromFavorite(PdfDetailActivity.this, bookId, bookTitle);
+                        MyApplication.removeFromFavorite(TextDetailActivity.this, bookId, bookTitle);
 
                     }else{
-                        MyApplication.addFavorite(PdfDetailActivity.this, bookId, bookTitle);
+                        MyApplication.addFavorite(TextDetailActivity.this, bookId, bookTitle);
                     }
                 }
 
@@ -129,7 +128,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                     ModelSub model = ds.getValue(ModelSub.class);
                     subArrayList.add(model);
                 }
-                adapterSub = new AdapterSub(PdfDetailActivity.this, subArrayList);
+                adapterSub = new AdapterSub(TextDetailActivity.this, subArrayList);
                 binding.pdfSubRv.setAdapter(adapterSub);
 
             }
@@ -155,7 +154,7 @@ public class PdfDetailActivity extends AppCompatActivity {
                      String url = ""+snapshot.child("url").getValue();
                      String recommendCount = ""+snapshot.child("recommendCount").getValue();
 
-                        Glide.with(PdfDetailActivity.this)
+                        Glide.with(TextDetailActivity.this)
                                 .load(url)
                                 .into(binding.bookIv);
 

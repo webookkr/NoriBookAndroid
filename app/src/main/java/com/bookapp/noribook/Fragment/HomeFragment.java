@@ -1,17 +1,22 @@
-package com.bookapp.noribook.Activities;
+package com.bookapp.noribook.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.bookapp.noribook.Activities.LoginActivity;
+import com.bookapp.noribook.Activities.ProfileActivity;
 import com.bookapp.noribook.Adapter.AdapterHomeBook;
 import com.bookapp.noribook.Model.ModelBook;
-import com.bookapp.noribook.R;
-import com.bookapp.noribook.databinding.ActivityHomeBinding;
+import com.bookapp.noribook.databinding.FragmentHomeBinding;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,32 +27,47 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeFragment extends Fragment {
+
+    private FragmentHomeBinding binding;
 
     private FirebaseAuth firebaseAuth;
 
-    private ActivityHomeBinding binding;
+    private Context mConText;
 
     private ArrayList<ModelBook> pdfArrayList, pdfArrayList2, pdfArrayList3, reversePdf2 ;
 
     private AdapterHomeBook adapterCount;
 
+
+    public HomeFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityHomeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public void onAttach(@NonNull Context context) {
+        mConText = context;
+        super.onAttach(context);
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentHomeBinding.inflate(getLayoutInflater(), container, false);
+        return binding.getRoot();
+    }
 
-
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
         // home 조회수 베스트
-        loadBestCountBook("viewCountMinus");
+        loadBestCountBook("viewCount");
 
         // home 추천 베스트
-        loadBestRecommendBook("recommendCountMinus");
+        loadBestRecommendBook("recommendCount");
 
         // 오너 추천 (featured =true) 가져오기
         loadFeaturedBook("featured");
@@ -63,9 +83,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(firebaseAuth.getCurrentUser() == null){
-                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
                 }else{
-                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                    startActivity(new Intent(getActivity(), ProfileActivity.class));
                 }
             }
         });
@@ -75,41 +95,19 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
-                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                finish();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+//                finish();
             }
-        });
-
-
-// 네비
-        binding.bottomNav.setOnItemSelectedListener(item -> {
-
-            switch (item.getItemId()) {
-
-                case R.id.home:
-                    break;
-                case R.id.library:
-                    Intent intent = new Intent(HomeActivity.this, DashboardUserActivity.class);
-                    startActivity(intent);
-                    return true;
-                case R.id.favorite:
-                    if(firebaseAuth.getCurrentUser() == null){
-                        Toast.makeText(this, "로그인 하세요", Toast.LENGTH_SHORT).show();
-                        break;
-                    }else {
-                        Intent intent1 = new Intent(this, FavoriteActivity.class);
-                        startActivity(intent1);
-                    }
-                    return true;
-                case R.id.info:
-                    Intent intent2 = new Intent(HomeActivity.this, infoActivity.class);
-                    startActivity(intent2);
-                    return true;
-            }
-            return true;
         });
 
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
 
     String email = "";
     private void nameBinding() {
@@ -139,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String imgUrl = ""+snapshot.child("url").getValue();
-                Glide.with(HomeActivity.this)
+                Glide.with(getActivity())
                         .load(imgUrl)
                         .into(binding.adIv);
             }
@@ -167,7 +165,7 @@ public class HomeActivity extends AppCompatActivity {
                             ModelBook model = ds.getValue(ModelBook.class);
                             pdfArrayList.add(model);
                         }
-                        adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList);
+                        adapterCount = new AdapterHomeBook(getActivity(), pdfArrayList);
                         binding.featuredBestRv.setAdapter(adapterCount);
 
                     }
@@ -195,7 +193,7 @@ public class HomeActivity extends AppCompatActivity {
                             ModelBook model = ds.getValue(ModelBook.class);
                             pdfArrayList2.add(model);
                         }
-                        adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList2);
+                        adapterCount = new AdapterHomeBook(getActivity(), pdfArrayList2);
 //                        GridLayoutManager layoutManager = new GridLayoutManager(HomeActivity.this, 2, RecyclerView.HORIZONTAL,true);
 //                        binding.favoriteRv.setLayoutManager(layoutManager);
                         binding.favoriteRv.setAdapter(adapterCount);
@@ -217,22 +215,22 @@ public class HomeActivity extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
         ref.orderByChild(orderBy)
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pdfArrayList3.clear();
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        pdfArrayList3.clear();
 
-                for (DataSnapshot ds:snapshot.getChildren()) {
-                    ModelBook model = ds.getValue(ModelBook.class);
-                    pdfArrayList3.add(model);
-                }
-                adapterCount = new AdapterHomeBook(HomeActivity.this, pdfArrayList3);
-                binding.countBestRv.setAdapter(adapterCount);
-            }
+                        for (DataSnapshot ds:snapshot.getChildren()) {
+                            ModelBook model = ds.getValue(ModelBook.class);
+                            pdfArrayList3.add(model);
+                        }
+                        adapterCount = new AdapterHomeBook(getActivity(), pdfArrayList3);
+                        binding.countBestRv.setAdapter(adapterCount);
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
     }
 }

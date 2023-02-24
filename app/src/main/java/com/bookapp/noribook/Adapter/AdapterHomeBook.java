@@ -6,27 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bookapp.noribook.Activities.PdfDetailActivity;
-import com.bookapp.noribook.Activities.ProfileActivity;
-import com.bookapp.noribook.Model.ModelPdf;
-import com.bookapp.noribook.MyApplication;
-import com.bookapp.noribook.R;
+import com.bookapp.noribook.Activities.TextDetailActivity;
+import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.databinding.RowHomeBookBinding;
 import com.bumptech.glide.Glide;
-import com.github.barteksc.pdfviewer.PDFView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -34,11 +22,11 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
 
     private Context context;
 
-    private ArrayList<ModelPdf> pdfArrayList;
+    private ArrayList<ModelBook> pdfArrayList;
 
     private RowHomeBookBinding binding;
 
-    public AdapterHomeBook(Context context, ArrayList<ModelPdf> pdfArrayList) {
+    public AdapterHomeBook(Context context, ArrayList<ModelBook> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
     }
@@ -55,7 +43,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
 
     @Override
     public void onBindViewHolder(@NonNull HolderHomeBook holder, int position) {
-        ModelPdf model = pdfArrayList.get(position);
+        ModelBook model = pdfArrayList.get(position);
         String title = model.getTitle();
         String description = model.getDescription();
         String pdfUrl = model.getUrl();
@@ -76,7 +64,7 @@ public class AdapterHomeBook extends RecyclerView.Adapter<AdapterHomeBook.Holder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PdfDetailActivity.class);
+                Intent intent = new Intent(context, TextDetailActivity.class);
                 intent.putExtra("bookId", id);
                 intent.putExtra("bookTitle", title);
                 context.startActivity(intent);

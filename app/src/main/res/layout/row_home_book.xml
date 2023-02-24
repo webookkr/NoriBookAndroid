@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/titleTv"
                 android:textSize="9sp"
-                android:text="count"
+                android:text="조회수"
                 android:textColor="@color/black" />
 
             <TextView

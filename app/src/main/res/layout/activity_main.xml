@@ -1,66 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/garaxyfantasia"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".Activities.MainActivity">
 
-    <ImageView
-        android:id="@+id/iconIv"
-        android:src="@drawable/nori_icon3"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iconIv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="세상의 모든 소설 노리월드"
-        android:textStyle="bold"
-        android:textColor="#F10E0E"
-        android:textSize="20sp"/>
-
-    <android.widget.Button
-        android:id="@+id/textBtn"
+    <FrameLayout
+        android:id="@+id/mainFl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/loginBtn"
-        android:text="text 연습"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:background="@drawable/shape_btn01"
-        android:layout_margin="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         />
 
-    <android.widget.Button
-        android:id="@+id/loginBtn"
+    <!--    네비-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/skipBtn"
-        android:text="로그인"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:background="@drawable/shape_btn01"
-        android:layout_margin="10dp"
-        />
+        android:background="@drawable/shape_menu01"
+        app:itemIconTint="#ffff"
+        app:itemTextColor="#ffff"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_navigation_menu" />
 
-    <android.widget.Button
-        android:id="@+id/skipBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="건너뛰기"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:background="@drawable/shape_btn02"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="10dp"/>
 
-</RelativeLayout>
+</LinearLayout>

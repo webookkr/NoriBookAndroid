@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".Activities.infoActivity">
+    android:background="#FFF4C9"
+    tools:context=".Activities.FavoriteActivity">
 
     <!--    toolBar-->
     <RelativeLayout
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/titleTv"
-            android:text="infomation"
+            android:text="Dashboard user"
             android:layout_marginTop="8dp"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"/>
@@ -73,96 +73,59 @@
             android:background="@android:color/transparent"/>
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/boardLabelTv"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/toolbarRl"
-        android:text="공지사항"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="220dp"
+        android:background="@drawable/homeback" />
 
     <View
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@id/boardLabelTv"
+        android:layout_marginTop="55dp"
         android:background="@color/gray01"/>
 
     <TextView
-        android:id="@+id/boardTv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/view1"
-        android:layout_above="@id/view3"
-        android:layout_marginTop="2dp"
-        android:text="공지내용"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
-
-
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="350dp"
-        android:background="@color/gray01"/>
-
-    <TextView
-        android:id="@+id/infoTv"
-        android:layout_width="match_parent"
+        android:id="@+id/nameTv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view2"
-        android:layout_marginTop="2dp"
-        android:text="비전"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
-    <View
-        android:id="@+id/view3"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/infoTv"
-        android:background="@color/gray01"/>
-
-    <ImageView
-        android:id="@+id/visionIv"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_below="@id/view3"
-        android:scaleType="fitXY" />
-
-    <View
-        android:id="@+id/view4"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/visionIv"
-        android:background="@color/gray01"/>
-
-
-    <TextView
-        android:id="@+id/visionTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view4"
-        android:layout_above="@id/bottomNav"
-        android:layout_marginTop="2dp"
-        android:text="비전 내용"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:text="Full name"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
+    <TextView
+        android:id="@+id/favoriteBooksLabelTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="선호작"
+        android:layout_below="@id/view1"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/booksRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/favoriteBooksLabelTv"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_pdf_favorite"/>
+
+
+    <!--    &lt;!&ndash;    네비&ndash;&gt;-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_menu01"
+        android:layout_alignParentBottom="true"
         app:itemIconTint="#ffff"
         app:itemTextColor="#ffff"
         app:labelVisibilityMode="labeled"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation_menu" />
 
-    </RelativeLayout>
+</RelativeLayout>

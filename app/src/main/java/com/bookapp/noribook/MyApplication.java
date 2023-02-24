@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.bookapp.noribook.Adapter.AdapterPdfAdmin;
-import com.bookapp.noribook.Model.ModelPdf;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
@@ -201,6 +199,35 @@ public class MyApplication extends Application {
                 });
     }
 
+    public static void decrementBookViewCount(String bookTitle){
+        // 1) get view book count
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+        ref.child(bookTitle)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String viewCount = ""+snapshot.child("viewCountMinus").getValue();
+                        if (viewCount.equals("")||viewCount.equals("null")){
+                            viewCount = "0";
+                        }
+                        // 2) increment views count
+                        long newViewCount = Long.parseLong(viewCount) - 1 ;
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("viewCountMinus", newViewCount);
+
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Books");
+                        reference.child(bookTitle)
+                                .updateChildren(hashMap);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
 
     // 서브북 조회수 늘리기 : 클릭시 viewCount +1 해서 subBook -> subNumber -> viewCount 늘리기
     public static void incrementSubBookViewCount(String bookTitle,String subNumber){
@@ -218,6 +245,35 @@ public class MyApplication extends Application {
                         long newViewCount = Long.parseLong(viewCount) + 1 ;
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("viewCount", newViewCount);
+
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
+                        reference.child(subNumber)
+                                .updateChildren(hashMap);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    public static void descrementSubBookViewCount(String bookTitle,String subNumber){
+        // 1) get view book count
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
+        ref.child(subNumber)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String viewCount = ""+snapshot.child("viewCountMinus").getValue();
+                        if (viewCount.equals("")||viewCount.equals("null")){
+                            viewCount = "0";
+                        }
+                        // 2) increment views count
+                        long newViewCount = Long.parseLong(viewCount) - 1 ;
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("viewCountMinus", newViewCount);
 
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
                         reference.child(subNumber)
@@ -269,13 +325,13 @@ public class MyApplication extends Application {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String recommendCount = ""+snapshot.child("recommendCount").getValue();
-                        if(recommendCount.equals("")||recommendCount.equals("null")){
-                            recommendCount = "0" ;
+                        String recommendCountMinus = ""+snapshot.child("recommendCountMinus").getValue();
+                        if(recommendCountMinus.equals("")||recommendCountMinus.equals("null")){
+                            recommendCountMinus = "0" ;
                         }else{
-                            long newRecommendCount = Long.parseLong(recommendCount) + 1;
+                            long newRecommendCount = Long.parseLong(recommendCountMinus) + 1;
                             HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("recommendCount", newRecommendCount);
+                            hashMap.put("recommendCountMinus", newRecommendCount);
 
                             DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Books");
                                     reference1.child(bookTitle)

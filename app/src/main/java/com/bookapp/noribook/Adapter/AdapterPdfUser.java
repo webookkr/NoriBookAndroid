@@ -8,19 +8,16 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bookapp.noribook.Activities.PdfDetailActivity;
+import com.bookapp.noribook.Activities.TextDetailActivity;
 import com.bookapp.noribook.Filter.FilterPdfUser;
-import com.bookapp.noribook.Model.ModelPdf;
-import com.bookapp.noribook.MyApplication;
+import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.databinding.RowPdfUserBinding;
 import com.bumptech.glide.Glide;
-import com.github.barteksc.pdfviewer.PDFView;
 
 import java.util.ArrayList;
 
@@ -28,7 +25,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
     private Context context;
 
-    public ArrayList<ModelPdf> pdfArrayList, filterList;
+    public ArrayList<ModelBook> pdfArrayList, filterList;
 
     private RowPdfUserBinding binding;
 
@@ -37,7 +34,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
     private FilterPdfUser filter;
 
 
-    public AdapterPdfUser(Context context, ArrayList<ModelPdf> pdfArrayList) {
+    public AdapterPdfUser(Context context, ArrayList<ModelBook> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
         this.filterList = pdfArrayList;
@@ -55,7 +52,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
     @Override
     public void onBindViewHolder(@NonNull HolderPdfUser holder, int position) {
         // get data
-        ModelPdf model = pdfArrayList.get(position);
+        ModelBook model = pdfArrayList.get(position);
         String title = model.getTitle();
         String description = model.getDescription();
         String url = model.getUrl();
@@ -81,7 +78,7 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PdfDetailActivity.class);
+                Intent intent = new Intent(context, TextDetailActivity.class);
                 intent.putExtra("bookId", id);
                 intent.putExtra("bookTitle", title);
                 context.startActivity(intent);

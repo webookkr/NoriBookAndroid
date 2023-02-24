@@ -1,22 +1,22 @@
 package com.bookapp.noribook.Model;
 
-public class ModelPdf {
+public class ModelBook {
     //변수 선언 - firebase에서 받아올 것이므로 그대로
     String uid, id, title, description, date, categoryTitle, url, categoryId;
-    long viewCount;
+    long viewCount, viewCountMinus;
 
-    long recommendCount;
+    long recommendCount, recommendCountMinus;
 
     boolean favorite;
 
     boolean featured;
 
-    public ModelPdf(){
+    public ModelBook(){
 
     }
 
 
-    public ModelPdf(String uid, String id, String title, String description, String date, String categoryTitle, String url, String categoryId, long viewCount, long recommendCount, boolean favorite, boolean featured) {
+    public ModelBook(String uid, String id, String title, String description, String date, String categoryTitle, String url, String categoryId, long viewCount, long viewCountMinus, long recommendCount, long recommendCountMinus, boolean favorite, boolean featured) {
         this.uid = uid;
         this.id = id;
         this.title = title;
@@ -26,9 +26,27 @@ public class ModelPdf {
         this.url = url;
         this.categoryId = categoryId;
         this.viewCount = viewCount;
+        this.viewCountMinus = viewCountMinus;
         this.recommendCount = recommendCount;
+        this.recommendCountMinus = recommendCountMinus;
         this.favorite = favorite;
         this.featured = featured;
+    }
+
+    public long getViewCountMinus() {
+        return viewCountMinus;
+    }
+
+    public void setViewCountMinus(long viewCountMinus) {
+        this.viewCountMinus = viewCountMinus;
+    }
+
+    public long getRecommendCountMinus() {
+        return recommendCountMinus;
+    }
+
+    public void setRecommendCountMinus(long recommendCountMinus) {
+        this.recommendCountMinus = recommendCountMinus;
     }
 
     public boolean isFeatured() {

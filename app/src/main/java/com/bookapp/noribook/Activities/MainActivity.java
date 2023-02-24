@@ -1,11 +1,17 @@
 package com.bookapp.noribook.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.bookapp.noribook.Fragment.HomeFragment;
+import com.bookapp.noribook.Fragment.LibraryFragment;
+import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,28 +24,31 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //텍스트 연습
-        binding.textBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, TextViewActivity.class));
-            }
-        });
+        replaceFragment(new HomeFragment());
 
-        // 로그인
-        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            }
-        });
+        binding.bottomNav.setOnItemSelectedListener(item -> {
 
-        // 건너 뛰기
-        binding.skipBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            switch (item.getItemId()) {
+                case R.id.home:
+                    replaceFragment(new HomeFragment());
+                case R.id.library:
+                    replaceFragment(new LibraryFragment());
+                case R.id.favorite:
+                    break;
+                case R.id.info:
+                    break;
             }
+            return true;
         });
+    }
+
+    private void replaceFragment(Fragment fragment){
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.mainFl, fragment);
+        fragmentTransaction.commit();
+
+
     }
 }

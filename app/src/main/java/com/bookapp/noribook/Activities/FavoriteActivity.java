@@ -1,17 +1,17 @@
 package com.bookapp.noribook.Activities;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterFavorite;
 import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.R;
-import com.bookapp.noribook.databinding.ActivityProfileBinding;
-import com.bumptech.glide.Glide;
+import com.bookapp.noribook.databinding.ActivityFavoriteBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,9 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity {
+public class FavoriteActivity extends AppCompatActivity {
 
-    private ActivityProfileBinding binding;
+    private ActivityFavoriteBinding binding;
 
     private FirebaseAuth firebaseAuth;
 
@@ -35,30 +35,62 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        binding = ActivityFavoriteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         firebaseAuth = FirebaseAuth.getInstance();
         loadUserinfo();
 
         loadFavoriteBook();
-        binding.profileEditBtn.setOnClickListener(new View.OnClickListener() {
+
+        binding.profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this, ProfileEditActivity.class));
+                if(firebaseAuth.getCurrentUser() == null){
+                    Toast.makeText(FavoriteActivity.this, "로그인 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+                }else{
+                    startActivity(new Intent(FavoriteActivity.this, ProfileActivity.class));
+                }
             }
         });
 
-        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                onBackPressed();
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                startActivity(new Intent(FavoriteActivity.this, MainActivity.class));
+                finish();
             }
         });
+
+
+        binding.bottomNav.setOnItemSelectedListener(item -> {
+
+            switch (item.getItemId()){
+
+                case R.id.home:
+                    Intent intent = new Intent(FavoriteActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return  true;
+                case R.id.library:
+                    Intent intent2 = new Intent(FavoriteActivity.this, DashboardUserActivity.class);
+                    startActivity(intent2);
+                    return true;
+                case R.id.favorite:
+                    break;
+                case R.id.info:
+                    Intent intent3 = new Intent(FavoriteActivity.this, infoActivity.class);
+                    startActivity(intent3);
+                    return true;
+            }
+            return true;
+        });
+
 
     }
 
-    // adapter(pdfFavorite)
+
     private void loadFavoriteBook() {
         //init
         pdfArrayList = new ArrayList<>();
@@ -78,11 +110,9 @@ public class ProfileActivity extends AppCompatActivity {
                             modelBook.setTitle(bookTitle); // profile Detail 에서 bookTitle 받아와서 set하고 adapter에서 get해서 이어서 "Uses"에서 가져오기
                             pdfArrayList.add(modelBook);
                         }
-                        adapterFavorite = new AdapterFavorite(ProfileActivity.this, pdfArrayList);
+                        adapterFavorite = new AdapterFavorite(FavoriteActivity.this, pdfArrayList);
                         binding.booksRv.setAdapter(adapterFavorite);
 
-                        String favoriteCount ="" +snapshot.getChildrenCount();
-                        binding.favoriteBookCount.setText(favoriteCount);
                     }
 
                     @Override
@@ -100,23 +130,16 @@ public class ProfileActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                     String email = ""+snapshot.child("email").getValue();
-                     String userType = ""+snapshot.child("userType").getValue();
-                     String name = ""+snapshot.child("name").getValue();
-                     String date = ""+snapshot.child("date").getValue();
-                     String uid = ""+snapshot.child("uid").getValue();
-                     String profileImage = ""+snapshot.child("profileImage").getValue();
+                        String email = ""+snapshot.child("email").getValue();
+                        String userType = ""+snapshot.child("userType").getValue();
+                        String name = ""+snapshot.child("name").getValue();
+                        String date = ""+snapshot.child("date").getValue();
+                        String uid = ""+snapshot.child("uid").getValue();
+                        String profileImage = ""+snapshot.child("profileImage").getValue();
 
-                     binding.emailTv.setText(email);
-                     binding.nameTv.setText(name);
-                     binding.memberDateTv.setText(date);
+                        binding.nameTv.setText(name);
+                        binding.subTitleTv.setText(email);
 
-                     // set Image , using glide -> github
-
-                    Glide.with(ProfileActivity.this)
-                            .load(profileImage)
-                            .placeholder(R.drawable.ic_person_gray)
-                            .into(binding.profileIv);
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
