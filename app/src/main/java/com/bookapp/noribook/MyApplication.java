@@ -2,9 +2,12 @@ package com.bookapp.noribook;
 
 import static com.bookapp.noribook.Constants.MAX_BYTES_PDF;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bookapp.noribook.Activities.TextViewActivity;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
@@ -325,16 +329,40 @@ public class MyApplication extends Application {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String recommendCount= ""+snapshot.child("recommendCount").getValue();
+                        if(recommendCount.equals("")||recommendCount.equals("null")){
+                            recommendCount = "0" ;
+                        }else{
+                            long newRecommendCount = Long.parseLong(recommendCount) + 1;
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("recommendCount", newRecommendCount);
+
+                            DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Books");
+                                    reference1.child(bookTitle)
+                                    .updateChildren(hashMap);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("Books");
+        reference2.child(bookTitle)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String recommendCountMinus = ""+snapshot.child("recommendCountMinus").getValue();
                         if(recommendCountMinus.equals("")||recommendCountMinus.equals("null")){
                             recommendCountMinus = "0" ;
                         }else{
-                            long newRecommendCount = Long.parseLong(recommendCountMinus) + 1;
+                            long newRecommendCount = Long.parseLong(recommendCountMinus) - 1;
                             HashMap<String, Object> hashMap = new HashMap<>();
                             hashMap.put("recommendCountMinus", newRecommendCount);
 
                             DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Books");
-                                    reference1.child(bookTitle)
+                            reference1.child(bookTitle)
                                     .updateChildren(hashMap);
                         }
                     }
@@ -378,7 +406,7 @@ public class MyApplication extends Application {
                         if(recommendCount.equals("")||recommendCount.equals("null")){
                             recommendCount = "0" ;
                         }else{
-                            long newRecommendCount = Long.parseLong(recommendCount) - 1;
+                            long newRecommendCount = Long.parseLong(recommendCount) -1;
                             HashMap<String, Object> hashMap = new HashMap<>();
                             hashMap.put("recommendCount", newRecommendCount);
 
@@ -393,7 +421,148 @@ public class MyApplication extends Application {
                     }
                 });
 
+        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("Books");
+        reference2.child(bookTitle)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String recommendCountMinus = ""+snapshot.child("recommendCountMinus").getValue();
+                        if(recommendCountMinus.equals("")||recommendCountMinus.equals("null")){
+                            recommendCountMinus = "0" ;
+                        }else{
+                            long newRecommendCount = Long.parseLong(recommendCountMinus) + 1;
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("recommendCountMinus", newRecommendCount);
+
+                            DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Books");
+                            reference1.child(bookTitle)
+                                    .updateChildren(hashMap);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
+
+//    noriCoin 표시
+    public static void noriCoinCheck(TextView noriGoldTv){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null){
+
+        }else
+        {
+            String uid = firebaseAuth.getUid();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+            reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String noriCoin =""+snapshot.child("noriCoin").getValue();
+                    noriGoldTv.setText(noriCoin+"원");
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    //subBook 구매 확인
+    public static void subBuyCheck(Context context, String bookTitle, String subNumber) {
+        FirebaseAuth firebaseAuth;
+        firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(firebaseAuth.getUid()).child("buyBooks").child(bookTitle).child(subNumber)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Boolean isBuySub = snapshot.exists();
+                        if (isBuySub){ //구매 내역 존재
+                            Intent intent = new Intent(context, TextViewActivity.class);
+                            intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                            intent.putExtra("subNumber",subNumber);
+                            context.startActivity(intent);
+                        }else{ //구매내역 없음
+                            askBuySub(context, bookTitle, subNumber);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
+
+    public static void askBuySub(Context context, String bookTitle, String subNumber) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("구매 확인")
+               .setMessage("100코인이 소모됩니다. 소설을 구매하시겠습니까?")
+               .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       Toast.makeText(context, "구매중입니다.", Toast.LENGTH_SHORT).show();
+                       confirmBuy(context, bookTitle, subNumber);
+                   }
+               }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
+    private static void confirmBuy(Context context, String bookTitle, String subNumber) {
+        FirebaseAuth firebaseAuth;
+        firebaseAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(firebaseAuth.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String noriCoin = ""+snapshot.child("noriCoin").getValue();
+                        long newNoriCoin = Long.parseLong(noriCoin) - 100;
+                        HashMap<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("noriCoin", ""+newNoriCoin);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+                        ref.child(firebaseAuth.getUid())
+                                .updateChildren(hashMap);
+
+                        HashMap<String, Object> hashMap2 = new HashMap<>();
+                        hashMap2.put("subNumber",subNumber);
+
+                        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Users");
+                        ref2.child(firebaseAuth.getUid()).child("buyBooks").child(bookTitle).child(subNumber)
+                                .setValue(hashMap2).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(context, "구매하였습니다.", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(context, TextViewActivity.class);
+                                        intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                                        intent.putExtra("subNumber",subNumber);
+                                        context.startActivity(intent);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
 //
 ////    선호작이면 추가 아니면 제거
 //    private void checkIsFavorite(String bookId){

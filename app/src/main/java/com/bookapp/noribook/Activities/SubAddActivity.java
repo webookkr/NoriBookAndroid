@@ -144,6 +144,7 @@ public class SubAddActivity extends AppCompatActivity {
         hashMap.put("viewCount",0);
         hashMap.put("recommend",0);
         hashMap.put("bookTitle",""+bookTitle);
+        hashMap.put("subId",""+timestamp);
 
 
         String filePathAndName = "SubBooks/"+bookTitle+"/";

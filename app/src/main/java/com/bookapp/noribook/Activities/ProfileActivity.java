@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bookapp.noribook.Adapter.AdapterFavorite;
 import com.bookapp.noribook.Model.ModelBook;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityProfileBinding;
 import com.bumptech.glide.Glide;
@@ -42,6 +43,9 @@ public class ProfileActivity extends AppCompatActivity {
         loadUserinfo();
 
         loadFavoriteBook();
+
+        MyApplication.noriCoinCheck(binding.noriGoldTv);
+
         binding.profileEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

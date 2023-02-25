@@ -4,26 +4,33 @@ public class ModelSub {
 
     String uid, subTitle, date, bookTitle, url;
 
-    String subNumber;
+    String subNumber, subId;
     long viewCount;
     long recommendCount;
+
 
     public ModelSub(){
 
     }
 
-    public ModelSub(String uid, String subNumber, String subTitle, String date, String bookTitle, String url, long viewCount, long recommendCount) {
+    public ModelSub(String uid, String subTitle, String date, String bookTitle, String url, String subNumber, String subId, long viewCount, long recommendCount) {
         this.uid = uid;
-        this.subNumber = subNumber;
         this.subTitle = subTitle;
         this.date = date;
         this.bookTitle = bookTitle;
         this.url = url;
+        this.subNumber = subNumber;
+        this.subId = subId;
         this.viewCount = viewCount;
         this.recommendCount = recommendCount;
+    }
 
+    public String getSubId() {
+        return subId;
+    }
 
-
+    public void setSubId(String subId) {
+        this.subId = subId;
     }
 
     public String getUid() {

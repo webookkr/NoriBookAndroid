@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterFavorite;
 import com.bookapp.noribook.Model.ModelBook;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityFavoriteBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +43,8 @@ public class FavoriteActivity extends AppCompatActivity {
         loadUserinfo();
 
         loadFavoriteBook();
+
+        MyApplication.noriCoinCheck(binding.noriGoldTv);
 
         binding.profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override

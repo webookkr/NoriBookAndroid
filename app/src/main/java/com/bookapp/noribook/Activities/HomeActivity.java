@@ -3,6 +3,7 @@ package com.bookapp.noribook.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bookapp.noribook.Adapter.AdapterHomeBook;
 import com.bookapp.noribook.Model.ModelBook;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityHomeBinding;
 import com.bumptech.glide.Glide;
@@ -56,6 +58,8 @@ public class HomeActivity extends AppCompatActivity {
         advImageSet();
 
         nameBinding();
+
+        MyApplication.noriCoinCheck(binding.noriGoldTv);
 
 
         // 프로필 button

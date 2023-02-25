@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.bookapp.noribook.BookUserFragment;
 import com.bookapp.noribook.Model.ModelCategory;
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityDashboardUserBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +53,8 @@ public class DashboardUserActivity extends AppCompatActivity {
         setupViewPagerAdapter(binding.viewPager);
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
+
+        MyApplication.noriCoinCheck(binding.noriGoldTv);
 
 //  logoutBtn
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {

@@ -140,6 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
         hashMap.put("profileImage", ""); // 빈칸 차후 지급
         hashMap.put("userType", "user"); // possible values are user, admin 을 파이어베이스 데이터 베이스에 수동 변경
         hashMap.put("date", ""+date);
+        hashMap.put("noriCoin", 0);
 
         //set data to db
         FirebaseDatabase database = FirebaseDatabase.getInstance();

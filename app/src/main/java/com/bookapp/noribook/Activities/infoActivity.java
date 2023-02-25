@@ -9,6 +9,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityInfoBinding;
 import com.bumptech.glide.Glide;
@@ -43,7 +44,7 @@ public class infoActivity extends AppCompatActivity {
 
         information();
 
-
+        MyApplication.noriCoinCheck(binding.noriGoldTv);
 
         binding.profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
