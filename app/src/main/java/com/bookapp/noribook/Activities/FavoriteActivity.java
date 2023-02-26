@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterFavorite;
 import com.bookapp.noribook.Model.ModelBook;
+import com.bookapp.noribook.Model.ModelFavorite;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityFavoriteBinding;
@@ -24,12 +25,14 @@ import java.util.ArrayList;
 
 public class FavoriteActivity extends AppCompatActivity {
 
-    private ActivityFavoriteBinding binding;
+    private ActivityFavoriteBinding  binding;
 
     private FirebaseAuth firebaseAuth;
 
 
-    private ArrayList<ModelBook> pdfArrayList;
+    private ArrayList<ModelBook> bookArrayList;
+
+    private ArrayList<ModelFavorite> favArrayList;
 
     private AdapterFavorite adapterFavorite;
 
@@ -103,7 +106,8 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private void loadFavoriteBook() {
         //init
-        pdfArrayList = new ArrayList<>();
+        favArrayList = new ArrayList<>();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         //loadfavorite book : Users -> userId -> Favorite
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -111,17 +115,36 @@ public class FavoriteActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        pdfArrayList.clear();
-
+                        favArrayList.clear();
                         for (DataSnapshot ds : snapshot.getChildren()){
-                            String bookTitle = ""+ds.child("bookTitle").getValue();
+                            ModelFavorite modelFavorite = ds.getValue(ModelFavorite.class);
+                            String bookTitle = modelFavorite.getBookTitle();
 
-                            ModelBook modelBook = new ModelBook();
-                            modelBook.setTitle(bookTitle); // profile Detail 에서 bookTitle 받아와서 set하고 adapter에서 get해서 이어서 "Uses"에서 가져오기
-                            pdfArrayList.add(modelBook);
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
+                            ref.child(bookTitle).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    bookArrayList.clear();
+                                    ModelBook model = ds.getValue(ModelBook.class);
+                                    bookArrayList.add(model);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+                            adapterFavorite = new AdapterFavorite(FavoriteActivity.this, bookArrayList);
+                            binding.booksRv.setAdapter(adapterFavorite);
+//                            ModelBook model = ds.getValue(ModelBook.class);
+//                            String bookTitle = ""+ds.child("bookTitle").getValue();
+
+//                            ModelBook modelBook = new ModelBook();
+//                            modelBook.setTitle(bookTitle); // profile Detail 에서 bookTitle 받아와서 set하고 adapter에서 get해서 이어서 "Uses"에서 가져오기
+//                            bookArrayList.add(model);
                         }
-                        adapterFavorite = new AdapterFavorite(FavoriteActivity.this, pdfArrayList);
-                        binding.booksRv.setAdapter(adapterFavorite);
+
 
                     }
 

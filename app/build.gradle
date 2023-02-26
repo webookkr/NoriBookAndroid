@@ -11,7 +11,7 @@ android {
         applicationId "com.bookapp.noribook"
         minSdk 23
         targetSdk 33
-        versionCode 3
+        versionCode 4
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -57,8 +57,11 @@ dependencies {
 
 
 //    인앱결제
-    implementation 'com.android.billingclient:billing:4.1.0'
-    implementation 'com.google.code.gson:gson:2.8.8'
+
+    def billing_version = "5.0.0"
+    implementation "com.android.billingclient:billing:$billing_version"
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    implementation 'com.google.guava:guava:24.1-jre'
 
     def lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"

@@ -3,15 +3,12 @@ package com.bookapp.noribook.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.billingclient.api.SkuDetails;
 import com.bookapp.noribook.Adapter.AdapterHomeBook;
-import com.bookapp.noribook.BillingManager;
 import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
@@ -36,7 +33,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private AdapterHomeBook adapterCount;
 
-    BillingManager billingManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
