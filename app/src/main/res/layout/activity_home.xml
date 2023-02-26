@@ -91,7 +91,7 @@
             <RelativeLayout
                 android:id="@+id/advertiseRl"
                 android:layout_width="match_parent"
-                android:layout_height="130dp">
+                android:layout_height="160dp">
 
                 <ImageView
                     android:id="@+id/adIv"
@@ -203,10 +203,7 @@
                 android:background="@color/gray01"
                 android:layout_below="@id/favoriteRv"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="기업 소개"/>
+
 
 
 

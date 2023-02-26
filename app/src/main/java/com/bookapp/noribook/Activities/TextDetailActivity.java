@@ -199,4 +199,11 @@ public class TextDetailActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(TextDetailActivity.this,HomeActivity.class);
+        startActivity(intent);
+    }
+
 }

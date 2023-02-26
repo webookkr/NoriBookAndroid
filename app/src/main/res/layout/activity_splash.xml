@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/garaxyfantasia"
+    android:background="@drawable/fantasyback"
     tools:context=".Activities.SplashActivity">
 
     <ImageView
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="세상의 모든 소설 Nori World"
-        android:textColor="#FF4444"
+        android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"

@@ -106,8 +106,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private void loadFavoriteBook() {
         //init
-        favArrayList = new ArrayList<>();
-        firebaseAuth = FirebaseAuth.getInstance();
+        bookArrayList = new ArrayList<>();
 
         //loadfavorite book : Users -> userId -> Favorite
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -115,36 +114,17 @@ public class FavoriteActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        favArrayList.clear();
+                        bookArrayList.clear();
+
                         for (DataSnapshot ds : snapshot.getChildren()){
-                            ModelFavorite modelFavorite = ds.getValue(ModelFavorite.class);
-                            String bookTitle = modelFavorite.getBookTitle();
+                            String bookTitle = ""+ds.child("bookTitle").getValue();
 
-                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
-                            ref.child(bookTitle).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    bookArrayList.clear();
-                                    ModelBook model = ds.getValue(ModelBook.class);
-                                    bookArrayList.add(model);
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-
-                            adapterFavorite = new AdapterFavorite(FavoriteActivity.this, bookArrayList);
-                            binding.booksRv.setAdapter(adapterFavorite);
-//                            ModelBook model = ds.getValue(ModelBook.class);
-//                            String bookTitle = ""+ds.child("bookTitle").getValue();
-
-//                            ModelBook modelBook = new ModelBook();
-//                            modelBook.setTitle(bookTitle); // profile Detail 에서 bookTitle 받아와서 set하고 adapter에서 get해서 이어서 "Uses"에서 가져오기
-//                            bookArrayList.add(model);
+                            ModelBook modelBook = new ModelBook();
+                            modelBook.setTitle(bookTitle); // profile Detail 에서 bookTitle 받아와서 set하고 adapter에서 get해서 이어서 "Uses"에서 가져오기
+                            bookArrayList.add(modelBook);
                         }
-
+                        adapterFavorite = new AdapterFavorite(FavoriteActivity.this, bookArrayList);
+                        binding.booksRv.setAdapter(adapterFavorite);
 
                     }
 

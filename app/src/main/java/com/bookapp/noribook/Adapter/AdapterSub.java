@@ -69,26 +69,31 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
         holder.viewCountTv.setText(""+viewCount);
         holder.recommendTv.setText(""+recommendCount);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(firebaseAuth.getUid()).child("buyBooks").child(bookTitle).child(subNumber)
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                Boolean isBuySub= snapshot.exists();
-                                if(isBuySub = false){
-                                    holder.unlockIv.setImageResource(R.drawable.ic_lock_gray);
-                                    notifyDataSetChanged();
 
+        if (firebaseAuth.getCurrentUser() != null){
+            firebaseAuth = FirebaseAuth.getInstance();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+            reference.child(firebaseAuth.getUid()).child("buyBooks").child(bookTitle).child(subNumber)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Boolean isBuySub= snapshot.exists();
+                            if(isBuySub = false){
+                                holder.unlockIv.setImageResource(R.drawable.ic_lock_gray);
+                                notifyDataSetChanged();
 
-                                }
 
                             }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                        }
 
-                            }
-                        });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

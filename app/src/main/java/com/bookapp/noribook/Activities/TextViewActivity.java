@@ -87,7 +87,23 @@ public class TextViewActivity extends AppCompatActivity {
                 if (subNumber.equals("0")) {
                     Toast.makeText(TextViewActivity.this, "첫페이지 입니다.", Toast.LENGTH_SHORT).show();
                     subNumber = "" + (Long.parseLong(subNumber) + 1);
-                } else {
+                }
+                else if (Long.parseLong(subNumber) > 10 ) // 볼 subNum이 5보다 크다면
+                {
+                  MyApplication.subBuyCheck(TextViewActivity.this, bookTitle, subNumber);
+                    subNumber = "" + (Long.parseLong(subNumber) + 1);
+//                    if (FirebaseAuth.getInstance().getCurrentUser() != null){
+//                        MyApplication.askBuySub(TextViewActivity.this, bookTitle, subNumber);
+//                    }
+
+//
+//                    finish();
+//                    Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+//                    intent.putExtra("bookTitle", bookTitle);
+//                    intent.putExtra("subNumber", subNumber);
+//                    startActivity(intent);
+                }else // 1 < subnum < 5
+                {
                     finish();
                     Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
                     intent.putExtra("bookTitle", bookTitle);
@@ -117,6 +133,13 @@ public class TextViewActivity extends AppCompatActivity {
             }
         });
     }
+
+//    @Override
+//    public void onBackPressed()
+//    {
+//        Intent intent = new Intent(this,TextDetailActivity.class);
+//        startActivity(intent);
+//    }
 
     //    선호작 추가 제거 (아이콘 변경)
 //    private void checkIsMyFavorite() {
@@ -187,11 +210,33 @@ public class TextViewActivity extends AppCompatActivity {
                         binding.afterTitleTv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                long subCheckNumber= Long.parseLong(subNumber);
                                 subNumber = ""+(Long.parseLong(subNumber)+1);
                                 maxSubCount = ""+(Long.parseLong(subCount)+1);
                                 if(subNumber.equals(maxSubCount)){
                                     Toast.makeText(TextViewActivity.this, "마지막 페이지 입니다.", Toast.LENGTH_SHORT).show();
                                 }
+                                else if( subCheckNumber > 9) {
+                                    if (firebaseAuth.getCurrentUser() == null) {
+                                        Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    // 40편 초과, 로그인 된 경우 -> 구매했는지 체크하여 구매하지 않았으면 구매 권유(Alert), 구매했으면 볼 수 있도록
+                                    else {
+                                        MyApplication.subBuyCheck(TextViewActivity.this, bookTitle, subNumber);
+
+                                    }
+                                }
+                                else if( subCheckNumber >4) {
+                                    if (firebaseAuth.getCurrentUser() == null) {
+                                        Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        finish();
+                                        Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+                                        intent.putExtra("bookTitle", bookTitle);
+                                        intent.putExtra("subNumber",subNumber);
+                                        startActivity(intent);
+                                        }
+                                    }
                                 else{
                                     finish();
                                     Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
