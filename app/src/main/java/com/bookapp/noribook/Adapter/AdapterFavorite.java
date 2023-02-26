@@ -69,6 +69,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
             @Override
             public void onClick(View view) {
                 MyApplication.removeFromFavorite(context, model.getId(), model.getTitle());
+                notifyDataSetChanged();
             }
         });
 
@@ -88,7 +89,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
                         String title = ""+snapshot.child("title").getValue();
                         long viewCount = Long.parseLong(""+snapshot.child("viewCount").getValue());
                         String url = ""+snapshot.child("url").getValue();
-                        String bookid = ""+snapshot.child("id").getValue();
+                        String bookId = ""+snapshot.child("id").getValue();
 
                         // long viewCount = Long.parseLong(viewCounts);
                         model.setFavorite(true);
@@ -98,7 +99,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.Holder
                         model.setTitle(title);
                         model.setViewCount(viewCount);
                         model.setUrl(url);
-                        model.setId(bookid);
+                        model.setId(bookId);
 
                         Glide.with(context)
                                 .load(url)

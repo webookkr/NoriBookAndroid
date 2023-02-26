@@ -90,6 +90,13 @@ public class FavoriteActivity extends AppCompatActivity {
             return true;
         });
 
+        binding.noriGoldIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication.askGoldBuy(FavoriteActivity.this);
+            }
+        });
+
 
     }
 

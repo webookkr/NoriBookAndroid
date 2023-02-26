@@ -4,12 +4,16 @@ import static com.bookapp.noribook.Constants.MAX_BYTES_PDF;
 
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.text.format.DateFormat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +21,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.bookapp.noribook.Activities.TextViewActivity;
+import com.bookapp.noribook.databinding.ActivityNoriCoinAddBinding;
+import com.bookapp.noribook.databinding.DialogSubBuyBinding;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
@@ -499,21 +505,89 @@ public class MyApplication extends Application {
     }
 
     public static void askBuySub(Context context, String bookTitle, String subNumber) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("구매 확인")
-               .setMessage("100코인이 소모됩니다. 소설을 구매하시겠습니까?")
-               .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       Toast.makeText(context, "구매중입니다.", Toast.LENGTH_SHORT).show();
-                       confirmBuy(context, bookTitle, subNumber);
-                   }
-               }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+
+        DialogSubBuyBinding askBinding = DialogSubBuyBinding.inflate(LayoutInflater.from(context));
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomDialog);
+        builder.setView(askBinding.getRoot());
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialog.getWindow().setDimAmount(0);
+        alertDialog.getWindow().setBackgroundDrawable(null);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        alertDialog.show();
+
+        askBinding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+
+        askBinding.confirmFl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "구매중입니다.", Toast.LENGTH_SHORT).show();
+                confirmBuy(context, bookTitle, subNumber);
+            }
+        });
+
+        askBinding.cancleFl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(FirebaseAuth.getInstance().getUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String noriCoin = ""+snapshot.child("noriCoin").getValue();
+                                askBinding.noriGoldTv.setText(noriCoin);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks");
+        ref.child(bookTitle).child(subNumber)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String subTitle = ""+snapshot.child("subTitle").getValue();
+                                askBinding.subTitle.setText(subNumber+"."+subTitle);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+//
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setTitle("구매 확인")
+//               .setMessage("100코인이 소모됩니다. 소설을 구매하시겠습니까?")
+//               .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//                   @Override
+//                   public void onClick(DialogInterface dialog, int which) {
+//                       Toast.makeText(context, "구매중입니다.", Toast.LENGTH_SHORT).show();
+//                       confirmBuy(context, bookTitle, subNumber);
+//                   }
+//               }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                }).show();
     }
 
     private static void confirmBuy(Context context, String bookTitle, String subNumber) {
@@ -562,6 +636,18 @@ public class MyApplication extends Application {
                     }
                 });
     }
+
+//    골드 버튼 클릭
+    public static void askGoldBuy(Context context){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            Toast.makeText(context, "로그인 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+        }else {
+            Intent intent = new Intent(context, NoriCoinAddActivity.class);
+            context.startActivity(intent);
+        }
+
+    }
+
 
 //
 ////    선호작이면 추가 아니면 제거

@@ -106,6 +106,14 @@ public class DashboardUserActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        binding.noriGoldIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication.askGoldBuy(DashboardUserActivity.this);
+            }
+        });
+
     }
 
     // 1- 3.

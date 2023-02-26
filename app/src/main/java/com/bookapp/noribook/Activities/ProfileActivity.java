@@ -60,6 +60,13 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        binding.noriGoldIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication.askGoldBuy(ProfileActivity.this);
+            }
+        });
+
     }
 
     // adapter(pdfFavorite)

@@ -9,7 +9,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.billingclient.api.SkuDetails;
 import com.bookapp.noribook.Adapter.AdapterHomeBook;
+import com.bookapp.noribook.BillingManager;
 import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
@@ -33,6 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<ModelBook> pdfArrayList, pdfArrayList2, pdfArrayList3, reversePdf2 ;
 
     private AdapterHomeBook adapterCount;
+
+    BillingManager billingManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,15 @@ public class HomeActivity extends AppCompatActivity {
         nameBinding();
 
         MyApplication.noriCoinCheck(binding.noriGoldTv);
+
+
+
+        binding.noriGoldIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication.askGoldBuy(HomeActivity.this);
+            }
+        });
 
 
         // 프로필 button

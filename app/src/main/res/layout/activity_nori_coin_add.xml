@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,4 +7,316 @@
     android:background="@color/white"
     tools:context=".NoriCoinAddActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profileIv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/white"
+            app:strokeColor="@color/gray01"
+            app:strokeWidth="1dp"
+            android:src="@drawable/ic_person_gray"
+            app:shapeAppearance="@style/styleCircleImage"/>
+
+        <TextView
+            android:id="@+id/welcomeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/profileIv"
+            android:layout_marginLeft="15dp"
+            android:text="WELCOME"
+            android:textColor="@color/gray02"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/welcomeLabel"
+            android:layout_toEndOf="@id/profileIv"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:text="Full name"
+            android:textColor="#6B73FE"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/profileEditBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_camera_blue" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/boxCv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_below="@id/toolbarRl"
+        android:background="@drawable/shape_toolbar04">
+
+        <TextView
+            android:id="@+id/coinLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용 가능 코인"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:textSize="20sp"
+            android:textColor="#D5D5D5"/>
+
+        <TextView
+            android:id="@+id/coinTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0000 원"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp"
+            android:layout_below="@id/coinLabel"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <ImageButton
+            android:id="@+id/renewBtn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_autorenew_white" />
+
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/listLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="구매 목록"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/boxCv"
+        android:textSize="20sp"
+        android:textColor="@color/gray02"/>
+
+    <LinearLayout
+        android:id="@+id/buylistRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/listLabel">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/noriGoldIv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_norigold_gold"/>
+
+            <TextView
+                android:id="@+id/coin100Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100 노리코인"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/won100Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100원"
+                android:layout_below="@id/coin100Label"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv"
+                android:textSize="15sp"
+                android:textColor="@color/gray02"/>
+
+
+            <android.widget.Button
+                android:id="@+id/confirmBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/shape_toolbar04"
+                android:text="확인"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv"
+                android:background="@color/gray01"
+                android:layout_below="@id/confirmBtn"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/noriGoldIv2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_norigold_gold"/>
+
+            <TextView
+                android:id="@+id/coin1000Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1000 노리코인"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv2"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/won1000Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1,000원"
+                android:layout_below="@id/coin1000Label"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv2"
+                android:textSize="15sp"
+                android:textColor="@color/gray02"/>
+
+
+            <android.widget.Button
+                android:id="@+id/confirmBtn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/shape_toolbar04"
+                android:text="확인"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv2"
+                android:background="@color/gray01"
+                android:layout_below="@id/confirmBtn2"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/noriGoldIv3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/ic_norigold_gold"/>
+
+            <TextView
+                android:id="@+id/coin10000Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10000 노리코인"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv3"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/won10000Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10,000원"
+                android:layout_below="@id/coin10000Label"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv3"
+                android:textSize="15sp"
+                android:textColor="@color/gray02"/>
+
+
+            <android.widget.Button
+                android:id="@+id/confirmBtn3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/shape_toolbar04"
+                android:text="확인"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/noriGoldIv3"
+                android:background="@color/gray01"
+                android:layout_below="@id/confirmBtn3"
+                />
+
+        </RelativeLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</RelativeLayout>

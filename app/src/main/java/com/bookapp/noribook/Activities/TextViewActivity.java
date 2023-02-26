@@ -220,11 +220,13 @@ public class TextViewActivity extends AppCompatActivity {
 
         // setup alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
         builder.setTitle("댓글 입력창");
         builder.setView(commentAddBinding.getRoot());
 
         //create and show alert
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setDimAmount(0);
         alertDialog.show();
 
         // handle click : back btn

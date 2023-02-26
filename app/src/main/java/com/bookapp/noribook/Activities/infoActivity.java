@@ -96,6 +96,13 @@ public class infoActivity extends AppCompatActivity {
             return true;
         });
 
+        binding.noriGoldIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication.askGoldBuy(infoActivity.this);
+            }
+        });
+
 
     }
 
