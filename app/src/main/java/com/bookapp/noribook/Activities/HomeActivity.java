@@ -2,6 +2,7 @@ package com.bookapp.noribook.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,6 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -32,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<ModelBook> pdfArrayList, pdfArrayList2, pdfArrayList3, reversePdf2 ;
 
     private AdapterHomeBook adapterCount;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         nameBinding();
 
         MyApplication.noriCoinCheck(binding.noriGoldTv);
+
 
 
 
@@ -145,16 +149,40 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void advImageSet() {
+//    private void advImageSet() {
+//
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AdvImage");
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String imgUrl = ""+snapshot.child("url").getValue();
+//                Glide.with(HomeActivity.this)
+//                        .load(imgUrl)
+//                        .into(binding.adIv);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//
+//    }
 
+    private void advImageSet() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("AdvImage");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String imgUrl = ""+snapshot.child("url").getValue();
-                Glide.with(HomeActivity.this)
-                        .load(imgUrl)
-                        .into(binding.adIv);
+                List<String> imageUrls = new ArrayList<>(); // url 리스트 생성
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    String url = childSnapshot.getValue(String.class);
+                    imageUrls.add(url);
+                }
+                if (!imageUrls.isEmpty()) {
+                    setAdvImage(imageUrls, 0); // 0번째 이미지부터 시작
+                }
             }
 
             @Override
@@ -162,9 +190,22 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
+
+    private void setAdvImage(List<String> imageUrls, int index) {
+        Glide.with(this)
+                .load(imageUrls.get(index))
+                .into(binding.adIv);
+
+        new Handler().postDelayed(new Runnable() { // 일정 시간 후에 다음 이미지로 변경
+            @Override
+            public void run() {
+                int nextIndex = (index + 1) % imageUrls.size();
+                setAdvImage(imageUrls, nextIndex);
+            }
+        }, 6000); // 5초 후에 다음 이미지로 변경
+    }
+
 
     private void loadFeaturedBook(String orderBy) {
         pdfArrayList = new ArrayList<>();

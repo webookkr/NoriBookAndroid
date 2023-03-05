@@ -6,14 +6,14 @@ public class ModelSub {
 
     String subNumber, subId;
     long viewCount;
-    long recommendCount;
+    long recommend;
 
 
     public ModelSub(){
 
     }
 
-    public ModelSub(String uid, String subTitle, String date, String bookTitle, String url, String subNumber, String subId, long viewCount, long recommendCount) {
+    public ModelSub(String uid, String subTitle, String date, String bookTitle, String url, String subNumber, String subId, long viewCount, long recommend) {
         this.uid = uid;
         this.subTitle = subTitle;
         this.date = date;
@@ -22,7 +22,7 @@ public class ModelSub {
         this.subNumber = subNumber;
         this.subId = subId;
         this.viewCount = viewCount;
-        this.recommendCount = recommendCount;
+        this.recommend = recommend;
     }
 
     public String getSubId() {
@@ -89,12 +89,12 @@ public class ModelSub {
         this.viewCount = viewCount;
     }
 
-    public long getRecommendCount() {
-        return recommendCount;
+    public long getRecommend() {
+        return recommend;
     }
 
-    public void setRecommendCount(long recommendCount) {
-        this.recommendCount = recommendCount;
+    public void setRecommend(long recommend) {
+        this.recommend = recommend;
     }
 
 

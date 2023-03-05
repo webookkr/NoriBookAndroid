@@ -62,14 +62,14 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
         String bookTitle = model.getBookTitle();
         String url = model.getUrl();
         long viewCount = model.getViewCount();
-        long recommendCount = model.getRecommendCount();
+        long recommend = model.getRecommend();
         String subId = model.getSubId();
 
         holder.subNumberTv.setText(subNumber);
         holder.subTitleTv.setText(subTitle);
         holder.dateTv.setText(date);
         holder.viewCountTv.setText(""+viewCount);
-        holder.recommendTv.setText(""+recommendCount);
+        holder.recommendTv.setText(""+recommend);
 
         if (!isUserLoggedIn()) { // 사용자가 로그인하지 않은 경우
             if (holder.getAdapterPosition() < 20) {

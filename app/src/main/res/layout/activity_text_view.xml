@@ -10,38 +10,44 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/textNsv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:scrollbars="vertical">
+        android:layout_height="match_parent"
+        android:fillViewport="false"
+        android:scrollbarFadeDuration="0"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:visibility="visible">
+
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/titleTv"
 
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/fontstyle"
                 android:lineSpacingExtra="10dp"
                 android:text=""
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="25sp" />
+                android:textStyle=""
+                android:textSize="23sp" />
 
 
             <TextView
                 android:id="@+id/textTv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/titleTv"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="150dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginBottom="100dp"
                 android:fontFamily="@font/fontstyle"
                 android:lineSpacingExtra="13dp"
                 android:text=""
@@ -50,20 +56,22 @@
                 android:scrollHorizontally="false"
                 android:textSize="20sp" />
 
-            <View
-                android:id="@+id/view1"
-                android:layout_below="@id/textTv"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/gray01"/>
+
 
             <RelativeLayout
-                android:layout_below="@+id/view1"
+                android:id="@+id/etcRl"
+                android:layout_below="@id/textTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-<!--                페이지 넘기기-->
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/gray01"/>
+
+
+                <!--                페이지 넘기기-->
 
 
                 <TextView

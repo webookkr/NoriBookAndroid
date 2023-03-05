@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF4C9"
+    android:background="@drawable/fantasyback"
     tools:context=".Activities.FavoriteActivity">
 
     <!--    toolBar-->
@@ -12,7 +12,7 @@
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@drawable/shape_toolbar01">
+        android:background="@android:color/transparent">
 
         <ImageButton
             android:id="@+id/profileBtn"
@@ -60,7 +60,7 @@
             android:layout_marginRight="5dp"
             android:text="0원"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
         <ImageButton
             android:id="@+id/logoutBtn"
@@ -76,8 +76,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="220dp"
-        android:background="@drawable/homeback" />
+        android:layout_marginTop="220dp" />
 
     <View
         android:id="@+id/view1"
@@ -93,7 +92,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:text="Full name"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"/>
 

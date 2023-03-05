@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/homeback"
+    android:background="@drawable/fantasyback"
     android:orientation="vertical"
     tools:context=".Activities.HomeActivity">
 
@@ -13,7 +13,7 @@
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@drawable/shape_toolbar01">
+        android:background="@android:color/transparent">
 
         <ImageButton
             android:id="@+id/profileBtn"
@@ -61,7 +61,7 @@
             android:layout_marginRight="5dp"
             android:text="0원"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
 
         <ImageButton
@@ -114,8 +114,9 @@
                 android:id="@+id/featuredBestTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:text="추천작"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_below="@id/view1"/>
 
 
@@ -145,8 +146,9 @@
                 android:id="@+id/countBestTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:text="조회수 베스트"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_below="@id/view2"/>
 
 
@@ -180,8 +182,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view3"
+                android:layout_marginLeft="15dp"
                 android:text="선호작 베스트"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/favoriteRv"

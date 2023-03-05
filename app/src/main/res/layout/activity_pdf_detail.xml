@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background_wallpaper"
     android:layout_height="match_parent"
     tools:context=".Activities.TextDetailActivity">
 
@@ -63,6 +63,7 @@
 
                 <ImageView
                     android:id="@+id/bookIv"
+                    android:scaleType="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
@@ -239,14 +240,32 @@
 
         </RelativeLayout>
 
-            <TextView
-                android:id="@+id/descriptionTv"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="#C8C8C8"
                 android:layout_marginTop="10dp"
-                android:text="description"
-                android:textColor="@color/black"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/descriptionTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:maxLines="4"
+                    android:ellipsize="end"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="description"
+                    android:onClick="expandTextView"
+                    android:textColor="@color/black"/>
+
+            </ScrollView>
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pdfSubRv"

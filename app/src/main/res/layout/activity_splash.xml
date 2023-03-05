@@ -7,22 +7,15 @@
     android:background="@drawable/fantasyback"
     tools:context=".Activities.SplashActivity">
 
-    <ImageView
-        android:id="@+id/icon_Iv"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/nori_icon3"
-        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="세상의 모든 소설 Nori World"
-        android:textColor="@color/white"
+        android:textColor="#F8FFD3"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/icon_Iv"/>
+        android:layout_marginTop="80dp"/>
 
 </RelativeLayout>

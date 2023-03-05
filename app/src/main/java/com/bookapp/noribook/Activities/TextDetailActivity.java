@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -88,6 +89,18 @@ public class TextDetailActivity extends AppCompatActivity {
                     }
                 }
 
+            }
+        });
+
+        binding.descriptionTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView tv = (TextView) v;
+                if (tv.getMaxLines() == 4) { // 4줄 이상인 경우, 4줄로 변경
+                    tv.setMaxLines(Integer.MAX_VALUE);
+                } else { // 4줄 이하인 경우, 4줄 이상으로 변경
+                    tv.setMaxLines(4);
+                }
             }
         });
 

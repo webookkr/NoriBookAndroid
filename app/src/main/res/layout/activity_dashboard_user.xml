@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/fantasyback"
     android:layout_height="match_parent"
     tools:context=".Activities.DashboardUserActivity">
 
@@ -12,7 +12,7 @@
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@drawable/shape_toolbar01">
+        android:background="@android:color/transparent">
 
         <ImageButton
             android:id="@+id/profileBtn"
@@ -55,12 +55,12 @@
             android:id="@+id/noriGoldTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/logoutBtn"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:layout_toStartOf="@id/logoutBtn"
             android:text="0원"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/logoutBtn"

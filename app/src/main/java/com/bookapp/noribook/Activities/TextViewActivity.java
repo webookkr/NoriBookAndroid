@@ -62,6 +62,12 @@ public class TextViewActivity extends AppCompatActivity {
         binding = ActivityTextViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.etcRl.setVisibility(View.GONE);
+
+        // loadBookDetail 호출 후 뷰를 GONE으로 설정
+//        binding.getRoot().setVisibility(View.GONE);
+
         Intent intent = getIntent();
         bookTitle = intent.getStringExtra("bookTitle");
         subNumber = intent.getStringExtra("subNumber");
@@ -76,8 +82,6 @@ public class TextViewActivity extends AppCompatActivity {
         loadBookDetails();
 
         loadComments();
-
-        binding.textTv.setMovementMethod(new ScrollingMovementMethod());
 
         MyApplication.incrementSubBookViewCount(bookTitle, subNumber);
 
@@ -134,6 +138,68 @@ public class TextViewActivity extends AppCompatActivity {
                 }
             }
         });
+
+        DatabaseReference subBookRef = FirebaseDatabase.getInstance().getReference()
+                .child("SubBooks")
+                .child(bookTitle)
+                .child(subNumber);
+
+        binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                // 좋아요를 누른 적이 있는지 검증합니다.
+                subBookRef.child("Likes").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // 좋아요를 이미 누른 경우, 좋아요를 취소합니다.
+                            subBookRef.child("Likes").child(uid).setValue(null);
+                            binding.favoriteBtn.setImageResource(R.drawable.ic_favorite_border_black);
+
+                            subBookRef.child("recommend").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        long recommend = (long) snapshot.getValue();
+                                        subBookRef.child("recommend").setValue(recommend - 1);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        } else {
+                            // 좋아요를 누르지 않은 경우, 좋아요를 추가합니다.
+                            subBookRef.child("Likes").child(uid).setValue(true);
+                            binding.favoriteBtn.setImageResource(R.drawable.ic_favorite_black);
+
+                            // 추천 수를 1 증가합니다.
+                            subBookRef.child("recommend").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        long recommend = (long) snapshot.getValue();
+                                        subBookRef.child("recommend").setValue(recommend + 1);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+        });
+
     }
 
 //    @Override
@@ -169,6 +235,7 @@ public class TextViewActivity extends AppCompatActivity {
 //                    }
 //                });
 //    }
+
 
 
 
@@ -343,8 +410,10 @@ public class TextViewActivity extends AppCompatActivity {
 
     // 책정보 가져오기,
     private void loadBookDetails() {
+//        binding.progressBar.setVisibility(View.VISIBLE);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SubBooks/"+bookTitle+"/");
         ref.child(subNumber)
+
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -369,6 +438,9 @@ public class TextViewActivity extends AppCompatActivity {
                                                 binding.textTv.setMovementMethod(new ScrollingMovementMethod());
                                                 binding.progressBar.setVisibility(View.GONE);
                                                 binding.titleTv.setText(subNumber+". "+subTitle);
+                                                // 데이터가 로드된 이후에 뷰를 VISIBLE로 설정
+//                                                binding.getRoot().setVisibility(View.VISIBLE);
+                                                binding.etcRl.setVisibility(View.VISIBLE);
                                             }
                                         });
 
