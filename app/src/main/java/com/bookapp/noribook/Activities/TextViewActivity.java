@@ -77,6 +77,8 @@ public class TextViewActivity extends AppCompatActivity {
 
         loadComments();
 
+        binding.textTv.setMovementMethod(new ScrollingMovementMethod());
+
         MyApplication.incrementSubBookViewCount(bookTitle, subNumber);
 
 //      다음화 , 이전화
@@ -88,7 +90,7 @@ public class TextViewActivity extends AppCompatActivity {
                     Toast.makeText(TextViewActivity.this, "첫페이지 입니다.", Toast.LENGTH_SHORT).show();
                     subNumber = "" + (Long.parseLong(subNumber) + 1);
                 }
-                else if (Long.parseLong(subNumber) > 10 ) // 볼 subNum이 5보다 크다면
+                else if (Long.parseLong(subNumber) > 40 ) // 볼 subNum이 5보다 크다면
                 {
                   MyApplication.subBuyCheck(TextViewActivity.this, bookTitle, subNumber);
                     subNumber = "" + (Long.parseLong(subNumber) + 1);
@@ -216,7 +218,7 @@ public class TextViewActivity extends AppCompatActivity {
                                 if(subNumber.equals(maxSubCount)){
                                     Toast.makeText(TextViewActivity.this, "마지막 페이지 입니다.", Toast.LENGTH_SHORT).show();
                                 }
-                                else if( subCheckNumber > 9) {
+                                else if( subCheckNumber > 39) {
                                     if (firebaseAuth.getCurrentUser() == null) {
                                         Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
                                     }
@@ -226,7 +228,7 @@ public class TextViewActivity extends AppCompatActivity {
 
                                     }
                                 }
-                                else if( subCheckNumber >4) {
+                                else if( subCheckNumber >19) {
                                     if (firebaseAuth.getCurrentUser() == null) {
                                         Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
                                     } else {

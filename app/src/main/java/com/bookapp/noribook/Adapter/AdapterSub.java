@@ -2,6 +2,7 @@ package com.bookapp.noribook.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.RowPdfSubBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,44 +71,50 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
         holder.viewCountTv.setText(""+viewCount);
         holder.recommendTv.setText(""+recommendCount);
 
-
-        if (firebaseAuth.getCurrentUser() != null){
-            firebaseAuth = FirebaseAuth.getInstance();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-            reference.child(firebaseAuth.getUid()).child("buyBooks").child(bookTitle).child(subNumber)
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Boolean isBuySub= snapshot.exists();
-                            if(isBuySub = false){
-                                holder.unlockIv.setImageResource(R.drawable.ic_lock_gray);
-                                notifyDataSetChanged();
-
-
-                            }
-
+        if (!isUserLoggedIn()) { // 사용자가 로그인하지 않은 경우
+            if (holder.getAdapterPosition() < 20) {
+                holder.unlockIv.setVisibility(View.VISIBLE);
+            } else {
+                holder.unlockIv.setVisibility(View.GONE);
+            }
+        } else { // 사용자가 로그인한 경우
+            if (holder.getAdapterPosition() < 40) { // 목록 항목이 40개 미만인 경우
+                holder.unlockIv.setVisibility(View.GONE);
+            } else { // 목록 항목이 40개 이상인 경우
+                // Firebase Database에서 'Users' > firebaseAuth.getUid() > 'buyBooks' > bookTitle > subNumber 경로에서 데이터를 가져옵니다.
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid()).child("buyBooks").child(bookTitle).child(subNumber);
+                // 'subNumber' 값이 존재하는지 확인합니다.
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) { // 'subNumber' 값이 존재하는 경우
+                            holder.unlockIv.setVisibility(View.GONE);
+                        } else { // 'subNumber' 값이 존재하지 않는 경우
+                            holder.unlockIv.setVisibility(View.VISIBLE);
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
         }
+
+
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 long subCheckNumber= Long.parseLong(subNumber);
-                if(subCheckNumber <= 5){
+                if(subCheckNumber <= 20){
                     Intent intent = new Intent(context, TextViewActivity.class);
                     intent.putExtra("bookTitle", bookTitle);
 //                intent.putExtra("subTitle", subTitle);
                     intent.putExtra("subNumber",subNumber);
                     context.startActivity(intent);
                 }
-                else if( subCheckNumber > 10){
+                else if( subCheckNumber > 40){
                     if(firebaseAuth.getCurrentUser()==null){
                         Toast.makeText(context, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
                     }
@@ -117,7 +125,7 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
                     }
 
                 }
-                else if( subCheckNumber >5) {
+                else if( subCheckNumber >20) {
                     if (firebaseAuth.getCurrentUser() == null) {
                         Toast.makeText(context, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
                     } else {
@@ -185,5 +193,10 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
             subNumberTv = binding.subNumberTv;
 
         }
+    }
+
+    private boolean isUserLoggedIn() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return (user != null);
     }
 }

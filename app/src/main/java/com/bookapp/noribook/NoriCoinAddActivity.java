@@ -80,6 +80,7 @@ public class NoriCoinAddActivity extends AppCompatActivity {
         productIds = new ArrayList<>();
         productIds.add("nori_coin_100");
         productIds.add("nori_coin_1000");
+        productIds.add("nori_coin_10000");
 
 
 
@@ -151,6 +152,13 @@ public class NoriCoinAddActivity extends AppCompatActivity {
             }
         });
 
+        binding.confirmBtn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchPurchaseFlow(productDetailsList.get(2));
+            }
+        });
+
     }
 
 
@@ -185,6 +193,11 @@ public class NoriCoinAddActivity extends AppCompatActivity {
                 //Product 2
                 QueryProductDetailsParams.Product.newBuilder()
                         .setProductId("nori_coin_1000")
+                        .setProductType(BillingClient.ProductType.INAPP)
+                        .build(),
+                //Product 2
+                QueryProductDetailsParams.Product.newBuilder()
+                        .setProductId("nori_coin_10000")
                         .setProductType(BillingClient.ProductType.INAPP)
                         .build()
         );
@@ -253,6 +266,7 @@ public class NoriCoinAddActivity extends AppCompatActivity {
         coins = new ArrayList<>();
         coins.add(100);
         coins.add(1000);
+        coins.add(10000);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
@@ -266,6 +280,8 @@ public class NoriCoinAddActivity extends AppCompatActivity {
                     newNoriCoin = coins.get(0)+Long.parseLong(noriCoin);
                 } else if (purchase.getProducts().get(0).equals(productIds.get(1))) {
                     newNoriCoin = coins.get(1)+Long.parseLong(noriCoin);
+                } else if (purchase.getProducts().get(0).equals(productIds.get(2))) {
+                    newNoriCoin = coins.get(2) + Long.parseLong(noriCoin);
                 }
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("noriCoin",""+newNoriCoin);
@@ -280,7 +296,7 @@ public class NoriCoinAddActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError e) {
 
             }
         });

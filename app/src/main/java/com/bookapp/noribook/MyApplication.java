@@ -529,8 +529,27 @@ public class MyApplication extends Application {
         askBinding.confirmFl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "구매중입니다.", Toast.LENGTH_SHORT).show();
-                confirmBuy(context, bookTitle, subNumber);
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                reference.child(FirebaseAuth.getInstance().getUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String noriCoin = ""+snapshot.child("noriCoin").getValue();
+                                if (Long.parseLong(noriCoin) >= 100){
+                                    Toast.makeText(context, "구매중입니다.", Toast.LENGTH_SHORT).show();
+                                    confirmBuy(context, bookTitle, subNumber);
+                                }else {
+                                    Toast.makeText(context, "코인이 부족합니다. 코인을 구매하세요", Toast.LENGTH_SHORT).show();
+                                    alertDialog.cancel();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
             }
         });
 
