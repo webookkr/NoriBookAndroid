@@ -73,9 +73,9 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
 
         if (!isUserLoggedIn()) { // 사용자가 로그인하지 않은 경우
             if (holder.getAdapterPosition() < 20) {
-                holder.unlockIv.setVisibility(View.VISIBLE);
-            } else {
                 holder.unlockIv.setVisibility(View.GONE);
+            } else {
+                holder.unlockIv.setVisibility(View.VISIBLE);
             }
         } else { // 사용자가 로그인한 경우
             if (holder.getAdapterPosition() < 40) { // 목록 항목이 40개 미만인 경우

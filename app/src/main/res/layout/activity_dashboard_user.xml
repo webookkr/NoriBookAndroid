@@ -79,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbarRl"
-        app:tabTextColor="@color/black"
+        app:tabTextColor="@color/white"
         android:background="@android:color/transparent"
         app:tabBackground="@drawable/tap_selector"
         app:tabIndicatorFullWidth="false"
