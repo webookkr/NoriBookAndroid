@@ -164,6 +164,7 @@ public class TextViewActivity extends AppCompatActivity {
                                     if (snapshot.exists()) {
                                         long recommend = (long) snapshot.getValue();
                                         subBookRef.child("recommend").setValue(recommend - 1);
+                                        Toast.makeText(TextViewActivity.this, "추천이 취소되었습니다.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
@@ -183,6 +184,7 @@ public class TextViewActivity extends AppCompatActivity {
                                     if (snapshot.exists()) {
                                         long recommend = (long) snapshot.getValue();
                                         subBookRef.child("recommend").setValue(recommend + 1);
+                                        Toast.makeText(TextViewActivity.this, "추천 되었습니다.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
