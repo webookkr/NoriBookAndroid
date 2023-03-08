@@ -41,7 +41,7 @@
             android:name=".Activities.SubAddActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.PdfViewActivity2"
+            android:name=".Activities.EditorViewActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.TextDetailActivity"

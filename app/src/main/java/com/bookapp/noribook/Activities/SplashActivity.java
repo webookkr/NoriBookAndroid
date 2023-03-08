@@ -61,6 +61,10 @@ public class SplashActivity extends AppCompatActivity {
                                 startActivity(new Intent(SplashActivity.this, DashboardAdminActivity.class));
                                 finish();
                             }
+                            else if (userType.equals("editor")){
+                                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                                finish();
+                            }
                         }
 
                         @Override

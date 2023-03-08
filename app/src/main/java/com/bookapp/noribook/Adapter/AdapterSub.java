@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bookapp.noribook.Activities.EditorViewActivity;
+import com.bookapp.noribook.Activities.HomeActivity;
+import com.bookapp.noribook.Activities.SplashActivity;
 import com.bookapp.noribook.Model.ModelSub;
 import com.bookapp.noribook.Activities.TextViewActivity;
 import com.bookapp.noribook.MyApplication;
@@ -100,43 +103,75 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
             }
         }
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
-
-
+        long subCheckNumber= Long.parseLong(subNumber);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long subCheckNumber= Long.parseLong(subNumber);
-                if(subCheckNumber <= 20){
-                    Intent intent = new Intent(context, TextViewActivity.class);
-                    intent.putExtra("bookTitle", bookTitle);
-//                intent.putExtra("subTitle", subTitle);
-                    intent.putExtra("subNumber",subNumber);
-                    context.startActivity(intent);
-                }
-                else if( subCheckNumber > 40){
-                    if(firebaseAuth.getCurrentUser()==null){
+                if(firebaseAuth.getCurrentUser() == null){
+                    if(subCheckNumber>20){
                         Toast.makeText(context, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                    // 40편 초과, 로그인 된 경우 -> 구매했는지 체크하여 구매하지 않았으면 구매 권유(Alert), 구매했으면 볼 수 있도록
-                    else {
-                        MyApplication.subBuyCheck(context, bookTitle, subNumber);
-
-                    }
-
-                }
-                else if( subCheckNumber >20) {
-                    if (firebaseAuth.getCurrentUser() == null) {
-                        Toast.makeText(context, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }else {
                         Intent intent = new Intent(context, TextViewActivity.class);
                         intent.putExtra("bookTitle", bookTitle);
 //                intent.putExtra("subTitle", subTitle);
                         intent.putExtra("subNumber", subNumber);
                         context.startActivity(intent);
-
                     }
+
+                }else {
+                    reference.child(firebaseAuth.getUid())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String userType = ""+snapshot.child("userType").getValue();
+                                    if (userType.equals("editor")){
+                                        Intent intent = new Intent(context, EditorViewActivity.class);
+                                        intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                                        intent.putExtra("subNumber",subNumber);
+                                        intent.putExtra("subTitle",subTitle);
+                                        context.startActivity(intent);
+                                    }else {
+                                        if(subCheckNumber <= 20){
+                                            Intent intent = new Intent(context, TextViewActivity.class);
+                                            intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                                            intent.putExtra("subNumber",subNumber);
+                                            context.startActivity(intent);
+                                        }
+                                        else if( subCheckNumber > 40){
+                                            if(firebaseAuth.getCurrentUser()==null){
+                                                Toast.makeText(context, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
+                                            }
+                                            // 40편 초과, 로그인 된 경우 -> 구매했는지 체크하여 구매하지 않았으면 구매 권유(Alert), 구매했으면 볼 수 있도록
+                                            else {
+                                                MyApplication.subBuyCheck(context, bookTitle, subNumber);
+
+                                            }
+
+                                        }
+                                        else if( subCheckNumber >20) {
+
+                                                Intent intent = new Intent(context, TextViewActivity.class);
+                                                intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                                                intent.putExtra("subNumber", subNumber);
+                                                context.startActivity(intent);
+
+                                        }
+                                    }
+
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                 }
+
+
             }
         });
 

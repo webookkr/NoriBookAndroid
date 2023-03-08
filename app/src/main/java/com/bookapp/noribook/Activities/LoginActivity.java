@@ -149,6 +149,10 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(LoginActivity.this, DashboardAdminActivity.class));
                             finish();
                         }
+                        else if (userType.equals("editor")){
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
+                        }
                     }
 
                     @Override
