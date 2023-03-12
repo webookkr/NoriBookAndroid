@@ -1,9 +1,13 @@
 package com.bookapp.noribook.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +20,7 @@ import com.bookapp.noribook.R;
 import com.bookapp.noribook.databinding.ActivityHomeBinding;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +42,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private AdapterHomeBook adapterCount;
 
+    private Handler mHandler = new Handler();
+
+    private ViewStub splashViewStub;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +54,25 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
+
+        SharedPreferences sharedPreferences = getSharedPreferences("NoriBookAndroid", MODE_PRIVATE);
+        boolean isSharedDisplayed = sharedPreferences.getBoolean("is_shared_displayed",false);
+        Log.d("MyTag", "is_shared_displayed: " + isSharedDisplayed); // Log로 값 확인
+
+        if (!isSharedDisplayed){
+
+            binding.splashVs.setVisibility(View.VISIBLE);
+            checkUser();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    binding.splashVs.setVisibility(View.GONE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("is_shared_displayed", true);
+                    editor.apply();
+                }
+            },2000);
+        }
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -107,6 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.library:
                     Intent intent = new Intent(HomeActivity.this, DashboardUserActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     return true;
                 case R.id.favorite:
@@ -115,11 +145,13 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     }else {
                         Intent intent1 = new Intent(this, FavoriteActivity.class);
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent1);
                     }
                     return true;
                 case R.id.info:
                     Intent intent2 = new Intent(HomeActivity.this, infoActivity.class);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent2);
                     return true;
             }
@@ -193,6 +225,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setAdvImage(List<String> imageUrls, int index) {
+        if (isDestroyed() || isFinishing()) {
+            return;
+        }
+
         Glide.with(this)
                 .load(imageUrls.get(index))
                 .into(binding.adIv);
@@ -289,4 +325,83 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("NoriBookAndroid", MODE_PRIVATE);
+        boolean isSharedDisplayed = sharedPreferences.getBoolean("is_shared_displayed",false);
+
+        if (!isSharedDisplayed){
+            binding.splashVs.setVisibility(View.VISIBLE);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    checkUser();
+                    binding.splashVs.setVisibility(View.GONE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("is_shared_displayed", true);
+                    editor.apply();
+                }
+            },2000);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("NoriBookAndroid", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("is_shared_displayed", false);
+        editor.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
+
+    private void checkUser() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (firebaseUser == null) {
+            // 로그인 되어 있지 않으면
+//            startActivity(new Intent(H.this, HomeActivity.class));
+//            finish();
+            return;
+        }
+        else { // 로그인 되어 있으면 유저와 관리자 구분해서 대쉬보드로
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+            ref.child(firebaseUser.getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String userType = ""+snapshot.child("userType").getValue();
+                            if (userType.equals("user")){
+                                // user는 userDash
+//                                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+//                                finish();
+                            }
+                            else if (userType.equals("admin")){
+                                startActivity(new Intent(HomeActivity.this, DashboardAdminActivity.class));
+                                finish();
+                            }
+                            else if (userType.equals("editor")){
+//                                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+//                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+        }
+    }
+
 }

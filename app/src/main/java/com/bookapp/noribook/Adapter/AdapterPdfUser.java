@@ -18,6 +18,11 @@ import com.bookapp.noribook.Filter.FilterPdfUser;
 import com.bookapp.noribook.Model.ModelBook;
 import com.bookapp.noribook.databinding.RowPdfUserBinding;
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -68,12 +73,14 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
         holder.descriptionTv.setText(description);
         holder.dateTv.setText(date);
         holder.categoryTv.setText(categoryTitle);
-        holder.viewCountTv.setText(""+viewCount);
+        holder.viewCountTv.setText("조회수: "+viewCount);
 
         Glide.with(context)
                 .load(url)
                 .into(binding.bookIv);
 
+
+        setSubNum(title, holder);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +89,23 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
                 intent.putExtra("bookId", id);
                 intent.putExtra("bookTitle", title);
                 context.startActivity(intent);
+            }
+        });
+
+    }
+
+    private void setSubNum(String title, HolderPdfUser holder) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SubBooks");
+        reference.child(title).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long subNumCount = snapshot.getChildrenCount();
+                holder.subNumTv.setText("총 편수: "+subNumCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -97,12 +121,13 @@ public class AdapterPdfUser extends RecyclerView.Adapter<AdapterPdfUser.HolderPd
 
 
         ImageView bookIv;
-        TextView titleTv, descriptionTv, categoryTv,dateTv, viewCountTv ;
+        TextView titleTv, descriptionTv, categoryTv,dateTv, viewCountTv, subNumTv ;
 
 
         public HolderPdfUser(@NonNull View itemView) {
             super(itemView);
 
+            subNumTv = binding.subNumTv;
             viewCountTv = binding.viewCountTv;
             bookIv = binding.bookIv;
             titleTv = binding.titleTv;

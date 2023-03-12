@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -48,6 +49,18 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        checkForForceClose();
+    }
+
+    private void checkForForceClose() {
+        SharedPreferences sharedPreferences = getSharedPreferences("NoriBookAndroid", MODE_PRIVATE);
+        boolean isForceClosed = sharedPreferences.getBoolean("is_force_closed", false);
+        if (isForceClosed) {
+            // 이전에 강제 종료되었으면 sharedpreference 값을 업데이트합니다.
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("is_force_closed", false);
+            editor.apply();
+        }
     }
 
     //calender 함수 이용해서 timestamp를 날짜 형태로 변환

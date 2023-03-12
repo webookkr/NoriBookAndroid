@@ -109,7 +109,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/booksRv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNav"
         android:layout_below="@id/favoriteBooksLabelTv"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/row_pdf_favorite"/>

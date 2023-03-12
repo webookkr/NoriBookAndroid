@@ -152,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this,"계정 생성 됨.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegisterActivity.this, DashboardUserActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                         finish();
                     }
                 })

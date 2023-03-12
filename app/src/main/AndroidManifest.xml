@@ -28,9 +28,9 @@
         <activity
             android:name=".Activities.TextViewActivity"
             android:exported="false" />
-        <activity
-            android:name=".Activities.HomeActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Activities.HomeActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".Activities.ProfileEditActivity"
             android:exported="false" />
@@ -74,8 +74,8 @@
             android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.SplashActivity"
-            android:exported="true">
+            android:name=".Activities.HomeActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -83,5 +83,7 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
+
+<!--    android:name=".Activities.SplashActivity"-->
+<!--    android:exported="true">-->
