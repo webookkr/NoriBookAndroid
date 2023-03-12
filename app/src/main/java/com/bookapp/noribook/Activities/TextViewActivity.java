@@ -11,7 +11,8 @@ import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.bookapp.noribook.Adapter.AdapterComment;
@@ -84,6 +85,44 @@ public class TextViewActivity extends AppCompatActivity {
         loadComments();
 
         MyApplication.incrementSubBookViewCount(bookTitle, subNumber);
+
+        spinerPage(bookTitle, subNumber); // 스피너 설정
+
+//        스피너 내 아이템 클릭 동작
+        binding.pageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String subNumberPage = parent.getItemAtPosition(position).toString(); // 몇번째 아이템인지 가져오기
+                long subCheckNumber = Long.parseLong(subNumberPage.replaceAll("[^0-9]", ""));
+                String subNumber = "" + subCheckNumber;
+                if(firebaseAuth.getCurrentUser() == null){
+                    if(subCheckNumber>20){
+                        Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+                        intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                        intent.putExtra("subNumber", subNumber);
+                        startActivity(intent);
+                    }
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+//         relative 클릭해도 스피너 클릭하도록 효과 지정
+        binding.spinnerRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.pageSpinner.performClick();
+            }
+        });
 
 //      다음화 , 이전화
         binding.beforeTitleTv.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +238,34 @@ public class TextViewActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
+            }
+        });
+
+    }
+
+    private void spinerPage(String bookTitle, String subNumber) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("SubBooks").child(bookTitle);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = (int) snapshot.getChildrenCount();
+
+                List<String> subNumList = new ArrayList<>();
+
+                for(int i= 1; i <count ; i++) {
+                    subNumList.add(i+" 페이지");
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(TextViewActivity.this, android.R.layout.simple_spinner_dropdown_item, subNumList);
+
+                binding.pageSpinner.setAdapter(adapter);
+                binding.pageTv.setText(subNumber+" 페이지");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 

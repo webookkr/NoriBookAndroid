@@ -73,6 +73,35 @@
 
                 <!--                페이지 넘기기-->
 
+                <RelativeLayout
+                    android:id="@+id/spinnerRl"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_below="@id/afterTitleTv"
+                    android:background="@drawable/shape_spinner01"
+                    android:layout_alignParentRight="true">
+
+                    <Spinner
+                        android:id="@+id/pageSpinner"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/selector_spinner"/>
+
+                    <TextView
+                        android:id="@+id/pageTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/pageSpinner"
+                        android:padding="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:text="1 페이지"/>
+
+                </RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/beforeTitleTv"
