@@ -74,6 +74,9 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
         holder.viewCountTv.setText(""+viewCount);
         holder.recommendTv.setText(""+recommend);
 
+        commentCount(bookTitle, subNumber, holder);
+
+
         if (!isUserLoggedIn()) { // 사용자가 로그인하지 않은 경우
             if (holder.getAdapterPosition() < 20) {
                 holder.unlockIv.setVisibility(View.GONE);
@@ -131,7 +134,6 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
                                         intent.putExtra("bookTitle", bookTitle);
 //                intent.putExtra("subTitle", subTitle);
                                         intent.putExtra("subNumber",subNumber);
-                                        intent.putExtra("subTitle",subTitle);
                                         context.startActivity(intent);
                                     }else {
                                         if(subCheckNumber <= 20){
@@ -177,6 +179,27 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
 
     }
 
+    private void commentCount(String bookTitle, String subNumber, HolderSub holder) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SubBooks");
+        reference.child(bookTitle).child(subNumber).child("Comment").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String commentCount = ""+snapshot.getChildrenCount();
+                    holder.commentTv.setText(commentCount);
+                }else {
+                    holder.commentTv.setText("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 //    private void subBuyCheck(String subId, String bookTitle, String subNumber) {
 //        firebaseAuth = FirebaseAuth.getInstance();
 //        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -213,13 +236,14 @@ public class AdapterSub extends RecyclerView.Adapter<AdapterSub.HolderSub> {
 
     class HolderSub extends RecyclerView.ViewHolder{
 
-        TextView subNumberTv, subTitleTv, dateTv, viewCountTv, recommendTv;
+        TextView subNumberTv, subTitleTv, dateTv, viewCountTv, recommendTv, commentTv;
 
         ImageView unlockIv;
 
         public HolderSub(@NonNull View itemView) {
             super(itemView);
 
+            commentTv = binding.commentTv;
             unlockIv = binding.unlockIv;
             viewCountTv = binding.viewCountTv;
             recommendTv = binding.recommendTv;

@@ -207,6 +207,35 @@
                         android:textSize="10sp"
                         android:background="@drawable/shape_btn02"/>
 
+                    <RelativeLayout
+                        android:id="@+id/spinnerRl"
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@drawable/shape_spinner01"
+                        android:layout_alignParentRight="true">
+
+                        <Spinner
+                            android:id="@+id/pageSpinner"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/selector_spinner"/>
+
+                        <TextView
+                            android:id="@+id/pageTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@+id/pageSpinner"
+                            android:padding="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:text="페이지"/>
+
+                    </RelativeLayout>
+
 
 
 <!--                    <EditText-->

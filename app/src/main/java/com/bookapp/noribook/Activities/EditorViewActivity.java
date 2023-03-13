@@ -11,10 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bookapp.noribook.Constants;
-import com.bookapp.noribook.MyApplication;
 import com.bookapp.noribook.databinding.ActivityEditorViewBinding;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -55,7 +52,6 @@ public class EditorViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         bookTitle = intent.getStringExtra("bookTitle");
         subNumber = intent.getStringExtra("subNumber");
-        subTitle = intent.getStringExtra("subTitle");
         loadBookDetails();
 
         progressDialog = new ProgressDialog(this);
@@ -63,6 +59,9 @@ public class EditorViewActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
 
         binding.subNumberEt.setText(subNumber);
+
+        getSubTitle(bookTitle, subNumber);
+
         binding.subTitleEt.setText(subTitle);
 
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +70,23 @@ public class EditorViewActivity extends AppCompatActivity {
                 updateData();
             }
         });
+    }
+
+    private void getSubTitle(String bookTitle, String subNumber) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("SubBooks");
+        reference.child(bookTitle).child(subNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String subTitle = ""+snapshot.child("subTitle").getValue();
+                binding.subTitleEt.setText(subTitle);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void updateData() {

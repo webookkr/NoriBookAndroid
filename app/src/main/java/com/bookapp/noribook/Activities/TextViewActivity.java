@@ -56,6 +56,8 @@ public class TextViewActivity extends AppCompatActivity {
 
     boolean isInMyFavorite = false;
 
+    private boolean isSpinnerInitialized = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,35 +88,11 @@ public class TextViewActivity extends AppCompatActivity {
 
         MyApplication.incrementSubBookViewCount(bookTitle, subNumber);
 
-        spinerPage(bookTitle, subNumber); // 스피너 설정
 
-//        스피너 내 아이템 클릭 동작
-        binding.pageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String subNumberPage = parent.getItemAtPosition(position).toString(); // 몇번째 아이템인지 가져오기
-                long subCheckNumber = Long.parseLong(subNumberPage.replaceAll("[^0-9]", ""));
-                String subNumber = "" + subCheckNumber;
-                if(firebaseAuth.getCurrentUser() == null){
-                    if(subCheckNumber>20){
-                        Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
-                        intent.putExtra("bookTitle", bookTitle);
-//                intent.putExtra("subTitle", subTitle);
-                        intent.putExtra("subNumber", subNumber);
-                        startActivity(intent);
-                    }
-                }else{
 
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        initPageSpinner(bookTitle, subNumber);
 
-            }
-        });
 
 //         relative 클릭해도 스피너 클릭하도록 효과 지정
         binding.spinnerRl.setOnClickListener(new View.OnClickListener() {
@@ -243,6 +221,96 @@ public class TextViewActivity extends AppCompatActivity {
 
     }
 
+    private void initPageSpinner(String bookTitle, String subNumber) {
+
+
+        spinerPage(bookTitle, subNumber); // 스피너 설정
+
+
+        //        스피너 내 아이템 클릭 동작
+        binding.pageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!isSpinnerInitialized) {
+                    // Spinner가 초기화될 때는 아무런 동작도 하지 않도록 설정
+                    isSpinnerInitialized = true;
+                    return;
+                }
+
+                String subNumberPage = parent.getItemAtPosition(position).toString(); // 몇번째 아이템인지 가져오기
+                long subCheckNumber = Long.parseLong(subNumberPage.replaceAll("[^0-9]", ""));
+                String subNumber = "" + subCheckNumber;
+
+
+                if(firebaseAuth.getCurrentUser() == null){
+                    if(subCheckNumber>20){
+                        Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+                        intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                        intent.putExtra("subNumber", subNumber);
+                        startActivity(intent);
+                    }
+                }else {
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                    reference.child(firebaseAuth.getUid())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String userType = ""+snapshot.child("userType").getValue();
+                                    if (userType.equals("editor")){
+                                        Intent intent = new Intent(TextViewActivity.this, EditorViewActivity.class);
+                                        intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                                        intent.putExtra("subNumber",subNumber);
+                                        startActivity(intent);
+                                    }else {
+                                        if(subCheckNumber <= 20){
+                                            Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+                                            intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                                            intent.putExtra("subNumber",subNumber);
+                                            startActivity(intent);
+                                        }
+                                        else if( subCheckNumber > 40){
+                                            if(firebaseAuth.getCurrentUser()==null){
+                                                Toast.makeText(TextViewActivity.this, "로그인 하시면 40편까지 볼 수 있습니다.", Toast.LENGTH_SHORT).show();
+                                            }
+                                            // 40편 초과, 로그인 된 경우 -> 구매했는지 체크하여 구매하지 않았으면 구매 권유(Alert), 구매했으면 볼 수 있도록
+                                            else {
+                                                MyApplication.subBuyCheck(TextViewActivity.this, bookTitle, subNumber);
+
+                                            }
+
+                                        }
+                                        else if( subCheckNumber >20) {
+
+                                            Intent intent = new Intent(TextViewActivity.this, TextViewActivity.class);
+                                            intent.putExtra("bookTitle", bookTitle);
+//                intent.putExtra("subTitle", subTitle);
+                                            intent.putExtra("subNumber", subNumber);
+                                            startActivity(intent);
+
+                                        }
+                                    }
+
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
     private void spinerPage(String bookTitle, String subNumber) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("SubBooks").child(bookTitle);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -259,7 +327,7 @@ public class TextViewActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(TextViewActivity.this, android.R.layout.simple_spinner_dropdown_item, subNumList);
 
                 binding.pageSpinner.setAdapter(adapter);
-                binding.pageTv.setText(subNumber+" 페이지");
+                binding.pageTv.setText("페이지");
 
             }
 
